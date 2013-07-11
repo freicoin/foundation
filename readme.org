@@ -1,0 +1,14 @@
+
+* Freicoin Foundation
+
+This is the web for the Freicoin Foundation. It is written in python
+using the framework django.
+
+* Some instructions
+
+To run server:
+
+#+BEGIN_SRC sh
+python manage.py runserver
+#+END_SRC
+
