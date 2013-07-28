@@ -13,6 +13,7 @@ from donations.models import *
 urlpatterns = patterns('',
 
     (r'^join_nonprofits/$', views.new_organization),
+    (r'^join_nonprofits/thanks/$', views.thanks),
     (r'^nonprofits/$', views.organization_list),
     (r'^nonprofit/(?P<organization_id>[0-9]+)/$', views.organization_detail),
 
