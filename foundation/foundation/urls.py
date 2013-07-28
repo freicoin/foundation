@@ -8,11 +8,13 @@ from django.contrib import admin
 admin.autodiscover()
 
 from donations import views
+from donations.models import *
 
 urlpatterns = patterns('',
 
     (r'^join_nonprofits/$', views.new_organization),
     (r'^nonprofits/$', views.organization_list),
+    (r'^nonprofit/(?P<organization_id>[0-9]+)/$', views.organization_detail),
 
     # Examples:
     # url(r'^$', 'foundation.views.home', name='home'),

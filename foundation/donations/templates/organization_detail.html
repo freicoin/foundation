@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Validated non-profit: {{ org.name }}</h2>
+
+<table border="1">
+
+  <tr>
+    <td>Name:</td>
+    <td>{{ org.name }}</td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td>{{ org.short_description }}</td>
+  </tr>
+
+  <tr>
+    <td>Website:</td>
+    <td>{{ org.website }}</td>
+  </tr>
+
+  <tr>
+    <td>Donation address:</td>
+    <td>{{ org.foundation_address }}</td>
+  </tr>
+
+  <tr>
+    <td>Email:</td>
+    <td>{{ org.email }}</td>
+  </tr>
+
+  <tr>
+    <td>Description:</td>
+    <td>{{ org.long_description }}</td>
+  </tr>
+
+</table>
+{% endblock %}
+
