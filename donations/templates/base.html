@@ -8,15 +8,48 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 </head>
 <body>
-    <h1>Freicoin Foundation</h1>
+   
 
-    <div class="container">{% block content %}
-    {% endblock content %}</div>
+    <div class="container">
 
-    {% block footer %}
-    <hr>
-    <p>Freicoin Foundation Footer</p>
-    {% endblock %}
+      <header class="row">
+        <div class="span12">
+
+          <nav class="navbar">
+            <div class="navbar-inner">
+
+              {% block nav %}
+
+              <div class="row">
+                <a class="brand"> <h1>Freicoin Foundation</h1> </a>
+              </div>
+              
+                <ul class="nav">
+                  <li>{% block nav-home %}<a href="{% url 'donations.views.home' %}">Home</a>{% endblock %}</li>
+                  <li>{% block nav-about %}<a href="{% url 'donations.views.about' %}">About</a>{% endblock %}</li>
+                  <li>{% block nav-org-list %}<a href="{% url 'donations.views.organization_list' %}">Non-profits</a>{% endblock %}</li>
+                  <li>{% block nav-new-org %}<a href="{% url 'donations.views.new_organization' %}">Register</a>{% endblock %}</li>
+                </ul>
+                {% endblock %}
+              
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <div class="row" id="main-content">
+        {% block content %}
+        {% endblock content %}
+      </div>
+
+      <footer class="row">
+        {% block footer %}
+        <hr>
+        <p>Freicoin Foundation Footer</p>
+        {% endblock %}
+      </footer>
+
+    </div>
 
     <!-- JavaScript plugins (requires jQuery) -->
     <script src="http://code.jquery.com/jquery.js"></script>
