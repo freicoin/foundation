@@ -15,3 +15,7 @@ python manage.py runserver
 To install database:
 
 http://blog.iiilx.com/programming/how-to-install-postgres-on-ubuntu-for-django/
+
+* Bootstrap
+
+pip install django-bootstrap-toolkit

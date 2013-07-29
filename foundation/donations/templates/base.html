@@ -1,14 +1,35 @@
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 </head>
 <body>
     <h1>Freicoin Foundation</h1>
-    {% block content %}{% endblock %}
+
+    <div class="container">{% block content %}
+    {% endblock content %}</div>
+
     {% block footer %}
     <hr>
-    <p>Freicoin Foundation</p>
+    <p>Freicoin Foundation Footer</p>
     {% endblock %}
+
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+
+    <!-- Served from http://www.bootstrapcdn.com/ -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"
+          rel="stylesheet">
+
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+    <!-- Optionally enable responsive features in IE8 -->
+    <!-- <script src="js/respond.js"></script> -->
 </body>
 </html>
