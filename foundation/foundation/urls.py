@@ -12,6 +12,9 @@ from donations.models import *
 
 urlpatterns = patterns('',
 
+    (r'^$', TemplateView.as_view(template_name='index.html')),
+    (r'^about/$', TemplateView.as_view(template_name='about.html')),
+
     (r'^join_nonprofits/$', views.new_organization),
     (r'^join_nonprofits/thanks/$', views.thanks),
     (r'^nonprofits/$', views.organization_list),
