@@ -22,15 +22,22 @@
 
               <div class="row">
                 <a class="brand"> <h1>Freicoin Foundation</h1> </a>
+
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                  <span class="icon-th-list"></span>
+                </a>
               </div>
               
+              <div class="nav-collapse collapse">
                 <ul class="nav">
                   <li>{% block nav-home %}<a href="{% url 'donations.views.home' %}">Home</a>{% endblock %}</li>
                   <li>{% block nav-about %}<a href="{% url 'donations.views.about' %}">About</a>{% endblock %}</li>
                   <li>{% block nav-org-list %}<a href="{% url 'donations.views.organization_list' %}">Non-profits</a>{% endblock %}</li>
                   <li>{% block nav-new-org %}<a href="{% url 'donations.views.new_organization' %}">Register</a>{% endblock %}</li>
                 </ul>
-                {% endblock %}
+              </div>
+
+              {% endblock %}
               
             </div>
           </nav>
