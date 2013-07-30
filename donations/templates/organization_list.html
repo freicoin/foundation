@@ -25,7 +25,7 @@
     <td><a href="{% url 'donations.views.organization_detail' org.pk %}">{{ org.name }}</a></td>
     <td>{{ org.short_description }}</td>
     <td>{{ org.foundation_address }}</td>
-    <td>{{ org.website }}</td>
+    <td><a href="{{ org.website }}">{{ org.website }}</a></td>
   </tr>
   {% endfor %}
 </table>
