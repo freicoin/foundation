@@ -127,8 +127,14 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
-    'bootstrap_toolkit',
+    # From pip
 
+    # pip install django-bootstrap-toolkit
+    'bootstrap_toolkit',
+    # pip install django-recaptcha
+    'captcha',
+
+    # Own apps
     'donations',
 )
 
@@ -160,3 +166,8 @@ LOGGING = {
         },
     }
 }
+
+RECAPTCHA_PUBLIC_KEY = '6Ldic-USAAAAAD5qn69vpJLtZpH8IpAHMO7RO3Me'
+RECAPTCHA_USE_SSL = True
+#TODO this shouldn't be here
+RECAPTCHA_PRIVATE_KEY = '6Ldic-USAAAAAMwdRfDUYrI18tNMDe_GTrpmUFSw'

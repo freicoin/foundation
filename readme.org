@@ -16,6 +16,12 @@ To install database:
 
 http://blog.iiilx.com/programming/how-to-install-postgres-on-ubuntu-for-django/
 
-* Bootstrap
+* Django apps
+
+** Bootstrap
 
 pip install django-bootstrap-toolkit
+
+** Captcha
+
+pip install django-recaptcha
