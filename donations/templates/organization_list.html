@@ -17,12 +17,14 @@
   <tr>
     <th>Name</th>
     <th>Description</th>
+    <th>Address</th>
     <th>Web</th>
   </tr>
   {% for org in organization_list %}
   <tr>
     <td><a href="{% url 'donations.views.organization_detail' org.pk %}">{{ org.name }}</a></td>
     <td>{{ org.short_description }}</td>
+    <td>{{ org.foundation_address }}</td>
     <td>{{ org.website }}</td>
   </tr>
   {% endfor %}
