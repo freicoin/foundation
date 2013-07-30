@@ -33,7 +33,7 @@
 
 <form action="" method="post" class="form-horizontal">
     {% csrf_token %}
-    {% bootstrap_form form layout="inline" %}
+    {{ form|as_bootstrap }}
     <div class="form-actions">
         <input type="submit" class="btn btn-primary" value="Submit Request">
     </div>
