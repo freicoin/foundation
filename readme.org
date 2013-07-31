@@ -14,11 +14,9 @@ python manage.py runserver
 
 * Database
 
-To install database:
+To install local database:
 
 http://blog.iiilx.com/programming/how-to-install-postgres-on-ubuntu-for-django/
-
-export DATABASE_URL="postgres://django_login:password@localhost:5432/django_db"
 
 * Django apps
 
