@@ -22,7 +22,7 @@
   </tr>
   {% for org in organization_list %}
   <tr>
-    <td><a href="{% url 'organization_detail' org %}">{{ org.name }}</a></td>
+    <td><a href="{% url 'organization_detail' org.pk %}">{{ org.name }}</a></td>
     <td>{{ org.short_description }}</td>
     <td>{{ org.foundation_address }}</td>
     <td><a href="{{ org.website }}">{{ org.website }}</a></td>

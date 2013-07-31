@@ -19,8 +19,8 @@ urlpatterns = patterns('',
     url(r'^nonprofit/(?P<organization_id>[0-9]+)/$', 'apps.donations.views.organization_detail', name='organization_detail'),
 
     # Faucet
-    (r'^faucet/$', 'faucet.views.faucet'),
-    (r'^faucet/recent/$', 'faucet.views.recent_sends'),
+    (r'^faucet/$', 'apps.faucet.views.faucet'),
+    (r'^faucet/recent/$', 'apps.faucet.views.recent_sends'),
 
     # Examples:
     # url(r'^$', 'foundation.views.home', name='home'),
