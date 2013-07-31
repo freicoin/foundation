@@ -6,18 +6,17 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
-from donations import views
-from donations.models import *
-
 urlpatterns = patterns('',
 
-    (r'^$', views.home),
-    (r'^about/$', views.about),
+    # Foundation
+    (r'^$', 'foundation.views.home'),
+    (r'^about/$', 'foundation.views.about'),
 
-    (r'^join_nonprofits/$', views.new_organization),
-    (r'^join_nonprofits/thanks/$', views.thanks),
-    (r'^nonprofits/$', views.organization_list),
-    (r'^nonprofit/(?P<organization_id>[0-9]+)/$', views.organization_detail),
+    # Donations
+    (r'^join_nonprofits/$', 'donations.views.new_organization'),
+    (r'^join_nonprofits/thanks/$', 'donations.views.thanks'),
+    (r'^nonprofits/$', 'donations.views.organization_list'),
+    (r'^nonprofit/(?P<organization_id>[0-9]+)/$', 'donations.views.organization_detail'),
 
     # Examples:
     # url(r'^$', 'foundation.views.home', name='home'),

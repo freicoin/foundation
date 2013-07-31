@@ -1,14 +1,10 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
-from django.views.generic import TemplateView
 
 from django.core.mail import send_mail
 
 from donations.models import *
 from donations import forms
-
-home = TemplateView.as_view(template_name='index.html')
-about = TemplateView.as_view(template_name='about.html')
 
 def organization_list(request):
     organizations = Organization.objects.exclude(foundation_address__isnull=True).exclude(foundation_address__exact='')
