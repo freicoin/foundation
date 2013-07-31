@@ -126,6 +126,7 @@ INSTALLED_APPS = (
 
     # Own apps
     'donations',
+    'faucet',
 )
 
 # A sample logging configuration. The only tangible logging

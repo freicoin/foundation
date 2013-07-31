@@ -18,6 +18,10 @@ urlpatterns = patterns('',
     (r'^nonprofits/$', 'donations.views.organization_list'),
     (r'^nonprofit/(?P<organization_id>[0-9]+)/$', 'donations.views.organization_detail'),
 
+    # Faucet
+    (r'^faucet/$', 'faucet.views.faucet'),
+    (r'^faucet/recent/$', 'faucet.views.recent_sends'),
+
     # Examples:
     # url(r'^$', 'foundation.views.home', name='home'),
     # url(r'^foundation/', include('foundation.foo.urls')),
