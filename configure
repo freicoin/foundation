@@ -1,0 +1,11 @@
+#!/bin/sh
+
+#
+# Copyright © 2013 by its contributors. See AUTHORS for details.
+#
+
+touch Makefile.local
+
+#
+# End of File
+#

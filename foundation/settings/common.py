@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+
 # Django settings for foundation project.
 
 import os
 PROJECT_DIRECTORY = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..'))
+    os.path.join(os.path.dirname(__file__), '..', '..'))
 
 
 DEBUG = True
@@ -124,9 +126,14 @@ INSTALLED_APPS = (
     # pip install django-recaptcha
     'captcha',
 
+    # pip install South
+    # South is the most excellent database migration/schema versioning tool
+    # written by Andrew Godwin.
+    'south',
+
     # Own apps
-    'donations',
-    'faucet',
+    'apps.donations',
+    'apps.faucet',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -168,7 +175,11 @@ RECAPTCHA_USE_SSL = True
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
-DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL') or
+                'postgres://django_login:password@localhost:5432/django_db')
+}
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -178,12 +189,7 @@ ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
 import os
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = os.path.join(PROJECT_DIRECTORY, 'db', 'staticfiles')
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
 
 # End Heroku
