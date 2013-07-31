@@ -1,3 +1,15 @@
 venv
+.*.swp
 *.pyc
-staticfiles
+/Makefile.local
+/.cache/
+/.pyenv/
+/.rbenv/
+/.rbenv-version
+/conf/tmp/
+/conf/cookbooks/
+/conf/.vagrant/
+/.coverage
+/build/
+*/settings/secret_keys.py
+/db/staticfiles/
