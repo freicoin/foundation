@@ -9,14 +9,14 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
     # Foundation
-    (r'^$', 'foundation.views.home'),
-    (r'^about/$', 'foundation.views.about'),
+    url(r'^$', 'foundation.views.home', name='home'),
+    url(r'^about/$', 'foundation.views.about', name='about'),
 
     # Donations
-    (r'^join_nonprofits/$', 'donations.views.new_organization'),
-    (r'^join_nonprofits/thanks/$', 'donations.views.thanks'),
-    (r'^nonprofits/$', 'donations.views.organization_list'),
-    (r'^nonprofit/(?P<organization_id>[0-9]+)/$', 'donations.views.organization_detail'),
+    url(r'^join_nonprofits/$', 'apps.donations.views.new_organization', name='organization_new'),
+    url(r'^join_nonprofits/thanks/$', 'apps.donations.views.thanks', name='thanks'),
+    url(r'^nonprofits/$', 'apps.donations.views.organization_list', name='organization_list'),
+    url(r'^nonprofit/(?P<organization_id>[0-9]+)/$', 'apps.donations.views.organization_detail', name='organization_detail'),
 
     # Faucet
     (r'^faucet/$', 'faucet.views.faucet'),

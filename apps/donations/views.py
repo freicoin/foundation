@@ -3,8 +3,8 @@ from django.http import Http404, HttpResponseRedirect
 
 from django.core.mail import send_mail
 
-from donations.models import *
-from donations import forms
+from .models import *
+import forms
 
 def organization_list(request):
     organizations = Organization.objects.exclude(foundation_address__isnull=True).exclude(foundation_address__exact='')

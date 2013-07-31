@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+#
+# Copyright © 2013 by its contributors. See AUTHORS for details.
+#
+
+site 'http://community.opscode.com/api/v1'
+
+cookbook 'apt',
+    :git => 'git://github.com/opscode-cookbooks/apt.git'
+cookbook 'build-essential',
+    :git => 'git://github.com/opscode-cookbooks/build-essential.git'
+cookbook 'postgresql',
+    :git => 'git://github.com/opscode-cookbooks/postgresql.git'
+
+#
+# End of File
+#
