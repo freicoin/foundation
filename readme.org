@@ -4,26 +4,56 @@
 This is the web for the Freicoin Foundation. It is written in python
 using the framework django.
 
-* Some instructions
+* Installation
 
-To run server:
+Install python, pip and virtualenv:
+
+http://docs.python-guide.org/en/latest/starting/install/linux/
+
+Create environment:
 
 #+BEGIN_SRC sh
-python manage.py runserver
+virtualenv venv --distribute
 #+END_SRC
 
-* Database
+Activate environment and install dependencies on it:
+
+#+BEGIN_SRC sh
+source venv/bin/activate
+pip install django-toolbelt
+#+END_SRC
+
+** Database
 
 To install local database:
 
 http://blog.iiilx.com/programming/how-to-install-postgres-on-ubuntu-for-django/
 
-* Django apps
+Use "django_db" for the database, "django_login" for the user and
+"password" for the password. Or change the file .env if you want to
+use a different login.
 
-** Bootstrap
+* Run locally
+
+To activate the environment (if you haven't done it already, you need
+to do it each session):
+
+#+BEGIN_SRC sh
+source venv/bin/activate
+#+END_SRC
+
+To run server locally:
+
+#+BEGIN_SRC sh
+foreman start
+#+END_SRC
+
+Then go to http://0.0.0.0:5000/
+
+Please, contact us if these instructions aren't enough or can be
+completed for the system you're using..
+
+** TODO Find out if this is still necessary:
 
 pip install django-bootstrap-toolkit
-
-** Captcha
-
 pip install django-recaptcha
