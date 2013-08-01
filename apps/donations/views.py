@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 
 from django.core.mail import send_mail
+from django.template.loader import get_template
+from django.template import Context
 
 from .models import *
 import forms
@@ -38,13 +40,24 @@ def new_organization(request):
                 org.email = cd['email']
                 org.save()
 
-                # send_mail(
-                #     "New organization registration: %s" % org.name,
-                #     org.long_description,
-                #     cd.get('email', 'noreply@freicoin.org'),
-                #     ['admin@freicoin.org'],
-                # )
-                
+               #  admin_mail_t = get_template('admin_mail.html')
+               #  admin_mail = admin_mail_t.render(Context({'org': org}))
+               #  send_mail(
+               #      "New organization registration: %s" % org.name,
+               #      admin_mail,
+               #      cd.get('email', 'noreply@freicoin.org'),
+               #      ['admin@freicoin.org'],
+               #      )
+
+               # org_mail_t = get_template('org_mail.html')
+               #  org_mail = org_mail_t.render(Context({'org': org}))
+               #  send_mail(
+               #      "Thanks for registering your organization !",
+               #      org_mail,
+               #      'noreply@freicoin.org',
+               #      [org.email],
+               #      )
+
                 return HttpResponseRedirect('/join_nonprofits/thanks/')
         else:
             form = forms.OrganizationForm()

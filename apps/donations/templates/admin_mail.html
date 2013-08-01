@@ -1,0 +1,50 @@
+
+A new organization named {{ org.name }}has sent its request to participate in the issuance
+to non-profits Freicoin Foundation program. Please review the request
+at:
+
+<a href="http://foundation.herokuapp.com/admin/donations/organization/{{ org.pk }}">
+http://foundation.herokuapp.com/admin/donations/organization/{{ org.pk }}</a>
+
+If the request is valid, provide a foundation address and save.
+
+This is the data submitted:
+
+<table border="1">
+
+  <tr>
+    <td>Name:</td>
+    <td>{{ org.name }}</td>
+  </tr>
+
+  <tr>
+    <td>Website:</td>
+    <td><a href="{{ org.website }}">{{ org.website }}</a></td>
+  </tr>
+
+  <tr>
+    <td>Email:</td>
+    <td>{{ org.email }}</td>
+  </tr>
+
+  <tr>
+    <td>Freicoin address:</td>
+    <td><a href="http://cryptocoinexplorer.com:4750/address/{{ org.freicoin_address }}">{{ org.freicoin_address }}</a></td>
+  </tr>
+
+  <tr>
+    <td>Bitcoin address:</td>
+    <td><a href="http://blockexplorer.com/address/{{ org.bitcoin_address }}">{{ org.bitcoin_address }}</a></td>
+  </tr>
+
+  <tr>
+    <td>Short description:</td>
+    <td>{{ org.short_description }}</td>
+  </tr>
+
+  <tr>
+    <td>Long Description:</td>
+    <td>{{ org.long_description }}</td>
+  </tr>
+
+</table>
