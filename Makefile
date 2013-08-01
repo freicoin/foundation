@@ -6,6 +6,7 @@ ROOT=$(shell pwd)
 CACHE_ROOT=${ROOT}/.cache
 PYENV=${ROOT}/.pyenv
 RBENV=${ROOT}/.rbenv
+CONF=${ROOT}/conf
 APP_NAME=foundation
 PACKAGE=foundation
 
@@ -53,7 +54,7 @@ run: all db
 	bash -c "source '${PYENV}'/bin/activate && \
 	    RBENV_ROOT="${RBENV}" "${RBENV}"/bin/rbenv exec bundle exec \
 	        foreman start --port=8000 --root="${ROOT}" \
-	                      --procfile "${ROOT}"/conf/Procfile.development"
+	                      --procfile "${CONF}"/Procfile.development"
 
 .PHONY: mostlyclean
 mostlyclean:
@@ -130,7 +131,7 @@ ${CACHE_ROOT}/virtualenv/virtualenv-1.10.tar.gz:
 	mkdir -p "${CACHE_ROOT}"/virtualenv
 	curl -L 'https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.10.tar.gz' >'$@'
 
-${PYENV}/.stamp-h: ${ROOT}/requirements.txt ${ROOT}/conf/requirements*.txt ${CACHE_ROOT}/virtualenv/virtualenv-1.10.tar.gz
+${PYENV}/.stamp-h: ${ROOT}/requirements.txt ${CONF}/requirements*.txt ${CACHE_ROOT}/virtualenv/virtualenv-1.10.tar.gz
 	# Because build and run-time dependencies are not thoroughly
 	# tracked, it is entirely possible that rebuilding the
 	# development environment on top of an existing one could
@@ -173,12 +174,8 @@ ${PYENV}/.stamp-h: ${ROOT}/requirements.txt ${ROOT}/conf/requirements*.txt ${CAC
 	fi
 	
 	# pip is used to install Python dependencies for this project.
-	CFLAGS=-I/opt/local/include LDFLAGS=-L/opt/local/lib \
-	"${PYENV}"/bin/python "${PYENV}"/bin/pip install \
-	    --download-cache="${CACHE_ROOT}"/pypi \
-	    -r "${ROOT}"/conf/requirements.txt; \
 	for reqfile in "${ROOT}"/requirements.txt \
-	               "${ROOT}"/conf/requirements*.txt; do \
+	               "${CONF}"/requirements*.txt; do \
 	    CFLAGS=-I/opt/local/include LDFLAGS=-L/opt/local/lib \
 	    "${PYENV}"/bin/python "${PYENV}"/bin/pip install \
 	        --download-cache="${CACHE_ROOT}"/pypi \
