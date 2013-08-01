@@ -52,7 +52,8 @@ shell: all db
 run: all db
 	bash -c "source '${PYENV}'/bin/activate && \
 	    RBENV_ROOT="${RBENV}" "${RBENV}"/bin/rbenv exec bundle exec \
-	        foreman start --procfile "${ROOT}"/conf/Procfile.development --port=8000"
+	        foreman start --port=8000 --root="${ROOT}" \
+	                      --procfile "${ROOT}"/conf/Procfile.development"
 
 .PHONY: mostlyclean
 mostlyclean:
@@ -116,7 +117,7 @@ dbshell: db
 .PHONY: dbvm
 dbvm:
 	bash -c "cd '${ROOT}'/conf && vagrant up"
-	PGPASSWORD=password psql -h localhost -p 5432 -U django_login django_db -c "SELECT 1;" || \
+	PGPASSWORD=password psql -h localhost -p 14389 -U django_login django_db -c "SELECT 1;" || \
 	    bash -c "cd '${ROOT}'/conf && vagrant reload"
 
 .PHONY: dbssh

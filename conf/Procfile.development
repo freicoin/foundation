@@ -2,7 +2,7 @@
 # Copyright © 2013 by its contributors. See AUTHORS for details.
 #
 
-web: python ../manage.py runserver_plus --settings=foundation.settings.development $PORT
+web: python manage.py runserver_plus --settings=foundation.settings.development $PORT
 
 #
 # End of File

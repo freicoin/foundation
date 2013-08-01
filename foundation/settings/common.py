@@ -177,8 +177,8 @@ RECAPTCHA_USE_SSL = True
 import dj_database_url
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL') or
-                'postgres://django_login:password@localhost:5432/django_db')
+        default=os.environ.get('DATABASE_URL',
+            'postgres://django_login:password@localhost:14389/django_db'))
 }
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()

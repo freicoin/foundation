@@ -12,7 +12,7 @@ Vagrant::Config.run do |config|
     config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
     config.vm.define "postgres" do |cfg|
-        cfg.vm.forward_port 5432, 5432
+        cfg.vm.forward_port 5432, 14389
         cfg.vm.provision :chef_solo do |chef|
             chef.cookbooks_path = [
                 File.join(PROJECT, 'cookbooks'),
