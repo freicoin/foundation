@@ -31,9 +31,10 @@
               <div class="nav-collapse collapse">
                 <ul class="nav">
                   <li>{% block nav-home %}<a href="{% url 'home' %}">Home</a>{% endblock %}</li>
-                  <li>{% block nav-about %}<a href="{% url 'about' %}">About</a>{% endblock %}</li>
+                  <li>{% block nav-faucet %}<a href="{% url 'faucet' %}">Faucet</a>{% endblock %}</li>
                   <li>{% block nav-org-list %}<a href="{% url 'organization_list' %}">Non-profits</a>{% endblock %}</li>
                   <li>{% block nav-new-org %}<a href="{% url 'organization_new' %}">Register</a>{% endblock %}</li>
+                  <li>{% block nav-about %}<a href="{% url 'about' %}">About</a>{% endblock %}</li>
                 </ul>
               </div>
 
