@@ -38,7 +38,7 @@ def faucet(request):
             send.tx_id = "0dc2d74db5fddd4f2100f4d99090a2a317f94ed6de17066d366d72ede8336ca4"
             send.save()
 
-            return HttpResponseRedirect('/faucet/')
+            return HttpResponseRedirect('/faucet/recent/')
     else:
         form = forms.FaucetForm()
 
