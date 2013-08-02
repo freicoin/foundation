@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 
 from apps.faucet.models import *
 from apps.faucet import forms
+from apps.faucet.utils import get_client_ip
 
 def recent_sends(request):
     sends = FaucetSend.objects.order_by('-timestamp')[:20]
@@ -19,7 +20,7 @@ def faucet(request):
 
             send = FaucetSend()
             send.frc_address = form.cleaned_data['frc_address']
-            send.ip_address = request.META['REMOTE_ADDR']
+            send.ip_address = get_client_ip(request)
 
             enddate = datetime.now() 
             startdate = enddate - timedelta(days=1)
