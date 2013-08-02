@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block nav-faucet %}<strong class="nav-active">Faucet</strong>{% endblock %}
+
+{% block content %}
+
+<p>
+  Sorry, you must wait 24 hours to get free freicoins from the faucet again.
+</p>
+
+<p>
+  Return to <a href="{% url 'faucet' %}">faucet</a>.
+</p>
+
+<h3>Your request conflicts with the following previous sends:</h3>
+
+<table border="1">
+  <tr>
+    <th>Timestamp</th>
+    <th>IP Address</th>
+    <th>FRC Address</th>
+    <th>Transaction ID</th>
+  </tr>
+  {% for send in send_list %}
+  <tr>
+    <td>{{ send.timestamp | date:"H:i:s d/m/Y" }}</td>
+    <td>{{ send.ip_address }}</td>
+    <td><a href="http://cryptocoinexplorer.com:4750/address/{{ send.frc_address }}">{{ send.frc_address }}</a></td>
+    <td><a href="http://cryptocoinexplorer.com:4750/tx/{{ send.tx_id }}">{{ send.tx_id }}</a></td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
