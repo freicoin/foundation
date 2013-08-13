@@ -13,4 +13,4 @@ class FrcAddressField(forms.CharField):
                 addr = BitcoinAddress(value.decode('base58'))
         except (InvalidAddressError, VersionedPayloadError, 
                 HashChecksumError, InvalidBase58Error):
-            raise forms.ValidationError("Not a valid address.")
+            raise forms.ValidationError("Enter a valid address.")
