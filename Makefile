@@ -56,6 +56,13 @@ run: all db
 	        foreman start --port=8000 --root="${ROOT}" \
 	                      --procfile "${CONF}"/Procfile.development"
 
+.PHONY: run
+run_production: all db
+	bash -c "source '${PYENV}'/bin/activate && \
+	    RBENV_ROOT="${RBENV}" "${RBENV}"/bin/rbenv exec bundle exec \
+	        foreman start --port=8000 --root="${ROOT}" \
+	                      --procfile "${ROOT}"/Procfile"
+
 .PHONY: mostlyclean
 mostlyclean:
 	-rm -rf dist
