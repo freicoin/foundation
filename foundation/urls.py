@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     # Foundation
     url(r'^$', 'foundation.views.home', name='home'),
     url(r'^about/$', 'foundation.views.about', name='about'),
+    url(r'^copyright/$', 'foundation.views.copyright', name='copyright'),
 
     # Donations
     url(r'^join_nonprofits/$', 'apps.donations.views.new_organization', name='organization_new'),
