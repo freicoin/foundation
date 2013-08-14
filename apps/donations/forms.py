@@ -1,5 +1,4 @@
 from django import forms
-from captcha.fields import ReCaptchaField
 from foundation.forms import FrcAddressField
 
 class OrganizationForm(forms.Form):
@@ -10,4 +9,3 @@ class OrganizationForm(forms.Form):
     bitcoin_address = FrcAddressField(required=False, max_length=34)
     short_description = forms.CharField(widget=forms.Textarea, max_length=350)
     long_description = forms.CharField(widget=forms.Textarea, max_length=1500)
-    captcha = ReCaptchaField(attrs={'theme' : 'clean'}, label='')

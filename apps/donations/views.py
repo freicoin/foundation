@@ -5,7 +5,9 @@ from django.core.mail import send_mail
 from django.template.loader import get_template
 from django.template import Context
 
-from .models import *
+from django.contrib.auth.decorators import login_required
+
+from models import *
 import forms
 
 def organization_list(request):
@@ -21,6 +23,7 @@ def organization_detail(request, organization_id=None):
     variables = {'org': organization}
     return render(request, 'organization_detail.html', variables)
 
+@login_required
 def new_organization(request):
     try:
         if request.method == 'POST':
