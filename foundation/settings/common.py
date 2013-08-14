@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'south',
 
     # Own apps
+    'apps.accounts',
     'apps.donations',
     'apps.faucet',
 )
@@ -165,6 +166,9 @@ LOGGING = {
         },
     }
 }
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
 
 # reCaptcha
 

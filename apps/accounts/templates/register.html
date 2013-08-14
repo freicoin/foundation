@@ -1,0 +1,31 @@
+
+{% extends "base.html" %}
+
+{% load bootstrap_toolkit %}
+
+{% block nav-register %}<strong class="nav-active">Register</strong>{% endblock %}
+
+{% block content %}
+
+<h3>User registration form:</h3>
+
+<p>
+  You have to create a user to register non-profit organizations.
+</p>
+
+    {% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+
+    <form action="" method="post" class="form-horizontal">
+      {% csrf_token %}
+      {{ form|as_bootstrap }}
+      <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Register">
+      </div>
+    </form>
+
+{% endblock %}
+
