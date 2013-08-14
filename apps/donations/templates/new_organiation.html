@@ -35,13 +35,13 @@
         </p>
     {% endif %}
 
-<form action="" method="post" class="form-horizontal">
-    {% csrf_token %}
-    {{ form|as_bootstrap }}
-    <div class="form-actions">
+    <form action="" method="post" class="form-horizontal">
+      {% csrf_token %}
+      {{ form|as_bootstrap }}
+      <div class="form-actions">
         <input type="submit" class="btn btn-primary" value="Submit Request">
-    </div>
-</form>
+      </div>
+    </form>
 
 {% endblock %}
 
