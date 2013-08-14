@@ -26,9 +26,11 @@
                 <a id="logo-header-link" class="brand" href="/">
                   <table>
                     <tr>
-                      <td><img src="{% static 'img/logo-freicoin.png' %}" alt="Logo Header"/></td>
+                      <td><img src="{% static 'img/logo-freicoin.png' %}" alt="Logo Header"
+                               style="float:left" width="100" height="100" /></td>
                       <td><h1>Freicoin Foundation</h1></td>
-                      <td><img src="{% static 'img/arctictern.jpg' %}" alt="Artic Tern"/></td>
+                      <td><img src="{% static 'img/arctictern.jpg' %}" alt="Artic Tern"
+                               style="float:right" width="50%" height="50%" /></td>
                     </tr>
                   </table>
                 </a>
@@ -63,10 +65,11 @@
       {% block footer %}
       <div id="footer">
         <div class="container">
-          <footer class="footer">
+          <footer class="footer" style="float:center" >
             <p id="logo-footer">
               <a id="logo-footer-link" class="brand" href="/">
-                <img src="{% static 'img/logo-freicoin-text.png' %}" alt="Logo Footer"/>
+                <img src="{% static 'img/logo-freicoin-text.png' %}" alt="Logo Footer"
+                     width="15%" height="15%" />
               </a>
               <br />
             </p>
