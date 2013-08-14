@@ -1,3 +1,4 @@
+{% load staticfiles %}
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
@@ -21,7 +22,16 @@
               {% block nav %}
 
               <div class="row">
-                <a class="brand"> <h1>Freicoin Foundation</h1> </a>
+
+                <a id="logo-header-link" class="brand" href="/">
+                  <table>
+                    <tr>
+                      <td><img src="{% static 'img/logo-freicoin.png' %}" alt="Logo Header"/></td>
+                      <td><h1>Freicoin Foundation</h1></td>
+                      <td><img src="{% static 'img/arctictern.jpg' %}" alt="Artic Tern"/></td>
+                    </tr>
+                  </table>
+                </a>
 
                 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                   <span class="icon-th-list"></span>
@@ -50,12 +60,24 @@
         {% endblock content %}
       </div>
 
-      <footer class="row">
-        {% block footer %}
-        <hr>
-        <p>Freicoin Foundation Footer</p>
-        {% endblock %}
-      </footer>
+      {% block footer %}
+      <div id="footer">
+        <div class="container">
+          <footer class="footer">
+            <p id="logo-footer">
+              <a id="logo-footer-link" class="brand" href="/">
+                <img src="{% static 'img/logo-freicoin-text.png' %}" alt="Logo Footer"/>
+              </a>
+              <br />
+            </p>
+
+            <p id="copyright-footer">
+              <span id="copyright" class="copyright">Copyright &copy; {{ site.time | date:"%Y" }} <a href="/copyright/">Freicoin Developers</a>
+            </p>
+          </footer><!-- .footer -->
+        </div><!-- .container -->
+      </div><!-- #footer -->
+      {% endblock %}
 
     </div>
 
