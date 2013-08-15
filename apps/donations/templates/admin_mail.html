@@ -1,13 +1,13 @@
+{% load bitcoin_tags %}
 
 <p>
-A new organization named {{ org.name }}has sent its request to participate in the issuance
+A new organization named {{ org.name }} has sent its request to participate in the issuance
 to non-profits Freicoin Foundation program. Please review the request
 at:
 </p>
 
 <p>
-<a href="{{ SITE_URL }}/admin/donations/organization/{{ org.pk }}">
-{{ SITE_URL }}/admin/donations/organization/{{ org.pk }}</a>
+{{ SITE_URL }}/admin/donations/organization/{{ org.pk }}
 </p>
 
 <p>
@@ -27,7 +27,7 @@ This is the data submitted:
 
   <tr>
     <td>Website:</td>
-    <td><a href="{{ org.website }}">{{ org.website }}</a></td>
+    <td>{{ org.website|urlize }}</a></td>
   </tr>
 
   <tr>
@@ -37,12 +37,12 @@ This is the data submitted:
 
   <tr>
     <td>Freicoin address:</td>
-    <td><a href="{{ FRC_EXPLORER }}/address/{{ org.freicoin_address }}">{{ org.freicoin_address }}</a></td>
+    <td>{{ org.freicoin_address|frc_address|safe }}</td>
   </tr>
 
   <tr>
     <td>Bitcoin address:</td>
-    <td><a href="{{ BTC_EXPLORER }}/address/{{ org.bitcoin_address }}">{{ org.bitcoin_address }}</a></td>
+    <td>{{ org.bitcoin_address|btc_address|safe }}</td>
   </tr>
 
   <tr>

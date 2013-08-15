@@ -1,3 +1,5 @@
+{% load bitcoin_tags %}
+
 <p>
 Thanks for sending your request to participate in the issuance to
 non-profits Freicoin Foundation program. Please wait for an admin to
@@ -23,7 +25,7 @@ This is the data you submitted:
 
   <tr>
     <td>Website:</td>
-    <td><a href="{{ org.website }}">{{ org.website }}</a></td>
+    <td>{{ org.website|urlize }}</a></td>
   </tr>
 
   <tr>
@@ -33,12 +35,12 @@ This is the data you submitted:
 
   <tr>
     <td>Freicoin address:</td>
-    <td><a href="{{ FRC_EXPLORER }}/address/{{ org.freicoin_address }}">{{ org.freicoin_address }}</a></td>
+    <td>{{ org.freicoin_address|frc_address|safe }}</td>
   </tr>
 
   <tr>
     <td>Bitcoin address:</td>
-    <td><a href="{{ BTC_EXPLORER }}/address/{{ org.bitcoin_address }}">{{ org.bitcoin_address }}</a></td>
+    <td>{{ org.bitcoin_address|btc_address|safe }}</td>
   </tr>
 
   <tr>

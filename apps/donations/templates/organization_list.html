@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load bitcoin_tags %}
+
 {% block nav-org-list %}<strong class="nav-active">Non-profits</strong>{% endblock %}
 
 {% block content %}
@@ -31,9 +33,9 @@
   {% for org in organization_list %}
   <tr>
     <td><a href="{% url 'organization_detail' org.pk %}">{{ org.name }}</a></td>
-    <td>{{ org.short_description }}</td>
-    <td><a href="{{ FRC_EXPLORER }}/address/{{ org.foundation_address }}">{{ org.foundation_address }}</a></td>
-    <td><a href="{{ org.website }}">{{ org.website }}</a></td>
+    <td>{{ org.short_description|truncatewords_html:10 }}</td>
+    <td>{{ org.foundation_address|frc_address|safe }}</td>
+    <td>{{ org.website|urlizetrunc:33 }}</td>
   </tr>
   {% endfor %}
 </table>

@@ -2,12 +2,11 @@ from django.core.mail import EmailMessage
 from django.template.loader import get_template
 from django.template import Context
 
-from foundation.context_processors import settings_to_templates
+from django.contrib.sites.models import Site
 
 def send_html_mail(template, context, subject, from_mail, to_mails):
     
-    context.update({'SITE_URL': Site.objects.get_current().domain})
-    context.update(settings_to_templates())
+    context.update({'SITE_URL': "http://%s" % Site.objects.get_current().domain})
     mail_template = get_template(template)
     mail_content = mail_template.render(Context(context))
     msg = EmailMessage(subject, mail_content, from_mail, to_mails.split(','))

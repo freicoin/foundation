@@ -1,6 +1,8 @@
 
 {% extends "base.html" %}
 
+{% load bitcoin_tags %}
+
 {% block content %}
 <h2>Validated non-profit: {{ org.name }}</h2>
 
@@ -18,7 +20,7 @@
 
   <tr>
     <td>Website:</td>
-    <td><a href="{{ org.website }}">{{ org.website }}</a></td>
+    <td>{{ org.website|urlize }}</td>
   </tr>
 
   <tr>
@@ -28,7 +30,7 @@
 
   <tr>
     <td>Donation address:</td>
-    <td><a href="{{ FRC_EXPLORER }}/address/{{ org.foundation_address }}">{{ org.foundation_address }}</a></td>
+    <td>{{ org.foundation_address|frc_address|safe }}</td>
   </tr>
 
   <tr>
