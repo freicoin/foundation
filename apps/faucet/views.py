@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 from apps.faucet.models import *
 from apps.faucet import forms
-from foundation import utils
+from apps.utils import utils
 
 def recent_sends(request):
     sends = FaucetSend.objects.order_by('-timestamp')[:20]

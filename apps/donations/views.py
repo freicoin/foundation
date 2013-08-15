@@ -4,7 +4,7 @@ from django.http import Http404
 from django.contrib.auth.decorators import login_required
 
 from django.conf import settings
-from foundation import utils
+from apps.utils import utils
 
 from models import *
 import forms

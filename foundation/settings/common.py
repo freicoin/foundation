@@ -146,6 +146,7 @@ INSTALLED_APPS = (
     'south',
 
     # Own apps
+    'apps.utils',
     'apps.accounts',
     'apps.donations',
     'apps.faucet',

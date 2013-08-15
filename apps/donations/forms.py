@@ -1,5 +1,5 @@
 from django import forms
-from foundation.forms import FrcAddressField
+from apps.utils.forms import FrcAddressField
 
 class OrganizationForm(forms.Form):
     name = forms.CharField(max_length=40)
