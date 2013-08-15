@@ -1,7 +1,7 @@
-from django.conf import settings # import the settings file
+from django.conf import settings
 
-def settings_to_templates(request):
-    # return the value you want as a dictionnary. you may add multiple values in there.
+def settings_to_templates(request=None):
+    # return values from the settings as a dictionnary.
     return {'FRC_EXPLORER': settings.FRC_EXPLORER,
             'BTC_EXPLORER': settings.BTC_EXPLORER
             }

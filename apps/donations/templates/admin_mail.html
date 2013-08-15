@@ -6,8 +6,8 @@ at:
 </p>
 
 <p>
-<a href="http://foundation.herokuapp.com/admin/donations/organization/{{ org.pk }}">
-http://foundation.herokuapp.com/admin/donations/organization/{{ org.pk }}</a>
+<a href="{{ SITE_URL }}/admin/donations/organization/{{ org.pk }}">
+{{ SITE_URL }}/admin/donations/organization/{{ org.pk }}</a>
 </p>
 
 <p>
@@ -37,12 +37,12 @@ This is the data submitted:
 
   <tr>
     <td>Freicoin address:</td>
-    <td><a href="http://cryptocoinexplorer.com:4750/address/{{ org.freicoin_address }}">{{ org.freicoin_address }}</a></td>
+    <td><a href="{{ FRC_EXPLORER }}/address/{{ org.freicoin_address }}">{{ org.freicoin_address }}</a></td>
   </tr>
 
   <tr>
     <td>Bitcoin address:</td>
-    <td><a href="http://blockexplorer.com/address/{{ org.bitcoin_address }}">{{ org.bitcoin_address }}</a></td>
+    <td><a href="{{ BTC_EXPLORER }}/address/{{ org.bitcoin_address }}">{{ org.bitcoin_address }}</a></td>
   </tr>
 
   <tr>
