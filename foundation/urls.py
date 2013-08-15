@@ -15,16 +15,14 @@ urlpatterns = patterns('',
 
     # Accounts
     url(r'', include('apps.accounts.urls')),
+    # Faucet
+    url(r'^faucet/', include('apps.faucet.urls')),
 
     # Donations
     url(r'^join_nonprofits/$', 'apps.donations.views.new_organization', name='organization_new'),
     url(r'^join_nonprofits/thanks/$', 'apps.donations.views.thanks', name='thanks'),
     url(r'^nonprofits/$', 'apps.donations.views.organization_list', name='organization_list'),
     url(r'^nonprofit/(?P<organization_id>[0-9]+)/$', 'apps.donations.views.organization_detail', name='organization_detail'),
-
-    # Faucet
-    url(r'^faucet/$', 'apps.faucet.views.faucet', name='faucet'),
-    url(r'^faucet/recent/$', 'apps.faucet.views.recent_sends', name='recent_sends'),
 
     # Examples:
     # url(r'^$', 'foundation.views.home', name='home'),
