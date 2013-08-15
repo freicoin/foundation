@@ -13,16 +13,10 @@ urlpatterns = patterns('',
     url(r'^about/$', 'foundation.views.about', name='about'),
     url(r'^copyright/$', 'foundation.views.copyright', name='copyright'),
 
-    # Accounts
+    # Included apps and their root
     url(r'', include('apps.accounts.urls')),
-    # Faucet
     url(r'^faucet/', include('apps.faucet.urls')),
-
-    # Donations
-    url(r'^join_nonprofits/$', 'apps.donations.views.new_organization', name='organization_new'),
-    url(r'^join_nonprofits/thanks/$', 'apps.donations.views.thanks', name='thanks'),
-    url(r'^nonprofits/$', 'apps.donations.views.organization_list', name='organization_list'),
-    url(r'^nonprofit/(?P<organization_id>[0-9]+)/$', 'apps.donations.views.organization_detail', name='organization_detail'),
+    url(r'^nonprofits/', include('apps.donations.urls')),
 
     # Examples:
     # url(r'^$', 'foundation.views.home', name='home'),
