@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.http import Http404
 
 from django.contrib.auth.decorators import login_required
 
@@ -53,7 +53,7 @@ def new_organization(request):
                                  "Thanks for registering your organization !", 
                                  'noreply@freicoin.org', org.email)
 
-            return HttpResponseRedirect('/join_nonprofits/thanks/')
+            return redirect('org_thanks')
     else:
         form = forms.OrganizationForm()
 
