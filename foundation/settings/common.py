@@ -110,6 +110,19 @@ TEMPLATE_DIRS = (
     os.path.abspath(os.path.join(PROJECT_DIRECTORY, 'templates')),
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+
+    # custom context processors
+    "foundation.context_processors.settings_to_templates",
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -210,3 +223,9 @@ EMAIL_USE_TLS = True
 DONATION_ADMIN_MAILS = os.environ.get('DONATION_ADMIN_MAILS')
 
 # End Mail settings
+
+# External URLs
+FRC_EXPLORER = 'http://cryptocoinexplorer.com:4750'
+BTC_EXPLORER = 'http://blockexplorer.com'
+
+# End external URLs
