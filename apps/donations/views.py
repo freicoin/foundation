@@ -23,6 +23,17 @@ def organization_detail(request, organization_id=None):
     variables = {'org': organization}
     return render(request, 'organization_detail.html', variables)
 
+def send_new_org_mails(org):
+    context = {'org': org}
+    utils.send_html_mail('admin_mail.html', context, 
+                         "New organization registration: %s" % org.name, 
+                         org.email,
+                         settings.DONATION_ADMIN_MAILS)
+
+    utils.send_html_mail('org_mail.html', context, 
+                         "Thanks for registering your organization !", 
+                         'noreply@freicoin.org', org.email)
+
 @login_required
 def new_organization(request):
 
@@ -44,15 +55,7 @@ def new_organization(request):
             org.user = request.user
             org.save()
 
-            context = {'org': org}
-            utils.send_html_mail('admin_mail.html', context, 
-                                 "New organization registration: %s" % org.name, 
-                                 cd.get('email', 'noreply@freicoin.org'),
-                                 settings.DONATION_ADMIN_MAILS)
-
-            utils.send_html_mail('org_mail.html', context, 
-                                 "Thanks for registering your organization !", 
-                                 'noreply@freicoin.org', org.email)
+            send_new_org_mails(org)
 
             return redirect('org_thanks')
     else:
