@@ -41,6 +41,7 @@ def new_organization(request):
             org.freicoin_address = cd['freicoin_address']
             org.bitcoin_address = cd['bitcoin_address']
             org.email = cd['email']
+            org.user = request.user
             org.save()
 
             context = {'org': org}
