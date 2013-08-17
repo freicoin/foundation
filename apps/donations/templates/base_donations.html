@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block nav-org-list %}<strong class="nav-active">Non-profits</strong>{% endblock %}
+
+{% block content %}
+
+  <div ng-app="appDonations">
+    {% block app-content %}{% endblock %}
+  </div>
+
+{% endblock %}
+
+{% block app-scripts %}
+
+<script type="text/javascript">
+
+var app = angular.module('appDonations', []).
+  config(['$routeProvider', function($routeProvider, urls) {
+    $routeProvider.
+      when('/', {templateUrl: '{% static 'donations/partials/organization_list.html' %}', controller: OrgListCtrl}).
+      when('/detail/:orgId', {templateUrl: '{% static 'donations/partials/organization_detail.html' %}', controller: OrgDetailCtrl}).
+      otherwise({redirectTo: '/aaa'});
+  }]);
+
+</script>
+
+<!-- <script src="{% static 'donations/js/app.js' %}"></script> -->
+<script src="{% static 'donations/js/controllers.js' %}"></script>
+{% endblock %}

@@ -68,6 +68,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJECT_DIRECTORY, 'static'),
+    ('donations', os.path.join(PROJECT_DIRECTORY, 'apps', 'donations', 'donations')),
 )
 
 # List of finder classes that know how to find static files in
@@ -120,14 +121,12 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
-    # From pip
-
-    # pip install django-bootstrap-toolkit
+    # From pip    
     'bootstrap_toolkit',
-    # pip install django-recaptcha
     'captcha',
+    # jrief/django-angular, not appliedsec/djangular
+    'djangular',
 
-    # pip install South
     # South is the most excellent database migration/schema versioning tool
     # written by Andrew Godwin.
     'south',

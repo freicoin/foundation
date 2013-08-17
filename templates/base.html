@@ -69,6 +69,7 @@
         {% endblock content %}
       </div>
 
+      <hr>
       {% block footer %}
       <div id="footer">
         <div class="container">
@@ -101,6 +102,11 @@
           rel="stylesheet">
 
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+
+    {% block app-scripts %}
+    {% endblock %}
 
     <!-- Optionally enable responsive features in IE8 -->
     <!-- <script src="js/respond.js"></script> -->

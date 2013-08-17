@@ -1,27 +1,38 @@
+import json
+
 from django.shortcuts import render, redirect
 from django.http import Http404
+from django.views.generic import View
+from django.forms.models import model_to_dict
 
 from django.contrib.auth.decorators import login_required
 
+from djangular.views.mixins import JSONResponseMixin, HttpResponseBadRequest
+
 from django.conf import settings
 from apps.utils import utils
-
 from models import *
 import forms
 
-def organization_list(request):
-    organizations = Organization.objects.exclude(foundation_address__isnull=True
-                                                 ).exclude(foundation_address__exact='')
-    return render(request, 'organization_list.html', 
-                  {'organization_list': organizations})
+def ng_view(request):
+    return render(request, 'ng-template.html')
 
-def organization_detail(request, organization_id=None):
-    try:
-        organization = Organization.objects.get(pk=organization_id)
-    except Organization.DoesNotExist:
-        raise Http404
-    variables = {'org': organization}
-    return render(request, 'organization_detail.html', variables)
+class OrgListView(JSONResponseMixin, View):
+    def get_organizations(self):
+        orgs = Organization.objects.exclude(foundation_address__isnull=True
+                                            ).exclude(foundation_address__exact='')
+        orgs_list = []
+        for org in orgs:
+            orgs_list.append(model_to_dict(org, fields=[], exclude=[]))
+        return orgs_list
+
+class OrgDetailView(JSONResponseMixin, View):
+    # def get(self, request, *args, **kwargs):
+    #     kwargs.update(action='get_organization')
+    #     return super(OrgDetailView, self).get(self, request, *args, **kwargs)
+    def get_organization(self, organization_id=None):
+        org = Organization.objects.get(pk=self.kwargs['organization_id'])
+        return model_to_dict(org, fields=[], exclude=[])
 
 def send_new_org_mails(org):
     context = {'org': org}
