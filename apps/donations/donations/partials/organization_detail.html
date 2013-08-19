@@ -1,6 +1,18 @@
-<h2>Validated non-profit: {{ org.name }}</h2>
+<p>
+Go back to <a href="#/">non-profit list</a>.
+</p>
 
-<table border="1">
+<h2 ng-show="org.foundation_address.length">Validated non-profit: {{ org.name }}</h2>
+
+<p ng-show="org && !org.foundation_address.length">
+  This organization has its validation pending and doesn't have a donation adress with the foundation yet.
+</p>
+
+<p ng-show="!org">
+  No organization found.
+</p>
+
+<table ng-show="org" border="1">
 
   <tr>
     <td>Name:</td>
