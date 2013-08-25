@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponseForbidden
 from django.views.generic import View
 from django.forms.models import model_to_dict
+from django.conf import settings
 
 from django.contrib.auth.decorators import login_required
 
@@ -15,7 +16,9 @@ from models import *
 import forms
 
 def ng_donations(request):
-    return render(request, 'ng-donations.html')
+    return render(request, 'ng-donations.html', 
+                  {'frc_explorer': settings.FRC_EXPLORER,
+                   'btc_explorer': settings.BTC_EXPLORER})
 
 class OrgListView(JSONResponseMixin, View):
     def get_organizations(self):

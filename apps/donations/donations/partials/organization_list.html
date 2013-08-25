@@ -50,7 +50,7 @@
 
     <td><a href="#/detail/{{org.id}}">{{org.name}}</a></td>
     <td>{{ org.short_description }}</td>
-    <td>{{ org.foundation_address }}</td>
+    <td><div ng-bind-html-unsafe="org.foundation_address | frc_address"></div></td>
     <td><a href="{{ org.website }}">{{ org.website }}</a></td>
   </tr>
 

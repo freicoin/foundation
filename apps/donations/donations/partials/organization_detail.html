@@ -42,7 +42,7 @@ Go back to <a href="#/">non-profit list</a>.
 
   <tr>
     <td>Donation address:</td>
-    <td>{{ org.foundation_address }}</td>
+    <td><div ng-bind-html-unsafe="org.foundation_address | frc_address"></div></td>
   </tr>
 
   <tr>

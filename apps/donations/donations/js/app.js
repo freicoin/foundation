@@ -1,4 +1,4 @@
-angular.module('appDonations', ['django_constants']).
+angular.module('appDonations', ['django_constants', 'donationFilters']).
   config(function($routeProvider, django) {
     $routeProvider.
       when('/', {templateUrl: django.urls.list, controller: OrgListCtrl}).
