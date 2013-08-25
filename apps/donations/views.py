@@ -1,7 +1,7 @@
 import json
 
-from django.shortcuts import render, redirect
-from django.http import Http404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404, HttpResponseForbidden
 from django.views.generic import View
 from django.forms.models import model_to_dict
 
@@ -46,33 +46,27 @@ def send_new_org_mails(org):
                          'noreply@freicoin.org', org.email)
 
 @login_required
-def new_organization(request):
+def org_edit(request, id=None, template_name='new_organiation.html'):
 
-    if request.method == 'POST':
-        form = forms.OrganizationForm(request.POST)
-
-        if form.is_valid():
-            cd = form.cleaned_data
-
-            org = Organization()
-
-            org.name = cd['name']
-            org.website = cd['website']
-            org.short_description = cd['short_description']
-            org.long_description = cd['long_description']
-            org.freicoin_address = cd['freicoin_address']
-            org.bitcoin_address = cd['bitcoin_address']
-            org.email = cd['email']
-            org.user = request.user
-            org.save()
-
-            send_new_org_mails(org)
-
-            return redirect('org_thanks')
+    if id:
+        org = get_object_or_404(Organization, pk=id)
+        if org.user != request.user:
+            return HttpResponseForbidden()
     else:
-        form = forms.OrganizationForm()
+        org = Organization(user=request.user)
 
-    return render(request, 'new_organiation.html', {'form': form})
+    form = forms.OrganizationForm(request.POST or None, instance=org)
+
+    if form.is_valid():
+
+        org = form.save()
+        org.save()
+
+        send_new_org_mails(org)
+
+        return redirect('org_thanks')
+
+    return render(request, template_name, {'form': form})
 
 def thanks(request):
     return render(request, 'thanks.html')

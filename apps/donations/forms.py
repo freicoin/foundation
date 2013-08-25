@@ -1,11 +1,21 @@
 from django import forms
+
 from apps.utils.forms import FrcAddressField
 
-class OrganizationForm(forms.Form):
-    name = forms.CharField(max_length=40)
-    website = forms.URLField()
-    email = forms.EmailField()
+from .models import Organization
+
+class OrganizationForm(forms.ModelForm):
+
     freicoin_address = FrcAddressField(max_length=34)
     bitcoin_address = FrcAddressField(required=False, max_length=34)
-    short_description = forms.CharField(widget=forms.Textarea, max_length=350)
-    long_description = forms.CharField(widget=forms.Textarea, max_length=1500)
+
+    def __init__(self, *args, **kwargs):
+        super(OrganizationForm, self).__init__(*args, **kwargs)
+        self.fields['short_description'].widget=forms.Textarea(attrs={'cols': 50, 'rows': 5})
+        self.fields['long_description'].widget=forms.Textarea(attrs={'cols': 50, 'rows': 10})
+
+    class Meta:
+        model = Organization
+        fields = ['name', 'website', 'email', 
+                  'freicoin_address', 'bitcoin_address', 
+                  'short_description', 'long_description']
