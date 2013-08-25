@@ -14,8 +14,8 @@ from apps.utils import utils
 from models import *
 import forms
 
-def ng_view(request):
-    return render(request, 'ng-template.html')
+def ng_donations(request):
+    return render(request, 'ng-donations.html')
 
 class OrgListView(JSONResponseMixin, View):
     def get_organizations(self):
@@ -31,7 +31,7 @@ class OrgDetailView(JSONResponseMixin, View):
     #     kwargs.update(action='get_organization')
     #     return super(OrgDetailView, self).get(self, request, *args, **kwargs)
     def get_organization(self, organization_id=None):
-        org = Organization.objects.get(pk=self.kwargs['organization_id'])
+        org = Organization.objects.get(pk=self.kwargs['org_id'])
         return model_to_dict(org, fields=[], exclude=[])
 
 def send_new_org_mails(org):
