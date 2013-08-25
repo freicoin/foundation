@@ -1,11 +1,3 @@
-
-{% if user.is_authenticated %}
-<br>
-<a href="{% url 'organization_new' %}" class="btn btn-primary">Add new organization</a>
-<br>
-{% endif %}
-
-{% verbatim %}
 <h3>List of non-profit organizations:</h3>
 
 <p>
@@ -27,6 +19,12 @@
 <p> 
   There are currently {{organization_list.length}} nonprofits
   registered and validated for this Freicoin issuance program.
+</p>
+
+<p ng-show="user_authenticated">
+<br>
+<a href="join/" class="btn btn-primary">Add new organization</a>
+<br>
 </p>
 
 <div>
@@ -57,4 +55,3 @@
   </tr>
 
 </table>
-{% endverbatim %}

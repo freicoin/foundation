@@ -17,12 +17,13 @@
 var app = angular.module('appDonations', []).
   config(['$routeProvider', function($routeProvider, urls) {
     $routeProvider.
-      when('/', {templateUrl: '{% url 'organization_list' %}', controller: OrgListCtrl}).
+      when('/', {templateUrl: '{% static 'donations/partials/organization_list.html' %}', controller: OrgListCtrl}).
       when('/detail/:orgId', {templateUrl: '{% static 'donations/partials/organization_detail.html' %}', controller: OrgDetailCtrl}).
-      when('/edit/:orgId', {templateUrl: '{% url 'organization_new' %}', controller: OrgDetailCtrl}).
-      when('/join', {templateUrl: '{% url 'organization_new' %}'}).
-      otherwise({redirectTo: '/aaa'});
+      otherwise({redirectTo: '/'});
   }]);
+
+var user_id = '{{ user.id }}';
+var user_authenticated = '{{ user.is_authenticated }}';
 
 </script>
 

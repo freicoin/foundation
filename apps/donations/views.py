@@ -70,6 +70,3 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
 
 def thanks(request):
     return render(request, 'thanks.html')
-
-def organization_list(request):
-    return render(request, 'organization_list.html')
