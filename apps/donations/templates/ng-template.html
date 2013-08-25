@@ -21,6 +21,8 @@ angular.module('django_constants', [])
     "urls": {
       "list": "{% static 'donations/partials/organization_list.html' %}",
       "detail": "{% static 'donations/partials/organization_detail.html' %}",
+      "join": "{% url 'organization_new' %}",
+      "edit": "{% url 'organization_edit' %}",
       "json": "{% url 'org_list_json' %}"
     }
   });

@@ -10,6 +10,7 @@ urlpatterns = patterns('apps.donations.views',
         {'action': 'get_organization'}, name='org_list_json'),
 
     url(r'^join/$', 'org_edit', name='organization_new'),
+    url(r'^edit/$', 'org_edit', name='organization_edit'),
     url(r'^edit/(?P<id>\d+)/$', 'org_edit', name='organization_edit'),
     url(r'^join/thanks/$', 'thanks', name='org_thanks'),
 )
