@@ -1,5 +1,31 @@
 {% extends "base_donations.html" %}
 
-{% block app-content %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div ng-app="appDonations">
   <div ng-view></div>
+</div>
+
+{% endblock %}
+
+{% block app-scripts %}
+
+<script type="text/javascript">
+
+var app = angular.module('appDonations', []).
+  config(['$routeProvider', function($routeProvider, urls) {
+    $routeProvider.
+      when('/', {templateUrl: '{% url 'organization_list' %}', controller: OrgListCtrl}).
+      when('/detail/:orgId', {templateUrl: '{% static 'donations/partials/organization_detail.html' %}', controller: OrgDetailCtrl}).
+      when('/edit/:orgId', {templateUrl: '{% url 'organization_new' %}', controller: OrgDetailCtrl}).
+      when('/join', {templateUrl: '{% url 'organization_new' %}'}).
+      otherwise({redirectTo: '/aaa'});
+  }]);
+
+</script>
+
+<!-- <script src="{% static 'donations/js/app.js' %}"></script> -->
+<script src="{% static 'donations/js/controllers.js' %}"></script>
 {% endblock %}

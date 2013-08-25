@@ -1,3 +1,11 @@
+
+{% if user.is_authenticated %}
+<br>
+<a href="{% url 'organization_new' %}" class="btn btn-primary">Add new organization</a>
+<br>
+{% endif %}
+
+{% verbatim %}
 <h3>List of non-profit organizations:</h3>
 
 <p>
@@ -49,3 +57,4 @@
   </tr>
 
 </table>
+{% endverbatim %}

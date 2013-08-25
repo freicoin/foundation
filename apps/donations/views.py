@@ -76,3 +76,6 @@ def new_organization(request):
 
 def thanks(request):
     return render(request, 'thanks.html')
+
+def organization_list(request):
+    return render(request, 'organization_list.html')

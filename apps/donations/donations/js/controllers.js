@@ -16,24 +16,3 @@ function OrgDetailCtrl($scope, $routeParams, $http) {
       $scope.org = data;
     });
 }
-
-
-function OrgFormCtrl($scope, $http) {
-
-  $scope.submit = function() {
-    alert("aaaa");
-    debugger
-    $http.post('/nonprofits/join/', {
-      org: $scope.org
-    }).
-      success(function(out_data) {
-        debugger
-        alert("Thank you for submitting your request!!")
-    }).
-      error(function(out_data) {
-        debugger
-        alert("Something went wrong...")
-    })
-  };
-}
-
