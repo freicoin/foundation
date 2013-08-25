@@ -1,21 +1,20 @@
 
-function OrgListCtrl($scope, $http) {
+function OrgListCtrl($scope, $http, django) {
 
-  $http.get('/nonprofits/json/').
+  $http.get(django.urls.json).
     success(function (data){
       $scope.organization_list = data;
     });
 
   $scope.orderProp = '-id';
-  $scope.user_authenticated = user_authenticated;
+  $scope.django = django;
 }
 
-function OrgDetailCtrl($scope, $routeParams, $http) {
+function OrgDetailCtrl($scope, $routeParams, $http, django) {
 
-  $http.get('/nonprofits/json/' + $routeParams.orgId).
+  $http.get(django.urls.json + $routeParams.orgId).
     success(function(data) {
       $scope.org = data;
     });
-  $scope.user_authenticated = user_authenticated;
-  $scope.user_id = user_id;
+  $scope.django = django;
 }

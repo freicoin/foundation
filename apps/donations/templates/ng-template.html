@@ -14,19 +14,19 @@
 
 <script type="text/javascript">
 
-var app = angular.module('appDonations', []).
-  config(['$routeProvider', function($routeProvider, urls) {
-    $routeProvider.
-      when('/', {templateUrl: '{% static 'donations/partials/organization_list.html' %}', controller: OrgListCtrl}).
-      when('/detail/:orgId', {templateUrl: '{% static 'donations/partials/organization_detail.html' %}', controller: OrgDetailCtrl}).
-      otherwise({redirectTo: '/'});
-  }]);
-
-var user_id = '{{ user.id }}';
-var user_authenticated = '{{ user.is_authenticated }}';
+angular.module('django_constants', [])
+  .constant('django', {
+    "user_authenticated": {% if user.is_authenticated %}1{% else %}0{% endif %},
+    "user_id": {% if user.is_authenticated %} {{ user.id }} {% else %} null {% endif %},
+    "urls": {
+      "list": "{% static 'donations/partials/organization_list.html' %}",
+      "detail": "{% static 'donations/partials/organization_detail.html' %}",
+      "json": "{% url 'org_list_json' %}"
+    }
+  });
 
 </script>
 
-<!-- <script src="{% static 'donations/js/app.js' %}"></script> -->
+<script src="{% static 'donations/js/app.js' %}"></script>
 <script src="{% static 'donations/js/controllers.js' %}"></script>
 {% endblock %}
