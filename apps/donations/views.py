@@ -36,12 +36,12 @@ class OrgDetailView(JSONResponseMixin, View):
 
 def send_new_org_mails(org):
     context = {'org': org}
-    utils.send_html_mail('admin_mail.html', context, 
+    utils.send_html_mail('mail/admin_mail.html', context, 
                          "New organization registration: %s" % org.name, 
                          org.email,
                          settings.DONATION_ADMIN_MAILS)
 
-    utils.send_html_mail('org_mail.html', context, 
+    utils.send_html_mail('mail/org_mail.html', context, 
                          "Thanks for registering your organization !", 
                          'noreply@freicoin.org', org.email)
 
