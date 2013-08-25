@@ -68,6 +68,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJECT_DIRECTORY, 'static'),
+    ('utils', os.path.join(PROJECT_DIRECTORY, 'apps', 'utils', 'utils')),
     ('donations', os.path.join(PROJECT_DIRECTORY, 'apps', 'donations', 'donations')),
 )
 
