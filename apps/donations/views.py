@@ -6,6 +6,7 @@ from django.views.generic import View
 from django.forms.models import model_to_dict
 from django.conf import settings
 
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from djangular.views.mixins import JSONResponseMixin, HttpResponseBadRequest
@@ -39,10 +40,20 @@ class OrgDetailView(JSONResponseMixin, View):
 
 def send_new_org_mails(org):
     context = {'org': org}
+
+    admins = User.objects.filter(groups__name='donations_admin')
+    if (admins.count() <= 0):
+        admins = User.objects.filter(is_superuser=True)
+    admin_mails = ""
+    for user in admins:
+        admin_mails += user.email + ', '
+    # Remove the last ', '
+    admin_mails = admin_mails[:-2]
+
     utils.send_html_mail('mail/admin_mail.html', context, 
                          "New organization registration: %s" % org.name, 
                          org.email,
-                         settings.DONATION_ADMIN_MAILS)
+                         admin_mails)
 
     utils.send_html_mail('mail/org_mail.html', context, 
                          "Thanks for registering your organization !", 

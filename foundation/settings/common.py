@@ -208,8 +208,6 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-DONATION_ADMIN_MAILS = os.environ.get('DONATION_ADMIN_MAILS')
-
 # End Mail settings
 
 # External URLs
