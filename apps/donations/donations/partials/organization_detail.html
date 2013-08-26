@@ -2,7 +2,8 @@
 Go back to <a href="#/">non-profit list</a>.
 </p>
 
-<p ng-show="django.user_authenticated && django.user_id == org.user">
+<p ng-show="django.user_authenticated && 
+            (django.user_id == org.user || django.donations_admin)">
 <br>
 <a href="{{django.urls.edit}}{{org.id}}" class="btn btn-primary">Edit</a>
 <br>

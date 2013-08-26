@@ -53,7 +53,8 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
 
     if id:
         org = get_object_or_404(Organization, pk=id)
-        if org.user != request.user:
+        if (not request.user.has_perm("donations.change_organization")
+            and org.user != request.user):
             return HttpResponseForbidden()
     else:
         org = Organization(user=request.user)

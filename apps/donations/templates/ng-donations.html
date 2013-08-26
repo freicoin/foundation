@@ -18,6 +18,7 @@ angular.module('django_constants', [])
   .constant('django', {
     "user_authenticated": {% if user.is_authenticated %}1{% else %}0{% endif %},
     "user_id": {% if user.is_authenticated %} {{ user.id }} {% else %} null {% endif %},
+    "donations_admin": {% if perms.donations.change_organization %} 1 {% else %} null {% endif %},
     "urls": {
       "frc_explorer": "{{ frc_explorer }}",
       "btc_explorer": "{{ btc_explorer }}",
