@@ -7,6 +7,15 @@ from django.views.generic import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
+from django.shortcuts import redirect
+
+def forum_hack(request, anystring):
+    url = 'http://freicoin.freeforums.org/%s' % anystring
+
+    if request.META['QUERY_STRING']:
+        url += '?%s' % request.META['QUERY_STRING']
+    return redirect(url)
+
 urlpatterns = patterns('',
 
     # Foundation
@@ -19,6 +28,7 @@ urlpatterns = patterns('',
     url(r'^faucet/', include('apps.faucet.urls')),
     url(r'^nonprofits/', include('apps.donations.urls')),
 
+    url(r'^(?P<anystring>.+)/$', forum_hack),
     # Examples:
     # url(r'^$', 'foundation.views.home', name='home'),
     # url(r'^foundation/', include('foundation.foo.urls')),
