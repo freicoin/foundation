@@ -3,7 +3,7 @@ function MerchantListCtrl($scope, $http, django) {
 
   $http.get(django.urls.json).
     success(function (data){
-      $scope.merchant_list = data;
+      $scope.categories_tree = data;
     });
 
   $scope.orderProp = '-id';

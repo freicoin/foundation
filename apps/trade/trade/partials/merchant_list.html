@@ -1,3 +1,19 @@
+<script type="text/ng-template" id="category_renderer.html">
+  {{category.name}}
+
+  <table border="1">
+    <tr ng-repeat="merchant in category.merchants | filter:query | orderBy:orderProp">
+
+      <td><a href="#/detail/{{merchant.id}}">{{merchant.name}}</a></td>
+      <td><a href="{{ merchant.website }}">{{ merchant.website }}</a></td>
+      <td>{{ merchant.short_description }}</td>
+    </tr>
+  </table>
+  <ul ui:sortable ng:model="category.child_categories">
+    <li ng-repeat="category in category.child_categories" ng-include="'category_renderer.html'"></li>
+  </ul>
+</script>
+
 <h3>List of merchants accepting Freicoin:</h3>
 
 <p> 
@@ -22,18 +38,7 @@
 </div>
 
 <hr>
-<table border="1">
-  <tr>
-    <th>Name</th>
-    <th>Web</th>
-    <th>Description</th>
-  </tr>
 
-  <tr ng-repeat="merchant in merchant_list | filter:query | orderBy:orderProp">
-
-    <td><a href="#/detail/{{merchant.id}}">{{merchant.name}}</a></td>
-    <td><a href="{{ merchant.website }}">{{ merchant.website }}</a></td>
-    <td>{{ merchant.short_description }}</td>
-  </tr>
-
-</table>
+<ul ui:sortable ng:model="categories_tree"> 
+  <li ng-repeat="category in categories_tree" ng-include="'category_renderer.html'"></li>
+</ul>

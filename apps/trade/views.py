@@ -19,14 +19,28 @@ import forms
 def ng_trade(request):
     return render(request, 'ng-trade.html')
 
+def serialize_category(category):
+    merchants = category.merchants.all()
+    mer_list = []
+    for mer in merchants:
+        mer = model_to_dict(mer, fields=['id', 'name', 'website', 'short_description'])
+        mer_list.append(mer)
+    categories = category.child_categories.all()
+    cat_list = []
+    for cat in categories:
+        cat_list.append(serialize_category(cat))
+    return {'id': category.pk,
+            'name': category.name,
+            'merchants': mer_list,
+            'child_categories': cat_list}
+
 class MerchantListView(JSONResponseMixin, View):
     def get_merchants(self):
-        mers = Merchant.objects.exclude(validated__isnull=True
-                                            ).exclude(validated_by__isnull=True)
-        mer_list = []
-        for mer in mers:
-            mer_list.append(model_to_dict(mer, fields=[], exclude=[]))
-        return mer_list
+        categories = Category.objects.filter(parent_category__isnull=True)
+        cat_list = []
+        for cat in categories:
+            cat_list.append(serialize_category(cat))
+        return cat_list
 
 class MerchantDetailView(JSONResponseMixin, View):
     # TODO remove this or merchant_id param and od the same in donations
