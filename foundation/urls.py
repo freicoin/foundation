@@ -28,7 +28,6 @@ urlpatterns = patterns('',
     url(r'^faucet/', include('apps.faucet.urls')),
     url(r'^nonprofits/', include('apps.donations.urls')),
 
-    url(r'^(?P<anystring>.+)/$', forum_hack),
     # Examples:
     # url(r'^$', 'foundation.views.home', name='home'),
     # url(r'^foundation/', include('foundation.foo.urls')),
@@ -42,4 +41,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^(?P<anystring>.+)/$', forum_hack),
 )
