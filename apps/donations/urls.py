@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 
-from apps.donations.views import OrgListView, OrgDetailView
+from .views import OrgListView, OrgDetailView
 
 urlpatterns = patterns('apps.donations.views',
 
