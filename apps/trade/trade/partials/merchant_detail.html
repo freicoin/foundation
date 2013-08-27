@@ -1,0 +1,49 @@
+<p>
+  Go back to <a href="#/">merchant list</a>.
+</p>
+
+<p ng-show="django.user_authenticated && 
+            (django.user_id == merchant.user || django.trade_admin)">
+  <br>
+  <a href="{{django.urls.edit}}{{merchant.id}}" class="btn btn-primary">Edit</a>
+  <br>
+</p>
+
+<p ng-show="!merchant">
+  Merchant not found.
+</p>
+
+<h2 ng-show="merchant.validated">Validated merchant: {{ merchant.name }}</h2>
+
+<div ng-show="merchant && !merchant.validated">
+  <h2>Candidate merchant: {{ merchant.name }}</h2>
+
+  <p>
+    This merchant has its validation pending and doesn't appear in the
+    main merchant list yet.
+  </p>
+</div>
+
+<table ng-show="merchant" border="1">
+
+  <tr>
+    <td>Name:</td>
+    <td>{{ merchant.name }}</td>
+  </tr>
+
+  <tr>
+    <td>Website:</td>
+    <td><a href="{{ merchant.website }}">{{ merchant.website }}</a></td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td>{{ merchant.short_description }}</td>
+  </tr>
+
+  <tr>
+    <td>Description:</td>
+    <td>{{ merchant.long_description }}</td>
+  </tr>
+
+</table>

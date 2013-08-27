@@ -1,0 +1,42 @@
+<p>
+A new merchant named {{ merchant.name }} has sent its request be
+advertised for free at the Freicoin Foundation's web. Please review the request
+at:
+</p>
+
+<p>
+{{ SITE_URL }}/admin/trade/merchant/{{ merchant.pk }}
+</p>
+
+<p>
+If the request is valid, fill the fields validated_by and validated
+(with the current time) and save.
+</p>
+
+<p>
+This is the data submitted:
+</p>
+
+<table border="1">
+
+  <tr>
+    <td>Name:</td>
+    <td>{{ merchant.name }}</td>
+  </tr>
+
+  <tr>
+    <td>Website:</td>
+    <td>{{ merchant.website|urlize }}</a></td>
+  </tr>
+
+  <tr>
+    <td>Short description:</td>
+    <td>{{ merchant.short_description }}</td>
+  </tr>
+
+  <tr>
+    <td>Long Description:</td>
+    <td>{{ merchant.long_description }}</td>
+  </tr>
+
+</table>

@@ -1,0 +1,39 @@
+<h3>List of merchants accepting Freicoin:</h3>
+
+<p> 
+  There are currently {{merchant_list.length}} merchants that accept
+  Freicoin as payment registered and validated.
+</p>
+
+<p ng-show="django.user_authenticated">
+<br>
+<a href="{{ django.urls.join }}" class="btn btn-primary">Add new Merchant</a>
+<br>
+</p>
+
+<div>
+  Search: <input ng-model="query">
+  Sort by:
+  <select ng-model="orderProp">
+    <option value="name">Alphabetical</option>
+    <option value="-id">Newest</option>
+    <option value="id">Oldest</option>
+  </select>
+</div>
+
+<hr>
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Web</th>
+    <th>Description</th>
+  </tr>
+
+  <tr ng-repeat="merchant in merchant_list | filter:query | orderBy:orderProp">
+
+    <td><a href="#/detail/{{merchant.id}}">{{merchant.name}}</a></td>
+    <td><a href="{{ merchant.website }}">{{ merchant.website }}</a></td>
+    <td>{{ merchant.short_description }}</td>
+  </tr>
+
+</table>

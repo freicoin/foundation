@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block nav-trade %}<strong class="nav-active">Trade</strong>{% endblock %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+<div ng-app="appTrade">
+  <div ng-view></div>
+</div>
+
+{% endblock %}
+
+{% block app-scripts %}
+
+<script type="text/javascript">
+
+angular.module('django_constants', [])
+  .constant('django', {
+    "user_authenticated": {% if user.is_authenticated %}1{% else %}0{% endif %},
+    "user_id": {% if user.is_authenticated %} {{ user.id }} {% else %} null {% endif %},
+    "trade_admin": {% if perms.trade.change_merchant %} 1 {% else %} null {% endif %},
+    "urls": {
+      "list": "{% static 'trade/partials/merchant_list.html' %}",
+      "detail": "{% static 'trade/partials/merchant_detail.html' %}",
+      "join": "{% url 'mer_new' %}",
+      "edit": "{% url 'mer_edit' %}",
+      "json": "{% url 'mer_json' %}"
+    }
+  });
+
+</script>
+
+<script src="{% static 'trade/js/app.js' %}"></script>
+<script src="{% static 'trade/js/controllers.js' %}"></script>
+{% endblock %}

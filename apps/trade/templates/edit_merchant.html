@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load bootstrap_toolkit %}
+
+{% block nav-trade %}<strong class="nav-active">Trade</strong>{% endblock %}
+
+{% block content %}
+<p>
+Go back to <a href="{% url 'trade' %}">merchant list</a>.
+</p>
+
+<h3>Merchant edit form:</h3>
+
+<p>
+  If you're a merchant that accepts Freicoin as payment you should
+  advertise yourself for free here.
+</p>
+  
+<p>
+  If you accept donations but your organization doesn't qualify as
+  non-profit you can also advertise yourself to receive Freicoin
+  donations here, but the foundation won't increase the donations you
+  receive.
+</p>
+
+    {% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+
+    <form action="" method="post" class="form-horizontal">
+      {% csrf_token %}
+      {{ form|as_bootstrap }}
+      <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Submit Request">
+      </div>
+    </form>
+
+{% endblock %}
+

@@ -1,0 +1,37 @@
+<p>
+Thanks for sending your request to be advertised as a Freicoin
+merchant in the Freicoin Foundation/s web.
+</p>
+
+<p>
+It is possible that you get contacted by e-mail for further
+confirmations before your business is validated and appears listed.
+</p>
+
+<p>
+This is the data you submitted:
+</p>
+
+<table border="1">
+
+  <tr>
+    <td>Name:</td>
+    <td>{{ merchant.name }}</td>
+  </tr>
+
+  <tr>
+    <td>Website:</td>
+    <td>{{ merchant.website|urlize }}</a></td>
+  </tr>
+
+  <tr>
+    <td>Short description:</td>
+    <td>{{ merchant.short_description }}</td>
+  </tr>
+
+  <tr>
+    <td>Long Description:</td>
+    <td>{{ merchant.long_description }}</td>
+  </tr>
+
+</table>

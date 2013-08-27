@@ -70,6 +70,7 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_DIRECTORY, 'static'),
     ('utils', os.path.join(PROJECT_DIRECTORY, 'apps', 'utils', 'utils')),
     ('donations', os.path.join(PROJECT_DIRECTORY, 'apps', 'donations', 'donations')),
+    ('trade', os.path.join(PROJECT_DIRECTORY, 'apps', 'trade', 'trade')),
 )
 
 # List of finder classes that know how to find static files in
@@ -137,6 +138,7 @@ INSTALLED_APPS = (
     'apps.accounts',
     'apps.donations',
     'apps.faucet',
+    'apps.trade',
 )
 
 # A sample logging configuration. The only tangible logging
