@@ -6,7 +6,7 @@ function MerchantListCtrl($scope, $http, django) {
       $scope.categories_tree = data;
     });
 
-  $scope.orderProp = '-id';
+  $scope.orderProp = 'id';
   $scope.django = django;
 }
 
