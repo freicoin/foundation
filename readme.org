@@ -6,54 +6,24 @@ using the framework django.
 
 * Installation
 
-Install python, pip and virtualenv:
+You should only have virtualbox as dependency.
 
-http://docs.python-guide.org/en/latest/starting/install/linux/
+After cloning the repository, you may want to edit the file .env to
+set your own settings, for example, for setting a smtp account.
 
-Create environment:
+Once you have it the dependencies installed, in the project's root
+type:
 
-#+BEGIN_SRC sh
-virtualenv venv --distribute
+#+BEGIN_SRC sh 
+make run
 #+END_SRC
 
-Activate environment and install dependencies on it:
+To start the server or to start a python interactive shell with access
+to the project's modules:
 
 #+BEGIN_SRC sh
-source venv/bin/activate
-pip install django-toolbelt
+make shell
 #+END_SRC
-
-** Database
-
-To install local database:
-
-http://blog.iiilx.com/programming/how-to-install-postgres-on-ubuntu-for-django/
-
-Use "django_db" for the database, "django_login" for the user and
-"password" for the password. Or change the file .env if you want to
-use a different login.
-
-* Run locally
-
-To activate the environment (if you haven't done it already, you need
-to do it each session):
-
-#+BEGIN_SRC sh
-source venv/bin/activate
-#+END_SRC
-
-To run server locally:
-
-#+BEGIN_SRC sh
-foreman start
-#+END_SRC
-
-Then go to http://0.0.0.0:5000/
 
 Please, contact us if these instructions aren't enough or can be
-completed for the system you're using..
-
-** TODO Find out if this is still necessary:
-
-pip install django-bootstrap-toolkit
-pip install django-recaptcha
+completed for the system you're using.
