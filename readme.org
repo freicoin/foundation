@@ -6,7 +6,13 @@ using the framework django.
 
 * Installation
 
-You should only have virtualbox as dependency.
+You should only have make, virtualbox, vagrant and postgresql as dependencies.
+Their installation depend on your system, for example, in a
+debian/ubuntu you just have to run
+
+#+BEGIN_SRC sh 
+sudo apt-get install virtualbox vagrant postgresql
+#+END_SRC
 
 After cloning the repository, you may want to edit the file .env to
 set your own settings, for example, for setting a smtp account.
@@ -25,5 +31,9 @@ to the project's modules:
 make shell
 #+END_SRC
 
+The first time you run make it may take a while downloading and
+installing components in the virtual machine, but the following runs
+should be much faster.
+
 Please, contact us if these instructions aren't enough or can be
-completed for the system you're using.
+improved for the system you're using.
