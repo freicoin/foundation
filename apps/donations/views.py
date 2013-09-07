@@ -14,6 +14,7 @@ from djangular.views.mixins import JSONResponseMixin, HttpResponseBadRequest
 from django.conf import settings
 from apps.utils import utils
 from models import *
+from .fields import BitcoinAddress
 import forms
 
 def ng_donations(request):
@@ -76,6 +77,21 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
 
         org = form.save()
         org.save()
+
+        cd = form.cleaned_data
+
+        frc_addr = PaymentAddress()
+        frc_addr.owner = org
+        frc_addr.address = BitcoinAddress(cd['freicoin_address'])
+        frc_addr.type = 'Freicoin'
+        frc_addr.save()
+
+        if form.bitcoin_address:
+            btc_addr = PaymentAddress()
+            btc_addr.owner = org
+            btc_addr.address = BitcoinAddress(cd['bitcoin_address'])
+            btc_addr.type = 'Bitcoin'
+            btc_addr.save()
 
         send_new_org_mails(org)
 
