@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django_patterns.db.models.mixins import PositionalOrderMixin
 
-from .fields import BitcoinAddress
+from .fields import BitcoinAddressField
 
 class Organization(models.Model):
     name = models.CharField(max_length=40)
@@ -32,7 +32,7 @@ class Organization(models.Model):
 
 class PaymentAddress(PositionalOrderMixin):
     owner = models.ForeignKey(Organization, related_name='payment_addresses')
-    address = BitcoinAddress(max_length=34)
+    address = BitcoinAddressField(max_length=34)
 
     BITCOIN    = 'bitcoin'
     FREICOIN   = 'freicoin'

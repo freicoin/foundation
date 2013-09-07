@@ -6,16 +6,16 @@ from django.db.models import fields
 import bitcoin.base58
 from bitcoin.address import BitcoinAddress
 
-class BitcoinAddress(fields.CharField):
+class BitcoinAddressField(fields.CharField):
     __metaclass__ = models.SubfieldBase
     description = _(u"A bitcoin address, stored as a base58 character string.")
 
     def to_python(self, value):
         if value is None:
             return None
-        if isinstance(value, BitcoinAddress):
+        if isinstance(value, BitcoinAddressField):
             return value
-        return BitcoinAddress(value.decode('base58'))
+        return BitcoinAddressField(value.decode('base58'))
 
     def get_prep_value(self, value):
         if value is None:
