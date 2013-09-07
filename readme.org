@@ -6,34 +6,75 @@ using the framework django.
 
 * Installation
 
-You should only have make, virtualbox, vagrant and postgresql as dependencies.
-Their installation depend on your system, for example, in a
-debian/ubuntu you just have to run
-
-#+BEGIN_SRC sh 
-sudo apt-get install virtualbox vagrant postgresql
-#+END_SRC
+** Environment variables
 
 After cloning the repository, you may want to edit the file .env to
 set your own settings, for example, for setting a smtp account.
 
-Once you have it the dependencies installed, in the project's root
-type:
+** Dependencies
 
-#+BEGIN_SRC sh 
-make run
-#+END_SRC
+On systems like windows, the first thing you need to install if you
+haven't installed it already is make. In unix based systems like linux
+or macOS you already have that.
 
-To start the server or to start a python interactive shell with access
-to the project's modules:
+To build the project you need to satisfy several dependencies first
+and their installation depends on your system.
+
+For example, in debian you could do it by just running the following
+command in a terminal:
 
 #+BEGIN_SRC sh
-make shell
+sudo apt-get install python-dev virtualbox vagrant postgresql libncurses5-dev libgmp3-dev libmpfr-dev libmpc-dev libpq-dev libghc-zlib-dev m4
 #+END_SRC
 
-The first time you run make it may take a while downloading and
-installing components in the virtual machine, but the following runs
-should be much faster.
+** Ubuntu
+
+The version of libmpc-dev offered in Ubuntu repositories is outdated,
+so if you're using that system, you will need to download it and
+compile it yourself. 
+
+If you used the line above to install the dependencies, first remover
+the outdatd versions:
+
+#+BEGIN_SRC sh
+sudo apt-get remove libmpc-dev libgmp3-dev libmpfr-dev
+#+END_SRC
+
+The sources for the needed packages can be found here:
+
+http://gmplib.org/
+http://www.mpfr.org/
+http://www.multiprecision.org/
+
+Then compile all the packages with:
+
+#+BEGIN_SRC sh
+tar xzf mpfr-3.1.2.tar.gz
+cd mpfr-3.1.2
+./configure --prefix=/usr/local && make && sudo make install
+
+cd gmp-5.1.2
+./configure --prefix=/usr/local && make && sudo make install
+
+tar xzf mpc-1.0.1.tar.gz
+cd mpc-1.0.1
+./configure --prefix=/usr/local && make && sudo make install
+#+END_SRC
+
+** Building options
+
+Here's a list of make targets and their effects:
+
+| Command        | Description                                                                                                                    |
+|----------------+--------------------------------------------------------------------------------------------------------------------------------|
+| make           | The first thing to run. Creates an Ubuntu virtual machine, downloads and installs all the dependencies and builds the project. |
+| make shell     | Starts a python shell ready to import the project's modules and interact with the database.                                    |
+| make run       | Starts a server on http://127.0.0.1:8000/
+| make vmsuspend | Shut down the VMs and frees up that memory                                                                                                                         |
+
+
+Once you have it the dependencies installed, you can run any of them
+in the project's root.
 
 Please, contact us if these instructions aren't enough or can be
 improved for the system you're using.
