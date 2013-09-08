@@ -82,15 +82,15 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
 
         frc_addr = PaymentAddress()
         frc_addr.owner = org
-        frc_addr.address = BitcoinAddressField(cd['freicoin_address'])
-        frc_addr.type = 'Freicoin'
+        frc_addr.address = cd['freicoin_address']
+        frc_addr.type = PaymentAddress.FREICOIN
         frc_addr.save()
 
-        if form.bitcoin_address:
+        if cd['bitcoin_address']:
             btc_addr = PaymentAddress()
             btc_addr.owner = org
-            btc_addr.address = BitcoinAddressField(cd['bitcoin_address'])
-            btc_addr.type = 'Bitcoin'
+            btc_addr.address = cd['bitcoin_address']
+            btc_addr.type = PaymentAddress.BITCOIN
             btc_addr.save()
 
         send_new_org_mails(org)
