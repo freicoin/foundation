@@ -24,8 +24,7 @@ def ng_donations(request):
 
 class OrgListView(JSONResponseMixin, View):
     def get_organizations(self):
-        orgs = Organization.objects.exclude(foundation_address__isnull=True
-                                            ).exclude(foundation_address__exact='')
+        orgs = Organization.objects.filter(validated_by__isnull=True)
         orgs_list = []
         for org in orgs:
             orgs_list.append(model_to_dict(org, fields=[], exclude=[]))

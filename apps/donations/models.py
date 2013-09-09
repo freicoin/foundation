@@ -14,6 +14,7 @@ class Organization(models.Model):
     short_description = models.CharField(max_length=350)
     long_description = models.CharField(max_length=1500)
     user = models.ForeignKey(User)
+    validated_by = models.ForeignKey(User, null=True, related_name="organizations_validated")
 
     @property
     def bitcoin_address(self):
