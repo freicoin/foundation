@@ -11,14 +11,14 @@ class BitcoinAddressField(fields.CharField):
     description = _(u"A bitcoin address, stored as a base58 character string.")
 
     def to_python(self, value):
-        if value is None:
+        if not value:
             return None
-        if isinstance(value, BitcoinAddressField):
+        if isinstance(value, BitcoinAddress):
             return value
-        return BitcoinAddressField(value.decode('base58'))
+        return BitcoinAddress(value.decode('base58'))
 
     def get_prep_value(self, value):
-        if value is None:
+        if not value:
             return None
         if not isinstance(value, BitcoinAddress):
             return value

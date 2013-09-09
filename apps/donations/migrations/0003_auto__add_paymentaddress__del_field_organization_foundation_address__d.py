@@ -13,7 +13,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('_position', self.gf('django.db.models.fields.IntegerField')()),
             ('owner', self.gf('django.db.models.fields.related.ForeignKey')(related_name='payment_addresses', to=orm['donations.Organization'])),
-            ('address', self.gf('apps.donations.fields.BitcoinAddress')(max_length=34)),
+            ('address', self.gf('apps.donations.fields.BitcoinAddressField')(max_length=34)),
             ('type', self.gf('django.db.models.fields.CharField')(max_length=10)),
         ))
         db.send_create_signal(u'donations', ['PaymentAddress'])
@@ -96,7 +96,7 @@ class Migration(SchemaMigration):
         u'donations.paymentaddress': {
             'Meta': {'ordering': "['_position']", 'object_name': 'PaymentAddress'},
             '_position': ('django.db.models.fields.IntegerField', [], {}),
-            'address': ('apps.donations.fields.BitcoinAddress', [], {'max_length': '34'}),
+            'address': ('apps.donations.fields.BitcoinAddressField', [], {'max_length': '34'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'payment_addresses'", 'to': u"orm['donations.Organization']"}),
             'type': ('django.db.models.fields.CharField', [], {'max_length': '10'})
