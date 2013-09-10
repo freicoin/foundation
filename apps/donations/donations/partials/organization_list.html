@@ -1,4 +1,29 @@
+
+<div ng-show="!candidates">
 <h3>List of non-profit organizations:</h3>
+
+<p> 
+  There are currently {{organization_list.length}} organizations
+  validated for this Freicoin issuance program.
+</p>
+
+<p>
+See <a href="#/candidates">candidates list</a>.
+</p>
+</div>
+
+<div ng-show="candidates">
+<h3>List of candidate organizations:</h3>
+
+<p> 
+  There are currently {{organization_list.length}} candidate
+  organizations registered for this Freicoin issuance program.
+</p>
+
+<p>
+Go back to <a href="#/">non-profit list</a>.
+</p>
+</div>
 
 <p>
   The non-profit organizations in the following list can receive
@@ -14,11 +39,6 @@
 <p>
   If the donations exceed the issuance limit of 1,000,000 FRC per month,
   the funds will be distributed proportionally to the donations received.
-</p>
-
-<p> 
-  There are currently {{organization_list.length}} nonprofits
-  registered and validated for this Freicoin issuance program.
 </p>
 
 <p ng-show="django.user_authenticated">
@@ -38,6 +58,7 @@
 </div>
 
 <hr>
+
 <table border="1">
   <tr>
     <th>Name</th>
@@ -48,7 +69,7 @@
 
   <tr ng-repeat="org in organization_list | filter:query | orderBy:orderProp">
 
-    <td><a href="#/detail/{{org.id}}">{{org.name}}</a></td>
+    <td><a href="#/detail/{{org.id}}/">{{org.name}}</a></td>
     <td>{{ org.short_description }}</td>
     <td><div ng-bind-html-unsafe="org.foundation_address | frc_address"></div></td>
     <td><a href="{{ org.website }}">{{ org.website }}</a></td>

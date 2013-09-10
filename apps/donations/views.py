@@ -42,6 +42,10 @@ def mapOrgListToDict(orgs):
 
 class OrgListView(JSONResponseMixin, View):
     def get_organizations(self):
+        orgs = Organization.objects.filter(validated_by__isnull=False)
+        return mapOrgListToDict(orgs)
+
+    def get_candidates(self):
         orgs = Organization.objects.filter(validated_by__isnull=True)
         return mapOrgListToDict(orgs)
 
