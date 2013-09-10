@@ -22,27 +22,33 @@ def ng_donations(request):
                   {'frc_explorer': settings.FRC_EXPLORER,
                    'btc_explorer': settings.BTC_EXPLORER})
 
+def mapOrgToShortDict(org):
+    org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'short_description'])
+    org_dict['foundation_address'] = org.foundation_address_value
+    return org_dict
+
+def mapOrgToDict(org):
+    org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'email',
+                                          'short_description', 'long_description'])
+    org_dict['foundation_address'] = org.foundation_address_value
+    org_dict['freicoin_address'] = org.freicoin_address_value
+    return org_dict
+
+def mapOrgListToDict(orgs):
+    orgs_list = []
+    for org in orgs:
+        orgs_list.append(mapOrgToShortDict(org))
+    return orgs_list
+
 class OrgListView(JSONResponseMixin, View):
     def get_organizations(self):
         orgs = Organization.objects.filter(validated_by__isnull=True)
-        orgs_list = []
-        for org in orgs:
-            org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'short_description'])
-            org_dict['foundation_address'] = org.foundation_address_value
-            orgs_list.append(org_dict)
-        return orgs_list
+        return mapOrgListToDict(orgs)
 
 class OrgDetailView(JSONResponseMixin, View):
-    # def get(self, request, *args, **kwargs):
-    #     kwargs.update(action='get_organization')
-    #     return super(OrgDetailView, self).get(self, request, *args, **kwargs)
     def get_organization(self, organization_id=None):
         org = Organization.objects.get(pk=self.kwargs['org_id'])
-        org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'email',
-                                              'short_description', 'long_description'])
-        org_dict['foundation_address'] = org.foundation_address_value
-        org_dict['freicoin_address'] = org.freicoin_address_value
-        return org_dict
+        return mapOrgToDict(org)
 
 def send_new_org_mails(org):
     context = {'org': org}
