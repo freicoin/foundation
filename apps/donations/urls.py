@@ -13,5 +13,7 @@ urlpatterns = patterns('apps.donations.views',
     url(r'^join/$', 'org_edit', name='org_new'),
     url(r'^edit/$', 'org_edit', name='org_edit'),
     url(r'^edit/(?P<id>\d+)/$', 'org_edit', name='org_edit'),
+    url(r'^validate/$', 'org_validate', name='org_validate'),
+    url(r'^validate/(?P<id>\d+)/$', 'org_validate', name='org_validate'),
     url(r'^join/thanks/$', 'thanks', name='org_thanks'),
 )

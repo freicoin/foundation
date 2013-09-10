@@ -2,18 +2,36 @@
 Go back to <a href="#/">non-profit list</a>.
 </p>
 
-<p ng-show="django.user_authenticated && 
-            (django.user_id == org.user || django.donations_admin)">
-<br>
-<a href="{{django.urls.edit}}{{org.id}}" class="btn btn-primary">Edit</a>
-<br>
-</p>
+<div ng-show="org">
 
-<h2 ng-show="org.foundation_address.length">Validated non-profit: {{ org.name }}</h2>
+  <a ng-show="django.donations_admin ||
+            (django.user_authenticated && django.user_id == org.user)"
+     href="{{django.urls.edit}}{{org.id}}" class="btn btn-primary">
+    Edit
+  </a>
 
-<p ng-show="org && !org.foundation_address.length">
-  This organization has its validation pending and doesn't have a donation adress with the foundation yet.
-</p>
+  <a ng-show="django.donations_admin && !org.validated_by"
+     href="{{django.urls.validate}}{{org.id}}" class="btn btn-success">
+    Validate
+  </a>
+
+  <a ng-show="django.donations_admin && org.validated_by"
+     href="{{django.urls.validate}}{{org.id}}" class="btn btn-danger">
+    Invalidate
+  </a>
+
+  <br>
+
+  <div ng-show="org.validated_by">
+    <h2>Validated organization: {{ org.name }}</h2>
+  </div>
+
+  <div ng-show="!org.validated_by">
+    <h2>Candidate organization: {{ org.name }}</h2>
+    <p>
+      This organization has its validation pending and doesn't have a donation adress with the foundation yet.
+    </p>
+  </div>
 
 <p ng-show="!org">
   No organization found.

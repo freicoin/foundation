@@ -28,7 +28,7 @@ def mapOrgToShortDict(org):
     return org_dict
 
 def mapOrgToDict(org):
-    org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'email',
+    org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'email', 'validated_by',
                                           'short_description', 'long_description'])
     org_dict['foundation_address'] = org.foundation_address_value
     org_dict['freicoin_address'] = org.freicoin_address_value
@@ -99,16 +99,16 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
 
         if cd['freicoin_address'] != org.freicoin_address_value:
             frc_addr = PaymentAddress()
-            frc_addr.owner = org
             frc_addr.address = cd['freicoin_address']
+            frc_addr.owner = org
             frc_addr.type = PaymentAddress.FREICOIN
             frc_addr.save()
             org.freicoin_address = frc_addr
 
         if cd['bitcoin_address'] != org.bitcoin_address_value:
             btc_addr = PaymentAddress()
-            btc_addr.owner = org
             btc_addr.address = cd['bitcoin_address']
+            btc_addr.owner = org
             btc_addr.type = PaymentAddress.BITCOIN
             btc_addr.save()
             org.bitcoin_address = btc_addr
@@ -120,6 +120,45 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
         return redirect('org_thanks')
 
     return render(request, template_name, {'form': form})
+
+def validate_org(org):
+    available_addresses = AvailableAddress.objects.all()
+    if available_addresses:
+        sel_addr = available_addresses[0]
+        ff_addr = PaymentAddress()
+        ff_addr.address = sel_addr.address
+        ff_addr.owner = org
+        ff_addr.type = PaymentAddress.FOUNDATION
+        ff_addr.save()
+        sel_addr.delete()
+        org.foundation_address = ff_addr
+        org.save()
+        return "Organization %s has been validated." % org.name
+    else:
+        return "Organization %s cannot be validated because there's no available foundation addresses." % org.name
+
+def invalidate_org(org):
+    if not org.validated_by:
+        raise Http404
+    org.validated_by = None
+    org.save()
+
+@login_required
+def org_validate(request, id=None):
+    org = get_object_or_404(Organization, pk=id)
+    
+    if org.validated_by:
+        invalidate_org(org)
+        msg = "Organization %s has been invalidated." % org.name
+    else:
+        org.validated_by = request.user
+        if org.foundation_address:
+            org.save()
+            msg = "Organization %s is valid again." % org.name
+        else:
+            msg = validate_org(org)
+
+    return render(request, 'messages_list.html', {'messages': [msg]})
 
 def thanks(request):
     return render(request, 'thanks.html')
