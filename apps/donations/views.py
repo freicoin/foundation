@@ -27,7 +27,9 @@ class OrgListView(JSONResponseMixin, View):
         orgs = Organization.objects.filter(validated_by__isnull=True)
         orgs_list = []
         for org in orgs:
-            orgs_list.append(model_to_dict(org, fields=[], exclude=[]))
+            org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'short_description'])
+            org_dict['foundation_address'] = org.foundation_address_value
+            orgs_list.append(org_dict)
         return orgs_list
 
 class OrgDetailView(JSONResponseMixin, View):
@@ -36,7 +38,11 @@ class OrgDetailView(JSONResponseMixin, View):
     #     return super(OrgDetailView, self).get(self, request, *args, **kwargs)
     def get_organization(self, organization_id=None):
         org = Organization.objects.get(pk=self.kwargs['org_id'])
-        return model_to_dict(org, fields=[], exclude=[])
+        org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'email',
+                                              'short_description', 'long_description'])
+        org_dict['foundation_address'] = org.foundation_address_value
+        org_dict['freicoin_address'] = org.freicoin_address_value
+        return org_dict
 
 def send_new_org_mails(org):
     context = {'org': org}
