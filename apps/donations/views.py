@@ -76,7 +76,9 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
     else:
         org = Organization(user=request.user)
 
-    form = forms.OrganizationForm(request.POST or None, instance=org)
+    form = forms.OrganizationForm(request.POST or None, instance=org,
+                                  initial={'freicoin_address': org.freicoin_address_value,
+                                           'bitcoin_address': org.bitcoin_address_value})
 
     if form.is_valid():
 
@@ -85,14 +87,15 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
 
         cd = form.cleaned_data
 
-        frc_addr = PaymentAddress()
-        frc_addr.owner = org
-        frc_addr.address = cd['freicoin_address']
-        frc_addr.type = PaymentAddress.FREICOIN
-        frc_addr.save()
-        org.freicoin_address = frc_addr
+        if cd['freicoin_address'] != org.freicoin_address_value:
+            frc_addr = PaymentAddress()
+            frc_addr.owner = org
+            frc_addr.address = cd['freicoin_address']
+            frc_addr.type = PaymentAddress.FREICOIN
+            frc_addr.save()
+            org.freicoin_address = frc_addr
 
-        if cd['bitcoin_address']:
+        if cd['bitcoin_address'] != org.bitcoin_address_value:
             btc_addr = PaymentAddress()
             btc_addr.owner = org
             btc_addr.address = cd['bitcoin_address']
