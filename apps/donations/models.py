@@ -3,7 +3,6 @@ import six
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from django_patterns.db.models.mixins import PositionalOrderMixin
 
 from .fields import BitcoinAddressField
 
@@ -15,23 +14,35 @@ class Organization(models.Model):
     long_description = models.CharField(max_length=1500)
     user = models.ForeignKey(User)
     validated_by = models.ForeignKey(User, null=True, related_name="organizations_validated")
+    foundation_address = models.ForeignKey('PaymentAddress', null=True, 
+                                           related_name='foundation_address_for')
+    freicoin_address = models.ForeignKey('PaymentAddress', null=True, 
+                                         related_name='freicoin_address_for')
+    bitcoin_address = models.ForeignKey('PaymentAddress', null=True, 
+                                        related_name='bitcoin_address_for')
 
     @property
-    def bitcoin_address(self):
-        return self.payment_addresses.filter(type=PaymentAddress.BITCOIN).get_back()
+    def foundation_address_value(self):
+        if self.foundation_address:
+            return self.foundation_address.address.encode('base58')
+        return ''
 
     @property
-    def freicoin_address(self):
-        return self.payment_addresses.filter(type=PaymentAddress.FREICOIN).get_back()
+    def freicoin_address_value(self):
+        if self.freicoin_address:
+            return self.freicoin_address.address.encode('base58')
+        return ''
 
     @property
-    def foundation_address(self):
-        return self.payment_addresses.filter(type=PaymentAddress.FOUNDATION).get_back()
+    def bitcoin_address_value(self):
+        if self.bitcoin_address:
+            return self.bitcoin_address.address.encode('base58')
+        return ''
 
     def __unicode__(self):
         return self.name
 
-class PaymentAddress(PositionalOrderMixin):
+class PaymentAddress(models.Model):
     owner = models.ForeignKey(Organization, related_name='payment_addresses')
     address = BitcoinAddressField(max_length=34)
 
@@ -47,6 +58,3 @@ class PaymentAddress(PositionalOrderMixin):
 
     def __unicode__(self):
         return repr(self.address)
-
-    class Meta(object):
-        order_with_respect_to = ('owner',)
