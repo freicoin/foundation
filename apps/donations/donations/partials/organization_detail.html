@@ -32,6 +32,11 @@ Go back to <a href="#/">non-profit list</a>.
   </tr>
 
   <tr>
+    <td>Donation address:</td>
+    <td><div ng-bind-html-unsafe="org.foundation_address | frc_address"></div></td>
+  </tr>
+
+  <tr>
     <td>Website:</td>
     <td><a href="{{ org.website }}">{{ org.website }}</a></td>
   </tr>
@@ -42,13 +47,13 @@ Go back to <a href="#/">non-profit list</a>.
   </tr>
 
   <tr>
-    <td>Donation address:</td>
-    <td><div ng-bind-html-unsafe="org.foundation_address | frc_address"></div></td>
+    <td>Description:</td>
+    <td>{{ org.long_description }}</td>
   </tr>
 
   <tr>
-    <td>Description:</td>
-    <td>{{ org.long_description }}</td>
+    <td>Freicoin address:</td>
+    <td><div ng-bind-html-unsafe="org.freicoin_address | frc_address"></div></td>
   </tr>
 
 </table>
