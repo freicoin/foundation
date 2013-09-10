@@ -8,6 +8,18 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'AvailableAddress'
+        db.create_table(u'donations_availableaddress', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('address', self.gf('apps.donations.fields.BitcoinAddressField')(max_length=34)),
+        ))
+        db.send_create_signal(u'donations', ['AvailableAddress'])
+
+        # Adding field 'Organization.validated_by'
+        db.add_column(u'donations_organization', 'validated_by',
+                      self.gf('django.db.models.fields.related.ForeignKey')(related_name='organizations_validated', null=True, to=orm['auth.User']),
+                      keep_default=False)
+
         # Adding field 'Organization.foundation_address'
         db.add_column(u'donations_organization', 'foundation_address',
                       self.gf('django.db.models.fields.related.ForeignKey')(related_name='foundation_address_for', null=True, to=orm['donations.PaymentAddress']),
@@ -26,8 +38,19 @@ class Migration(SchemaMigration):
         # Deleting field 'PaymentAddress._position'
         db.delete_column(u'donations_paymentaddress', '_position')
 
+        # Adding field 'PaymentAddress.timestamp'
+        db.add_column(u'donations_paymentaddress', 'timestamp',
+                      self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, default=datetime.datetime(2013, 9, 10, 0, 0), blank=True),
+                      keep_default=False)
+
 
     def backwards(self, orm):
+        # Deleting model 'AvailableAddress'
+        db.delete_table(u'donations_availableaddress')
+
+        # Deleting field 'Organization.validated_by'
+        db.delete_column(u'donations_organization', 'validated_by_id')
+
         # Deleting field 'Organization.foundation_address'
         db.delete_column(u'donations_organization', 'foundation_address_id')
 
@@ -40,6 +63,9 @@ class Migration(SchemaMigration):
 
         # User chose to not deal with backwards NULL issues for 'PaymentAddress._position'
         raise RuntimeError("Cannot reverse this migration. 'PaymentAddress._position' and its values cannot be restored.")
+        # Deleting field 'PaymentAddress.timestamp'
+        db.delete_column(u'donations_paymentaddress', 'timestamp')
+
 
     models = {
         u'auth.group': {
@@ -78,6 +104,11 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        u'donations.availableaddress': {
+            'Meta': {'object_name': 'AvailableAddress'},
+            'address': ('apps.donations.fields.BitcoinAddressField', [], {'max_length': '34'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+        },
         u'donations.organization': {
             'Meta': {'object_name': 'Organization'},
             'bitcoin_address': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'bitcoin_address_for'", 'null': 'True', 'to': u"orm['donations.PaymentAddress']"}),
@@ -97,6 +128,7 @@ class Migration(SchemaMigration):
             'address': ('apps.donations.fields.BitcoinAddressField', [], {'max_length': '34'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'payment_addresses'", 'to': u"orm['donations.Organization']"}),
+            'timestamp': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'type': ('django.db.models.fields.CharField', [], {'max_length': '10'})
         }
     }

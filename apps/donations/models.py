@@ -45,6 +45,7 @@ class Organization(models.Model):
 class PaymentAddress(models.Model):
     owner = models.ForeignKey(Organization, related_name='payment_addresses')
     address = BitcoinAddressField(max_length=34)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     BITCOIN    = 'bitcoin'
     FREICOIN   = 'freicoin'
@@ -55,6 +56,12 @@ class PaymentAddress(models.Model):
         FOUNDATION: _(u"Foundation"),}
     REVERSE_TYPE = dict((value,key) for key,value in six.iteritems(TYPE_CHOICES))
     type = models.CharField(choices=six.iteritems(TYPE_CHOICES), max_length=10)
+
+    def __unicode__(self):
+        return repr(self.address)
+
+class AvailableAddress(models.Model):
+    address = BitcoinAddressField(max_length=34)
 
     def __unicode__(self):
         return repr(self.address)
