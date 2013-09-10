@@ -17,5 +17,4 @@ class OrganizationForm(forms.ModelForm):
     class Meta:
         model = Organization
         fields = ['name', 'website', 'email', 
-                  'freicoin_address', 'bitcoin_address', 
                   'short_description', 'long_description']

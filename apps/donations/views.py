@@ -84,6 +84,7 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
         frc_addr.address = cd['freicoin_address']
         frc_addr.type = PaymentAddress.FREICOIN
         frc_addr.save()
+        org.freicoin_address = frc_addr
 
         if cd['bitcoin_address']:
             btc_addr = PaymentAddress()
@@ -91,6 +92,9 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
             btc_addr.address = cd['bitcoin_address']
             btc_addr.type = PaymentAddress.BITCOIN
             btc_addr.save()
+            org.bitcoin_address = btc_addr
+
+        org.save()
 
         send_new_org_mails(org)
 
