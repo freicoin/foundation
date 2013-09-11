@@ -97,6 +97,8 @@ def mer_edit(request, id=None, template_name='new_organiation.html'):
 
 @login_required
 def mer_validate(request, id=None):
+    if not request.user.has_perm("trade.change_merchant"):
+        return HttpResponseForbidden()
     mer = get_object_or_404(Merchant, pk=id)
     
     if mer.validated_by:

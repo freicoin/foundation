@@ -145,6 +145,8 @@ def validate_org(org):
 
 @login_required
 def org_validate(request, id=None):
+    if not request.user.has_perm("donations.change_organization"):
+        return HttpResponseForbidden()
     org = get_object_or_404(Organization, pk=id)
     
     if org.validated_by:
