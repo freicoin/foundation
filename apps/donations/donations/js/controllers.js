@@ -1,41 +1,29 @@
 
-function OrgListCtrl($scope, $http, django) {
+function GenericListCtrl($scope, $http, django, type) {
   $scope.django = django;
 
-  $scope.type = 'validated';
+  $scope.type = type;
 
-  $http.get(django.urls.json).
+  $http.get( django.urlForType(type) ).
     success(function (data){
       $scope.organization_list = data;
     });
-
   $scope.orderProp = '-id';
+}
+
+function OrgListCtrl($scope, $http, django) {
+
+  GenericListCtrl($scope, $http, django, 'validated');
 }
 
 function CandidatesListCtrl($scope, $http, django) {
-  $scope.django = django;
 
-  $scope.type = 'candidates';
-
-  $http.get(django.urls.candidates_json).
-    success(function (data){
-      $scope.organization_list = data;
-    });
-
-  $scope.orderProp = '-id';
+  GenericListCtrl($scope, $http, django, 'candidates');
 }
 
 function BlockedListCtrl($scope, $http, django) {
-  $scope.django = django;
 
-  $scope.type = 'blocked';
-
-  $http.get(django.urls.blocked_json).
-    success(function (data){
-      $scope.organization_list = data;
-    });
-
-  $scope.orderProp = '-id';
+  GenericListCtrl($scope, $http, django, 'blocked');
 }
 
 function OrgDetailCtrl($scope, $routeParams, $http, django) {

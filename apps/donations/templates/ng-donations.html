@@ -30,8 +30,17 @@ angular.module('django_constants', [])
       "edit": "{% url 'org_edit' %}",
       "validate": "{% url 'org_validate' %}",
       "json": "{% url 'org_json' %}",
-      "candidates_json": "{% url 'candidates_json' %}",
-      "blocked_json": "{% url 'blocked_json' %}"
+    },
+    "urlForType": function (type){
+
+      if (type == "validated"){
+        return "{% url 'org_json' %}";
+      } else if (type == "candidates"){
+        return "{% url 'candidates_json' %}";
+      } else if (type == "blocked"){
+        return "{% url 'blocked_json' %}";
+      }
+      return "";
     }
   });
 
