@@ -90,7 +90,8 @@ def mer_edit(request, id=None, template_name='new_organiation.html'):
         mer.email = request.user.email
         send_new_mer_mails(mer)
 
-        return redirect('mer_thanks')
+        msg = "Thank you for submitting your request. It will be validated by a human soon."
+        return render(request, 'messages_list.html', {'messages': [msg]})
 
     return render(request, template_name, {'form': form})
 
@@ -113,7 +114,3 @@ def mer_validate(request, id=None):
             msg = "Merchant %s has been validated." % mer.name
 
     return render(request, 'messages_list.html', {'messages': [msg]})
-
-def thanks(request):
-    return render(request, 'thanks.html')
-

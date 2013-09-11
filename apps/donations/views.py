@@ -114,10 +114,10 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
             org.bitcoin_address = btc_addr
 
         org.save()
-
         send_new_org_mails(org)
 
-        return redirect('org_thanks')
+        msg = "Thank you for submitting your request. It will be validated by a human soon."
+        return render(request, 'messages_list.html', {'messages': [msg]})
 
     return render(request, template_name, {'form': form})
 
@@ -154,6 +154,3 @@ def org_validate(request, id=None):
             msg = validate_org(org)
 
     return render(request, 'messages_list.html', {'messages': [msg]})
-
-def thanks(request):
-    return render(request, 'thanks.html')

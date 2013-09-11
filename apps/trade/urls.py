@@ -14,5 +14,4 @@ urlpatterns = patterns('apps.trade.views',
     url(r'^edit/(?P<id>\d+)/$', 'mer_edit', name='mer_edit'),
     url(r'^validate/$', 'mer_validate', name='mer_validate'),
     url(r'^validate/(?P<id>\d+)/$', 'mer_validate', name='mer_validate'),
-    url(r'^join/thanks/$', 'thanks', name='mer_thanks'),
 )
