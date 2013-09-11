@@ -7,6 +7,11 @@ function GenericListCtrl($scope, $http, django, type) {
   $http.get( django.urlForType(type) ).
     success(function (data){
       $scope.categories_tree = data;
+
+      $scope.merchant_count = 0;
+      for (var i=0; i < data.length; i++){
+        $scope.merchant_count += data[i].inner_merchants;
+      }
     });
   $scope.orderProp = 'id';
 }
