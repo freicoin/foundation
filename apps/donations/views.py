@@ -46,13 +46,13 @@ class OrgListView(JSONResponseMixin, View):
         return mapOrgListToDict(orgs)
 
     def get_candidates(self):
-        orgs = Organization.objects.filter(
-            validated_by__isnull=True).filter(foundation_address__isnull=True)
+        orgs = Organization.objects.filter(validated_by__isnull=True
+                                           ).filter(foundation_address__isnull=True)
         return mapOrgListToDict(orgs)
 
     def get_blocked(self):
-        orgs = Organization.objects.filter(
-            validated_by__isnull=True).filter(foundation_address__isnull=False)
+        orgs = Organization.objects.filter(validated_by__isnull=True
+                                           ).filter(foundation_address__isnull=False)
         return mapOrgListToDict(orgs)
 
 class OrgDetailView(JSONResponseMixin, View):
