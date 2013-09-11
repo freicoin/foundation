@@ -137,18 +137,13 @@ def validate_org(org):
     else:
         return "Organization %s cannot be validated because there's no available foundation addresses." % org.name
 
-def invalidate_org(org):
-    if not org.validated_by:
-        raise Http404
-    org.validated_by = None
-    org.save()
-
 @login_required
 def org_validate(request, id=None):
     org = get_object_or_404(Organization, pk=id)
     
     if org.validated_by:
-        invalidate_org(org)
+        org.validated_by = None
+        org.save()
         msg = "Organization %s has been invalidated." % org.name
     else:
         org.validated_by = request.user
