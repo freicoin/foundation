@@ -1,5 +1,6 @@
 
 function OrgListCtrl($scope, $http, django) {
+  $scope.django = django;
 
   $scope.type = 'validated';
 
@@ -9,7 +10,6 @@ function OrgListCtrl($scope, $http, django) {
     });
 
   $scope.orderProp = '-id';
-  $scope.django = django;
 }
 
 function CandidatesListCtrl($scope, $http, django) {
@@ -26,6 +26,7 @@ function CandidatesListCtrl($scope, $http, django) {
 }
 
 function BlockedListCtrl($scope, $http, django) {
+  $scope.django = django;
 
   $scope.type = 'blocked';
 
@@ -35,14 +36,13 @@ function BlockedListCtrl($scope, $http, django) {
     });
 
   $scope.orderProp = '-id';
-  $scope.django = django;
 }
 
 function OrgDetailCtrl($scope, $routeParams, $http, django) {
+  $scope.django = django;
 
   $http.get(django.urls.json + $routeParams.orgId).
     success(function(data) {
       $scope.org = data;
     });
-  $scope.django = django;
 }
