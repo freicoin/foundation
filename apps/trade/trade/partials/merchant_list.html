@@ -1,3 +1,68 @@
+
+  <!-- TITTLES AND NAVIGATION -->
+<div ng-show="type == 'validated'">
+  <h3>List of merchant accepting Freicoin:</h3>
+
+  <p> 
+    There are currently {{merchant_count}} merchants that accept
+    Freicoin as payment registered and validated.
+  </p>
+
+  <p>
+    See <a href="#/candidates">candidates list</a>.
+  </p>
+
+  <p ng-show="django.trade_admin">
+    See <a href="#/blocked">blocked merchants list</a>.
+  </p>
+</div>
+
+<div ng-show="type == 'candidates'">
+  <h3>List of candidate merchants:</h3>
+
+  <p>
+    There are currently {{merchant_count}} candidate merchants
+    requesting free advertisement on this web.
+  </p>
+
+  <p>
+    Go back to <a href="#/">merchant list</a>.
+  </p>
+</div>
+
+<div ng-show="type == 'blocked'">
+  <h3>List of blocked merchants:</h3>
+
+  <p> 
+    There are currently {{merchant_count}} blocked merchants.
+  </p>
+
+  <p>
+    Go back to <a href="#/">merchant list</a>.
+  </p>
+</div>
+
+  <!-- BUTTONS -->
+<p ng-show="django.user_authenticated">
+  <br>
+  <a href="{{ django.urls.join }}" class="btn btn-primary">Add new Merchant</a>
+  <br>
+</p>
+
+  <!-- SEARCH -->
+<div>
+  Search: <input ng-model="query">
+  Sort by:
+  <select ng-model="orderProp">
+    <option value="name">Alphabetical</option>
+    <option value="-id">Newest</option>
+    <option value="id">Oldest</option>
+  </select>
+</div>
+
+<hr>
+
+  <!-- LIST -->
 <script type="text/ng-template" id="category_renderer.html">
   {{category.name}}
 
@@ -13,31 +78,6 @@
     <li ng-repeat="category in category.child_categories" ng-include="'category_renderer.html'"></li>
   </ul>
 </script>
-
-<h3>List of merchants accepting Freicoin:</h3>
-
-<p> 
-  There are currently {{merchant_list.length}} merchants that accept
-  Freicoin as payment registered and validated.
-</p>
-
-<p ng-show="django.user_authenticated">
-<br>
-<a href="{{ django.urls.join }}" class="btn btn-primary">Add new Merchant</a>
-<br>
-</p>
-
-<div>
-  Search: <input ng-model="query">
-  Sort by:
-  <select ng-model="orderProp">
-    <option value="name">Alphabetical</option>
-    <option value="-id">Newest</option>
-    <option value="id">Oldest</option>
-  </select>
-</div>
-
-<hr>
 
 <ul ui:sortable ng:model="categories_tree"> 
   <li ng-repeat="category in categories_tree" ng-include="'category_renderer.html'"></li>

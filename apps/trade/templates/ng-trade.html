@@ -27,7 +27,18 @@ angular.module('django_constants', [])
       "join": "{% url 'mer_new' %}",
       "edit": "{% url 'mer_edit' %}",
       "validate": "{% url 'mer_validate' %}",
-      "json": "{% url 'mer_json' %}"
+      "json": "{% url 'mer_json' %}",
+    },
+    "urlForType": function (type){
+
+      if (type == "validated"){
+        return "{% url 'mer_json' %}";
+      } else if (type == "candidates"){
+        return "{% url 'candidates_json' %}";
+      } else if (type == "blocked"){
+        return "{% url 'blocked_json' %}";
+      }
+      return "";
     }
   });
 

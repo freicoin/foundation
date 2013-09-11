@@ -20,8 +20,16 @@ import forms
 def ng_trade(request):
     return render(request, 'ng-trade.html')
 
-def serialize_category(category):
-    merchants = category.merchants.all()
+def serialize_category(category, merchant_type):
+    if merchant_type == MerchantListView.VALIDATED:
+        merchants = category.merchants.filter(validated_by__isnull=False)
+    elif merchant_type == MerchantListView.CANDIDATES:
+        merchants = category.merchants.filter(validated_by__isnull=True
+                                              ).filter(validated__isnull=True)
+    elif merchant_type == MerchantListView.BLOCKED:
+        merchants = category.merchants.filter(validated_by__isnull=True
+                                              ).filter(validated__isnull=False)
+
     mer_list = []
     for mer in merchants:
         mer = model_to_dict(mer, fields=['id', 'name', 'website', 'short_description'])
@@ -31,7 +39,7 @@ def serialize_category(category):
     categories = category.child_categories.all()
     cat_list = []
     for cat in categories:
-        cat_dict = serialize_category(cat)
+        cat_dict = serialize_category(cat, merchant_type)
         if cat_dict['inner_merchants'] > 0:
             mer_count += cat_dict['inner_merchants']
             cat_list.append(cat_dict)
@@ -42,15 +50,28 @@ def serialize_category(category):
             'inner_merchants': mer_count,            
             'child_categories': cat_list}
 
+def serialize_categories(categories, merchant_type):
+    cat_list = []
+    for cat in categories:
+        cat_dict = serialize_category(cat, merchant_type)
+        if cat_dict['inner_merchants'] > 0:
+            cat_list.append(cat_dict)
+    return cat_list
+
+
 class MerchantListView(JSONResponseMixin, View):
+    VALIDATED    = 'validated'
+    CANDIDATES   = 'candidates'
+    BLOCKED = 'blocked'
     def get_merchants(self):
         categories = Category.objects.filter(parent_category__isnull=True)
-        cat_list = []
-        for cat in categories:
-            cat_dict = serialize_category(cat)
-            if cat_dict['inner_merchants'] > 0:
-                cat_list.append(cat_dict)
-        return cat_list
+        return serialize_categories(categories, self.VALIDATED)
+    def get_candidates(self):
+        categories = Category.objects.filter(parent_category__isnull=True)
+        return serialize_categories(categories, self.CANDIDATES)
+    def get_blocked(self):
+        categories = Category.objects.filter(parent_category__isnull=True)
+        return serialize_categories(categories, self.BLOCKED)
 
 class MerchantDetailView(JSONResponseMixin, View):
     def get_merchant(self, merchant_id=None):
