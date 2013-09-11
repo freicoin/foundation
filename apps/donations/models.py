@@ -6,8 +6,18 @@ from django.utils.translation import ugettext_lazy as _
 
 from .fields import BitcoinAddressField
 
+class Category(models.Model):
+    name = models.CharField(max_length=40)
+    parent_category = models.ForeignKey('self', blank=True, null=True, 
+                                        related_name="child_categories")
+
+    def __unicode__(self):
+        return self.name
+
 class Organization(models.Model):
     name = models.CharField(max_length=40)
+
+    category = models.ForeignKey('Category', null=True, related_name='organizations')
     website = models.URLField()
     email = models.EmailField()
     short_description = models.CharField(max_length=350)

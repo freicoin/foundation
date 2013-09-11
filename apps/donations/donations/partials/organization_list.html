@@ -4,7 +4,7 @@
   <h3>List of non-profit organizations:</h3>
 
   <p> 
-    There are currently {{organization_list.length}} organizations
+    There are currently {{org_count}} organizations
     validated for this Freicoin issuance program.
   </p>
 
@@ -21,7 +21,7 @@
   <h3>List of candidate organizations:</h3>
 
   <p> 
-    There are currently {{organization_list.length}} candidate
+    There are currently {{org_count}} candidate
     organizations registered for this Freicoin issuance program.
   </p>
 
@@ -34,7 +34,7 @@
   <h3>List of blocked organizations:</h3>
 
   <p> 
-    There are currently {{organization_list.length}} blocked
+    There are currently {{org_count}} blocked
     organizations.
   </p>
 
@@ -42,7 +42,6 @@
     Go back to <a href="#/">non-profit list</a>.
   </p>
 </div>
-
   <!-- TEXT -->
 <p>
   The non-profit organizations in the following list can receive
@@ -70,6 +69,13 @@
   <!-- SEARCH -->
 <div>
   Search: <input ng-model="query">
+
+  Category: 
+  <select ng-model="searchCategory"
+     ng-options="category.name as category.name for category in categories_tree">
+    <option value="">All</option>
+  </select>
+
   Sort by:
   <select ng-model="orderProp">
     <option value="name">Alphabetical</option>
@@ -81,20 +87,25 @@
 <hr>
 
   <!-- LIST -->
-<table border="1">
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Address</th>
-    <th>Web</th>
-  </tr>
+<script type="text/ng-template" id="category_renderer.html">
+  {{category.name}}
 
-  <tr ng-repeat="org in organization_list | filter:query | orderBy:orderProp">
+  <table border="1">
+    <tr ng-repeat="org in category.organizations | filter:query | orderBy:orderProp">
 
-    <td><a href="#/detail/{{org.id}}/">{{org.name}}</a></td>
-    <td>{{ org.short_description }}</td>
-    <td><div ng-bind-html-unsafe="org.foundation_address | frc_address"></div></td>
-    <td><a href="{{ org.website }}">{{ org.website }}</a></td>
-  </tr>
+      <td><a href="#/detail/{{org.id}}/">{{org.name}}</a></td>
+      <td>{{ org.short_description }}</td>
+      <td><div ng-bind-html-unsafe="org.foundation_address | frc_address"></div></td>
+      <td><a href="{{ org.website }}">{{ org.website }}</a></td>
+    </tr>
+  </table>
+  <ul ui:sortable ng:model="category.child_categories">
+    <li ng-repeat="category in category.child_categories | orderBy:orderProp"
+        ng-include="'category_renderer.html'"></li>
+  </ul>
+</script>
 
-</table>
+<ul ui:sortable ng:model="categories_tree"> 
+  <li ng-repeat="category in categories_tree | filter:searchCategory | orderBy:orderProp"
+      ng-include="'category_renderer.html'"></li>
+</ul>

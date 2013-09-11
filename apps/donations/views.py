@@ -22,38 +22,75 @@ def ng_donations(request):
                   {'frc_explorer': settings.FRC_EXPLORER,
                    'btc_explorer': settings.BTC_EXPLORER})
 
-def mapOrgToShortDict(org):
+def serialize_org_short(org):
     org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'short_description'])
     org_dict['foundation_address'] = org.foundation_address_value
     return org_dict
 
-def mapOrgToDict(org):
+def serialize_org(org):
     org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'validated_by',
                                           'short_description', 'long_description'])
+    org_dict['category'] = org.category.name
     org_dict['foundation_address'] = org.foundation_address_value
     org_dict['freicoin_address'] = org.freicoin_address_value
     return org_dict
 
-def mapOrgListToDict(orgs):
-    orgs_list = []
+def get_organizations(category, org_type):
+
+    if org_type == OrgListView.VALIDATED:
+        orgs = category.organizations.filter(validated_by__isnull=False)
+    elif org_type == OrgListView.CANDIDATES:
+        orgs = category.organizations.filter(validated_by__isnull=True
+                                              ).filter(foundation_address__isnull=True)
+    elif org_type == OrgListView.BLOCKED:
+        orgs = category.organizations.filter(validated_by__isnull=True
+                                              ).filter(foundation_address__isnull=False)
+    org_list = []
     for org in orgs:
-        orgs_list.append(mapOrgToShortDict(org))
-    return orgs_list
+        org_list.append( serialize_org_short(org) )
+    return org_list
+
+def serialize_category(category, org_type):
+    orgs = get_organizations(category, org_type)
+    org_count = len(orgs)
+
+    categories = category.child_categories.all()
+    cat_list = []
+    for cat in categories:
+        cat_dict = serialize_category(cat, org_type)
+        if cat_dict['inner_orgs'] > 0:
+            org_count += cat_dict['inner_orgs']
+            cat_list.append(cat_dict)
+
+    return {'id': category.pk,
+            'name': category.name,
+            'organizations': orgs,
+            'inner_orgs': org_count,            
+            'child_categories': cat_list}
+
+def serialize_categories(categories, org_type):
+    cat_list = []
+    for cat in categories:
+        cat_dict = serialize_category(cat, org_type)
+        if cat_dict['inner_orgs'] > 0:
+            cat_list.append(cat_dict)
+    return cat_list
 
 class OrgListView(JSONResponseMixin, View):
+    VALIDATED    = 'validated'
+    CANDIDATES   = 'candidates'
+    BLOCKED = 'blocked'
     def get_organizations(self):
-        orgs = Organization.objects.filter(validated_by__isnull=False)
-        return mapOrgListToDict(orgs)
+        categories = Category.objects.filter(parent_category__isnull=True)
+        return serialize_categories(categories, self.VALIDATED)
 
     def get_candidates(self):
-        orgs = Organization.objects.filter(validated_by__isnull=True
-                                           ).filter(foundation_address__isnull=True)
-        return mapOrgListToDict(orgs)
+        categories = Category.objects.filter(parent_category__isnull=True)
+        return serialize_categories(categories, self.CANDIDATES)
 
     def get_blocked(self):
-        orgs = Organization.objects.filter(validated_by__isnull=True
-                                           ).filter(foundation_address__isnull=False)
-        return mapOrgListToDict(orgs)
+        categories = Category.objects.filter(parent_category__isnull=True)
+        return serialize_categories(categories, self.BLOCKED)
 
 class OrgDetailView(JSONResponseMixin, View):
     def get_organization(self, organization_id=None):

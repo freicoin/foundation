@@ -6,7 +6,12 @@ function GenericListCtrl($scope, $http, django, type) {
 
   $http.get( django.urlForType(type) ).
     success(function (data){
-      $scope.organization_list = data;
+      $scope.categories_tree = data;
+
+      $scope.org_count = 0;
+      for (var i=0; i < data.length; i++){
+        $scope.org_count += data[i].inner_orgs;
+      }
     });
   $scope.orderProp = '-id';
 }
