@@ -52,6 +52,13 @@
   <!-- SEARCH -->
 <div>
   Search: <input ng-model="query">
+
+  Category: 
+  <select ng-model="searchCategory"
+     ng-options="category.name as category.name for category in categories_tree">
+    <option value="">All</option>
+  </select>
+
   Sort by:
   <select ng-model="orderProp">
     <option value="name">Alphabetical</option>
@@ -80,5 +87,5 @@
 </script>
 
 <ul ui:sortable ng:model="categories_tree"> 
-  <li ng-repeat="category in categories_tree" ng-include="'category_renderer.html'"></li>
+  <li ng-repeat="category in categories_tree | filter:searchCategory" ng-include="'category_renderer.html'"></li>
 </ul>
