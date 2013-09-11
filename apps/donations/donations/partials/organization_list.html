@@ -1,28 +1,45 @@
 
-<div ng-show="!candidates">
-<h3>List of non-profit organizations:</h3>
+<div ng-show="type == 'validated'">
+  <h3>List of non-profit organizations:</h3>
 
-<p> 
-  There are currently {{organization_list.length}} organizations
-  validated for this Freicoin issuance program.
-</p>
+  <p> 
+    There are currently {{organization_list.length}} organizations
+    validated for this Freicoin issuance program.
+  </p>
 
-<p>
-See <a href="#/candidates">candidates list</a>.
-</p>
+  <p>
+    See <a href="#/candidates">candidates list</a>.
+  </p>
+
+  <p ng-show="django.donations_admin">
+    See <a href="#/blocked">blocked organizations list</a>.
+  </p>
 </div>
 
-<div ng-show="candidates">
-<h3>List of candidate organizations:</h3>
+<div ng-show="type == 'candidates'">
+  <h3>List of candidate organizations:</h3>
 
-<p> 
-  There are currently {{organization_list.length}} candidate
-  organizations registered for this Freicoin issuance program.
-</p>
+  <p> 
+    There are currently {{organization_list.length}} candidate
+    organizations registered for this Freicoin issuance program.
+  </p>
 
-<p>
-Go back to <a href="#/">non-profit list</a>.
-</p>
+  <p>
+    Go back to <a href="#/">non-profit list</a>.
+  </p>
+</div>
+
+<div ng-show="type == 'blocked'">
+  <h3>List of blocked organizations:</h3>
+
+  <p> 
+    There are currently {{organization_list.length}} blocked
+    organizations.
+  </p>
+
+  <p>
+    Go back to <a href="#/">non-profit list</a>.
+  </p>
 </div>
 
 <p>

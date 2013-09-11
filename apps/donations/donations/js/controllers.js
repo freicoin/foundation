@@ -1,6 +1,8 @@
 
 function OrgListCtrl($scope, $http, django) {
 
+  $scope.type = 'validated';
+
   $http.get(django.urls.json).
     success(function (data){
       $scope.organization_list = data;
@@ -11,10 +13,23 @@ function OrgListCtrl($scope, $http, django) {
 }
 
 function CandidatesListCtrl($scope, $http, django) {
+  $scope.django = django;
 
-  $scope.candidates = true;
+  $scope.type = 'candidates';
 
   $http.get(django.urls.candidates_json).
+    success(function (data){
+      $scope.organization_list = data;
+    });
+
+  $scope.orderProp = '-id';
+}
+
+function BlockedListCtrl($scope, $http, django) {
+
+  $scope.type = 'blocked';
+
+  $http.get(django.urls.blocked_json).
     success(function (data){
       $scope.organization_list = data;
     });
