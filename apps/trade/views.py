@@ -26,13 +26,20 @@ def serialize_category(category):
     for mer in merchants:
         mer = model_to_dict(mer, fields=['id', 'name', 'website', 'short_description'])
         mer_list.append(mer)
+    mer_count = len(mer_list)
+
     categories = category.child_categories.all()
     cat_list = []
     for cat in categories:
-        cat_list.append(serialize_category(cat))
+        cat_dict = serialize_category(cat)
+        if cat_dict['inner_merchants'] > 0:
+            mer_count += cat_dict['inner_merchants']
+            cat_list.append(cat_dict)
+
     return {'id': category.pk,
             'name': category.name,
             'merchants': mer_list,
+            'inner_merchants': mer_count,            
             'child_categories': cat_list}
 
 class MerchantListView(JSONResponseMixin, View):
@@ -40,7 +47,9 @@ class MerchantListView(JSONResponseMixin, View):
         categories = Category.objects.filter(parent_category__isnull=True)
         cat_list = []
         for cat in categories:
-            cat_list.append(serialize_category(cat))
+            cat_dict = serialize_category(cat)
+            if cat_dict['inner_merchants'] > 0:
+                cat_list.append(cat_dict)
         return cat_list
 
 class MerchantDetailView(JSONResponseMixin, View):
