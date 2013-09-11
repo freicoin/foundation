@@ -1,4 +1,5 @@
 
+  <!-- TITTLES AND NAVIGATION -->
 <div ng-show="type == 'validated'">
   <h3>List of non-profit organizations:</h3>
 
@@ -42,6 +43,7 @@
   </p>
 </div>
 
+  <!-- TEXT -->
 <p>
   The non-profit organizations in the following list can receive
   Freicoins from the foundation depending on how much receive on
@@ -58,12 +60,14 @@
   the funds will be distributed proportionally to the donations received.
 </p>
 
+  <!-- BUTTONS -->
 <p ng-show="django.user_authenticated">
   <br>
   <a href="{{ django.urls.join }}" class="btn btn-primary">Add new organization</a>
   <br>
 </p>
 
+  <!-- SEARCH -->
 <div>
   Search: <input ng-model="query">
   Sort by:
@@ -76,6 +80,7 @@
 
 <hr>
 
+  <!-- LIST -->
 <table border="1">
   <tr>
     <th>Name</th>
