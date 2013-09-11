@@ -20,7 +20,13 @@ import forms
 def ng_trade(request):
     return render(request, 'ng-trade.html')
 
-def serialize_category(category, merchant_type):
+def serialize_merchant(mer):
+    return model_to_dict(mer, fields=[], exclude=[])
+
+def serialize_merchant_short(mer):
+    return model_to_dict(mer, fields=['id', 'name', 'website', 'short_description'])
+
+def get_merchants(category, merchant_type):
     if merchant_type == MerchantListView.VALIDATED:
         merchants = category.merchants.filter(validated_by__isnull=False)
     elif merchant_type == MerchantListView.CANDIDATES:
@@ -29,11 +35,13 @@ def serialize_category(category, merchant_type):
     elif merchant_type == MerchantListView.BLOCKED:
         merchants = category.merchants.filter(validated_by__isnull=True
                                               ).filter(validated__isnull=False)
-
     mer_list = []
     for mer in merchants:
-        mer = model_to_dict(mer, fields=['id', 'name', 'website', 'short_description'])
-        mer_list.append(mer)
+        mer_list.append( serialize_merchant_short(mer) )
+    return mer_list 
+
+def serialize_category(category, merchant_type):
+    mer_list = get_merchants(category, merchant_type)
     mer_count = len(mer_list)
 
     categories = category.child_categories.all()
@@ -66,9 +74,11 @@ class MerchantListView(JSONResponseMixin, View):
     def get_merchants(self):
         categories = Category.objects.filter(parent_category__isnull=True)
         return serialize_categories(categories, self.VALIDATED)
+
     def get_candidates(self):
         categories = Category.objects.filter(parent_category__isnull=True)
         return serialize_categories(categories, self.CANDIDATES)
+
     def get_blocked(self):
         categories = Category.objects.filter(parent_category__isnull=True)
         return serialize_categories(categories, self.BLOCKED)
@@ -76,7 +86,7 @@ class MerchantListView(JSONResponseMixin, View):
 class MerchantDetailView(JSONResponseMixin, View):
     def get_merchant(self, merchant_id=None):
         mer = Merchant.objects.get(pk=self.kwargs['mer_id'])
-        return model_to_dict(mer, fields=[], exclude=[])
+        return serialize_merchant(mer)
 
 def send_new_mer_mails(mer):
     context = {'merchant': mer}
