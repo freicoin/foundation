@@ -2,27 +2,48 @@
   Go back to <a href="#/">merchant list</a>.
 </p>
 
-<p ng-show="django.user_authenticated && 
-            (django.user_id == merchant.user || django.trade_admin)">
-  <br>
-  <a href="{{django.urls.edit}}{{merchant.id}}" class="btn btn-primary">Edit</a>
-  <br>
-</p>
+<div ng-show="merchant">
 
+  <!-- TITTLES AND CONTENTS -->
+  <div ng-show="merchant.validated_by">
+    <h2>Validated merchant: {{ merchant.name }}</h2>
+  </div>
+
+  <div ng-show="!merchant.validated_by">
+    <h2>Candidate merchant: {{ merchant.name }}</h2>
+
+    <p>
+      This merchant has its validation pending and doesn't appear in the
+      main merchant list yet.
+    </p>
+  </div>
+
+  <!-- BUTTONS -->
+  <a ng-show="django.trade_admin ||
+              (django.user_authenticated && django.user_id == merchant.user)"
+       href="{{django.urls.edit}}{{merchant.id}}" class="btn
+       btn-primary">
+    Edit
+  </a>
+
+  <a ng-show="django.trade_admin && !merchant.validated_by"
+     href="{{django.urls.validate}}{{merchant.id}}" class="btn btn-success">
+    Validate
+  </a>
+
+  <a ng-show="django.trade_admin && merchant.validated_by"
+     href="{{django.urls.validate}}{{merchant.id}}" class="btn btn-danger">
+    Invalidate
+  </a>
+
+  <br>
+  <br>
+</div>
+
+<!-- DETAIL -->
 <p ng-show="!merchant">
   Merchant not found.
 </p>
-
-<h2 ng-show="merchant.validated">Validated merchant: {{ merchant.name }}</h2>
-
-<div ng-show="merchant && !merchant.validated">
-  <h2>Candidate merchant: {{ merchant.name }}</h2>
-
-  <p>
-    This merchant has its validation pending and doesn't appear in the
-    main merchant list yet.
-  </p>
-</div>
 
 <table ng-show="merchant" border="1">
 
@@ -37,12 +58,12 @@
   </tr>
 
   <tr>
-    <td></td>
+    <td>Description:</td>
     <td>{{ merchant.short_description }}</td>
   </tr>
 
   <tr>
-    <td>Description:</td>
+    <td></td>
     <td>{{ merchant.long_description }}</td>
   </tr>
 

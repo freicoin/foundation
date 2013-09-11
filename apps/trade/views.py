@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponseForbidden
@@ -43,10 +44,6 @@ class MerchantListView(JSONResponseMixin, View):
         return cat_list
 
 class MerchantDetailView(JSONResponseMixin, View):
-    # TODO remove this or merchant_id param and od the same in donations
-    # def get(self, request, *args, **kwargs):
-    #     kwargs.update(action='get_merchant')
-    #     return super(MerchantDetailView, self).get(self, request, *args, **kwargs)
     def get_merchant(self, merchant_id=None):
         mer = Merchant.objects.get(pk=self.kwargs['mer_id'])
         return model_to_dict(mer, fields=[], exclude=[])
@@ -96,6 +93,26 @@ def mer_edit(request, id=None, template_name='new_organiation.html'):
         return redirect('mer_thanks')
 
     return render(request, template_name, {'form': form})
+
+@login_required
+def mer_validate(request, id=None):
+    mer = get_object_or_404(Merchant, pk=id)
+    
+    if mer.validated_by:
+        mer.validated_by = None
+        mer.save()
+        msg = "Merchant %s has been invalidated." % mer.name
+    else:
+        mer.validated_by = request.user
+        if mer.validated:
+            mer.save()
+            msg = "Merchant %s is valid again." % mer.name
+        else:
+            mer.validated = datetime.now()
+            mer.save()
+            msg = "Merchant %s has been validated." % mer.name
+
+    return render(request, 'messages_list.html', {'messages': [msg]})
 
 def thanks(request):
     return render(request, 'thanks.html')
