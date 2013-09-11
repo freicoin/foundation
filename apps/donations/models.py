@@ -11,7 +11,7 @@ class Organization(models.Model):
     website = models.URLField()
     email = models.EmailField()
     short_description = models.CharField(max_length=350)
-    long_description = models.CharField(max_length=1500)
+    long_description = models.TextField()
     user = models.ForeignKey(User)
     validated_by = models.ForeignKey(User, null=True, related_name="organizations_validated")
     foundation_address = models.ForeignKey('PaymentAddress', null=True, 
