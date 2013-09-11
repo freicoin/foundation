@@ -4,6 +4,29 @@ Go back to <a href="#/">non-profit list</a>.
 
 <div ng-show="org">
 
+  <!-- TITTLES AND CONTENTS -->
+  <div ng-show="org.validated_by">
+    <h2>Validated organization: {{ org.name }}</h2>
+  </div>
+
+  <div ng-show="!org.validated_by">
+    <div ng-show="!org.foundation_address">
+      <h2>Candidate organization: {{ org.name }}</h2>
+      <p>
+        This organization has its validation pending and doesn't have a
+        donation adress with the foundation yet.
+      </p>
+    </div>
+
+    <div ng-show="org.foundation_address">
+      <h2>Blocked organization: {{ org.name }}</h2>
+      <p>
+        This organization has been blocked.
+      </p>
+    </div>
+  </div>
+
+  <!-- BUTTONS -->
   <a ng-show="django.donations_admin ||
             (django.user_authenticated && django.user_id == org.user)"
      href="{{django.urls.edit}}{{org.id}}" class="btn btn-primary">
@@ -21,18 +44,10 @@ Go back to <a href="#/">non-profit list</a>.
   </a>
 
   <br>
+  <br>
+</div>
 
-  <div ng-show="org.validated_by">
-    <h2>Validated organization: {{ org.name }}</h2>
-  </div>
-
-  <div ng-show="!org.validated_by">
-    <h2>Candidate organization: {{ org.name }}</h2>
-    <p>
-      This organization has its validation pending and doesn't have a donation adress with the foundation yet.
-    </p>
-  </div>
-
+<!-- DETAIL -->
 <p ng-show="!org">
   No organization found.
 </p>
@@ -42,11 +57,6 @@ Go back to <a href="#/">non-profit list</a>.
   <tr>
     <td>Name:</td>
     <td>{{ org.name }}</td>
-  </tr>
-
-  <tr>
-    <td></td>
-    <td>{{ org.short_description }}</td>
   </tr>
 
   <tr>
@@ -60,12 +70,12 @@ Go back to <a href="#/">non-profit list</a>.
   </tr>
 
   <tr>
-    <td>Email:</td>
-    <td>{{ org.email }}</td>
+    <td>Description:</td>
+    <td>{{ org.short_description }}</td>
   </tr>
 
   <tr>
-    <td>Description:</td>
+    <td></td>
     <td>{{ org.long_description }}</td>
   </tr>
 

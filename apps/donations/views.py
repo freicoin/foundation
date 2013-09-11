@@ -28,7 +28,7 @@ def mapOrgToShortDict(org):
     return org_dict
 
 def mapOrgToDict(org):
-    org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'email', 'validated_by',
+    org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'validated_by',
                                           'short_description', 'long_description'])
     org_dict['foundation_address'] = org.foundation_address_value
     org_dict['freicoin_address'] = org.freicoin_address_value
