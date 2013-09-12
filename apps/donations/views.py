@@ -95,7 +95,7 @@ class OrgListView(JSONResponseMixin, View):
 class OrgDetailView(JSONResponseMixin, View):
     def get_organization(self, organization_id=None):
         org = Organization.objects.get(pk=self.kwargs['org_id'])
-        return mapOrgToDict(org)
+        return serialize_org(org)
 
 def send_new_org_mails(org):
     context = {'org': org}
