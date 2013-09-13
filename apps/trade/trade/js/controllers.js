@@ -1,41 +1,23 @@
 
-function GenericListCtrl($scope, $http, django, type) {
-  $scope.django = django;
+angular.module('tradeControllers', ['django_constants', 'tradeServices'])
+  .controller('CategoriesCtrl', ['$scope', '$routeParams', 'django', 'TradeSrv', 
+                                 function($scope, $routeParams, django, TradeSrv){
 
-  $scope.type = type;
+    $scope.django = django;
+    $scope.type = $routeParams.merchantType ? $routeParams.merchantType : 'validated';
+    $scope.orderProp = 'id';
 
-  $http.get( django.urlForType(type) ).
-    success(function (data){
-      $scope.categories_tree = data;
-
-      $scope.merchant_count = 0;
-      for (var i=0; i < data.length; i++){
-        $scope.merchant_count += data[i].inner_merchants;
-      }
+    TradeSrv.getCategories($scope.type, function(categories, merchant_count){
+      $scope.categories_tree = categories;
+      $scope.merchant_count = merchant_count;
     });
-  $scope.orderProp = 'id';
-}
+  }])
+  .controller('MerchantDetailCtrl', ['$scope', '$routeParams', 'django', 'TradeSrv', 
+                                 function($scope, $routeParams, django, TradeSrv){
 
-function MerchantListCtrl($scope, $http, django) {
+    $scope.django = django;
 
-  GenericListCtrl($scope, $http, django, 'validated');
-}
-
-function CandidatesListCtrl($scope, $http, django) {
-
-  GenericListCtrl($scope, $http, django, 'candidates');
-}
-
-function BlockedListCtrl($scope, $http, django) {
-
-  GenericListCtrl($scope, $http, django, 'blocked');
-}
-
-function MerchantDetailCtrl($scope, $routeParams, $http, django) {
-  $scope.django = django;
-
-  $http.get(django.urls.json + $routeParams.merchantId).
-    success(function(data) {
-      $scope.merchant = data;
-    });
-}
+     TradeSrv.getMerchant($routeParams.merchantId, function(merchant) {
+       $scope.merchant = merchant;
+     });
+  }]);

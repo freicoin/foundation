@@ -27,14 +27,16 @@ def serialize_merchant_short(mer):
     return model_to_dict(mer, fields=['id', 'name', 'website', 'short_description'])
 
 def get_merchants(category, merchant_type):
-    if merchant_type == MerchantListView.VALIDATED:
+    if merchant_type == 'validated':
         merchants = category.merchants.filter(validated_by__isnull=False)
-    elif merchant_type == MerchantListView.CANDIDATES:
+    elif merchant_type == 'candidates':
         merchants = category.merchants.filter(validated_by__isnull=True
                                               ).filter(validated__isnull=True)
-    elif merchant_type == MerchantListView.BLOCKED:
+    elif merchant_type == 'blocked':
         merchants = category.merchants.filter(validated_by__isnull=True
                                               ).filter(validated__isnull=False)
+    else:
+        merchants = []
     mer_list = []
     for mer in merchants:
         mer_list.append( serialize_merchant_short(mer) )
@@ -67,24 +69,15 @@ def serialize_categories(categories, merchant_type):
     return cat_list
 
 
-class MerchantListView(JSONResponseMixin, View):
-    VALIDATED    = 'validated'
-    CANDIDATES   = 'candidates'
-    BLOCKED = 'blocked'
-    def get_merchants(self):
+class JsonApiView(JSONResponseMixin, View):
+    # VALIDATED    = 'validated'
+    # CANDIDATES   = 'candidates'
+    # BLOCKED = 'blocked'
+    def get_categories(self):
         categories = Category.objects.filter(parent_category__isnull=True)
-        return serialize_categories(categories, self.VALIDATED)
+        return serialize_categories(categories, self.kwargs['merchant_type'])
 
-    def get_candidates(self):
-        categories = Category.objects.filter(parent_category__isnull=True)
-        return serialize_categories(categories, self.CANDIDATES)
-
-    def get_blocked(self):
-        categories = Category.objects.filter(parent_category__isnull=True)
-        return serialize_categories(categories, self.BLOCKED)
-
-class MerchantDetailView(JSONResponseMixin, View):
-    def get_merchant(self, merchant_id=None):
+    def get_merchant(self):
         mer = Merchant.objects.get(pk=self.kwargs['mer_id'])
         return serialize_merchant(mer)
 

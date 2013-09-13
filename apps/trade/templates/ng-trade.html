@@ -27,18 +27,7 @@ angular.module('django_constants', [])
       "join": "{% url 'mer_new' %}",
       "edit": "{% url 'mer_edit' %}",
       "validate": "{% url 'mer_validate' %}",
-      "json": "{% url 'mer_json' %}",
-    },
-    "urlForType": function (type){
-
-      if (type == "validated"){
-        return "{% url 'mer_json' %}";
-      } else if (type == "candidates"){
-        return "{% url 'candidates_json' %}";
-      } else if (type == "blocked"){
-        return "{% url 'blocked_json' %}";
-      }
-      return "";
+      "json": "{% url 'generic_json' %}"
     }
   });
 
@@ -46,4 +35,5 @@ angular.module('django_constants', [])
 
 <script src="{% static 'trade/js/app.js' %}"></script>
 <script src="{% static 'trade/js/controllers.js' %}"></script>
+<script src="{% static 'trade/js/services.js' %}"></script>
 {% endblock %}

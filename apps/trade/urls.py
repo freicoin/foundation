@@ -1,15 +1,16 @@
 from django.conf.urls import patterns, include, url
 
-from .views import MerchantListView, MerchantDetailView
+from .views import JsonApiView
 
 urlpatterns = patterns('apps.trade.views',
 
     url(r'^$', 'ng_trade', name='trade'),
-    url(r'^json/$', MerchantListView.as_view(), {'action': 'get_merchants'}, name='mer_json'),
-    url(r'^json/(?P<mer_id>[0-9]+)/$', MerchantDetailView.as_view(), 
-        {'action': 'get_merchant'}, name='mer_json'),
-    url(r'^candidates/json/$', MerchantListView.as_view(), {'action': 'get_candidates'}, name='candidates_json'),
-    url(r'^blocked/json/$', MerchantListView.as_view(), {'action': 'get_blocked'}, name='blocked_json'),
+
+    url(r'^json/$', JsonApiView.as_view(), {'action': 'get_merchants'}, name='mer_json'),
+
+    url(r'^json/$', JsonApiView.as_view(), {'action': 'get_categories'}, name='generic_json'),
+    url(r'^json/(?P<mer_id>[0-9]+)/$', JsonApiView.as_view(), {'action': 'get_merchant'}),
+    url(r'^json/(?P<merchant_type>.+)/$', JsonApiView.as_view(), {'action': 'get_categories'}),
 
     url(r'^join/$', 'mer_edit', name='mer_new'),
     url(r'^edit/$', 'mer_edit', name='mer_edit'),
