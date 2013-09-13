@@ -1,114 +1,398 @@
+{% load macros %}
 {% load staticfiles %}
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html lang="en">
-<head>
+
+{# The HTML5 doctype is just “html” #}
+{% block doctype %}<!DOCTYPE html>{% endblock %}
+
+
+{% comment %}
+    The “dir” and “lang” attributes specify the text-direction and language of
+    the site. It is currently configured for US English, but that will have to
+    become a dynamic setting when we internationalize and localize the site.
+
+    The “no-js” class tells Modernizr (see below) to detect HTML5 features. It
+    will be removed by Modernizr. If JavaScript is not enabled in the browser,
+    Modernizr will of course not run and the “no-js” class will remain in place,
+    with obvious semantics.
+{% endcomment %}
+{% macro html_dir %}ltr{% endmacro %}
+{% macro html_lang %}en-US{% endmacro %}
+{% macro html_class %}no-js{% endmacro %}
+
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html dir="{% usemacro html_dir %}"
+      lang="{% usemacro html_lang %}"
+      class="{% usemacro html_class %}">
+<!--<![endif]-->
+<!--[if lt IE 7]>
+<html dir="{% usemacro html_dir %}"
+      lang="{% usemacro html_lang %}"
+      class="{% usemacro html_class %} lt-ie10 lt-ie9 lt-ie8 lt-ie7">
+<![endif]-->
+<!--[if IE 7]>
+<html dir="{% usemacro html_dir %}"
+      lang="{% usemacro html_lang %}"
+      class="{% usemacro html_class %} lt-ie10 lt-ie9 lt-ie8 ie7">
+<![endif]-->
+<!--[if IE 8]>
+<html dir="{% usemacro html_dir %}"
+      lang="{% usemacro html_lang %}"
+      class="{% usemacro html_class %} lt-ie10 lt-ie9 ie8">
+<![endif]-->
+<!--[if IE 9]>
+<html dir="{% usemacro html_dir %}"
+      lang="{% usemacro html_lang %}"
+      class="{% usemacro html_class %} lt-ie10 ie9">
+<![endif]-->
+
+
+<head>{% block head %}
+
+{% comment %}
+    The “time_sensitive” block contains header elements which for whatever
+    reason need to be parsed as soon as possible, often because a delay may
+    affect render speed, client behavior, or user experience.
+{% endcomment %}
+{% block time_sensitive %}
+{% block time_sensitive_behavior %}
+    {% comment %}
+        This META field makes explicitly clear that we are using the Unicode
+        charset with UTF-8 encoding. It comes as early as it can in the markup
+        because when the browser encounters this meta tag it will start the
+        parsing over with the new charset settings.
+    {% endcomment %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    {% comment %}
+        Translation: this web page is in html_lang language. This element is
+        placed in the “time_sensitive_behavior” block because conceivably there
+        may exist web crawlers that are only interested in collecting content
+        in certain languages, and for these crawlers the “language” meta tag
+        offers an early-exit capability.
+    {% endcomment %}
+    <meta name="language" content="{% usemacro html_lang %}"/>
+{% endblock time_sensitive_behavior %}
+
+{% block time_sensitive_experience %}
+    {# Enable standards-compliant mode and Chrome-frame plugin in IE. #}
+    {# FIXME: Configure HTTP headers to include X-UA-Compatible as well; see: #}
+    {# <http://h5bp.com/i/378> #}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    {% comment %}
+        This prevents the IE-specific conditional markup below from holding up
+        the page load. See:
+        <http://www.phpied.com/conditional-comments-block-downloads/>
+    {% endcomment %}
+    <!--[if IE]><![endif]-->
+
+    {% comment %}
+        Set the viewport on mobile browsers to the device-width (inferred),
+        and tell Apple's brain-dead mobile browser not to automatically
+        scale; see:
+        <http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/quick-tip-dont-forget-the-viewport-meta-tag/>
+    {% endcomment %}
+    <meta name="viewport" content="initial-scale=1">
+
+    {% comment %}
+        The TITLE tag should be very carefully chosen as it can greatly affect
+        search rankings. It is important that the title of the landing page of
+        the site contain the most important search term(s) that we are
+        targeting, and that content pages have configurable titles.
+    {% endcomment %}
+    {% if subtitle and title %}
+    <title>{{ subtitle }} &mdash; {{ title }}</title>
+    {% elif title %}
+    <title>{{ title }}</title>
+    {% else %}
     <title>{% block title %}{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <!-- <link rel="stylesheet" href="css/bootstrap.min.css" media="screen"> -->
- </head>
-<body>
+    {% endif %}
 
-    <div class="container">
+    {% comment %}
+        The favicon.ico file is used to associate an icon with the website,
+        typically for display in the browser's URL bar.
+          - Size: 16x16 or 32x32 for display in the browser, up to 64x64 for
+            display on the task bar in Windows.
+          - Multiple icon sizes may be encoded within a single favicon.ico
+            file.
+          - Transparency is OK.
+          - See wikipedia for info on browser support:
+            <http://en.wikipedia.org/wiki/Favicon#Browser_support>
+        See: <http://mathiasbynens.be/notes/touch-icons>
+    {% endcomment %}
+    {% if favicon %}
+    <link rel="shortcut icon" type="image/x-icon"
+          href="{{ favicon }}"/>
+    {% endif %}
 
-      <header class="row">
-        <div class="span12">
+    {% comment %}
+        The apple-touch-icon.png associates an UI icon with the website on iOS
+        devices. This image is what is shown when the site is bookmarked on
+        the home screen.
+          - Size: 57x57 for older iPhones, 72x72 for iPads, 114x114 for
+            iPhone4's retina display (For best support, just go ahead and use
+            the biggest one).
+          - Transparency is not recommended (iOS will put a black BG behind
+            the icon).
+          - iOS will apply gloss and rounded corners to the image before
+            displaying it. For more control, you may apply the rounded gloss
+            yourself and rename the file <apple-touch-icon-precomposed.png>.
+        See: <http://mathiasbynens.be/notes/touch-icons>
+    {% endcomment %}
+    {% if apple_touch_icon %}
+    <link rel="apple-touch-icon" type="image/png"
+          href="{{ apple_touch_icon }}"/>
+    {% endif %}
+{% endblock time_sensitive_experience %}
 
-          <nav class="navbar">
-            <div class="navbar-inner">
+{% block time_sensitive_speed %}
+{% endblock time_sensitive_speed %}
+{% endblock time_sensitive %}
 
-              {% block nav %}
+{% comment %}
+    The “semantic_web” block contains a mix of header elements which describe
+    what this resource is, and how it relates to other resources accessible
+    from elsewhere on the world wide web.
+{% endcomment %}
+{% block semantic_web %}
+    {% comment %}
+        When a resource is accessible from multiple locations, the “canonical”
+        rel link provides a way to inform web crawlers and other automated
+        tools which URI to use as its primary identifier.
+    {% endcomment %}
+    {% if canonical_uri %}
+    <link rel="{{ canonical_uri }}" href=""/>
+    {% endif %}
 
-              <div class="row">
+    {% comment %}
+        The following “index”, “prev”, and “next” related links provide some
+        context to the user agent with obvious semantics, and are particularly
+        important to web crawlers.
+    {% endcomment %}
+    {% if index_uri %}<link rel="index" href="{{ index_uri }}"/>{% endif %}
+    {% if prev_uri %}<link rel="prev" href="{{ prev_uri }}"/>{% endif %}
+    {% if next_uri %}<link rel="next" href="{{ next_uri }}"/>{% endif %}
 
-                <a id="logo-header-link" class="brand" href="/">
-                  <table>
-                    <tr>
-                      <td><img src="{% static 'img/logo-freicoin.png' %}" alt="Logo Header"
-                               style="float:left" width="100" height="100" /></td>
-                      <td><h1>Freicoin Foundation</h1></td>
-                      <td><img src="{% static 'img/arctictern.jpg' %}" alt="Artic Tern"
-                               style="float:right" width="50%" height="50%" /></td>
-                    </tr>
-                  </table>
-                </a>
+    {% comment %}
+        The keywords META tag is a SEO field that is rarely used by the big
+        search companies these days. Nevertheless, it is used by older, esoteric
+        software and it certainly doesn't hurt to include it, when keyword data
+        is available.
+    {% endcomment %}
+    {% if meta_keywords %}
+    <meta name="keywords" content="{{ meta_keywords }}"/>
+    {% endif %}
 
-                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                  <span class="icon-th-list"></span>
-                </a>
-              </div>
-              
-              <div class="nav-collapse collapse">
-                <ul class="nav">
-                  <li>{% block nav-home %}<a href="{% url 'home' %}">Home</a>{% endblock %}</li>
-                  <li>{% block nav-faucet %}<a href="{% url 'faucet' %}">Faucet</a>{% endblock %}</li>
-                  <li>{% block nav-donations %}<a href="{% url 'nonprofits' %}">Donations</a>{% endblock %}</li>
-                  <li>{% block nav-trade %}<a href="{% url 'trade' %}">Trade</a>{% endblock %}</li>
-                  <li>{% block nav-about %}<a href="{% url 'about' %}">About</a>{% endblock %}</li>
+    {% comment %}
+        Google will often use the following field as its description of our
+        site. Make it good. There is a belief that it might also affect
+        “related:” queries (unknown if there is any truth to that). It should be
+        less than 155 characters of plain text.
+    {% endcomment %}
+    {% if meta_description %}
+    <meta name="description" content="{{ meta_description }}"/>
+    {% endif %}
 
-                  {% if user.is_authenticated %}
-                    <li>{% block nav-logout %}<a href="{% url 'logout' %}">Logout</a>{% endblock %}</li>
-                  {% else %}
-                    <li>{% block nav-register %}<a href="{% url 'register' %}">Register</a>{% endblock %}</li>
-                    <li>{% block nav-login %}<a href="{% url 'login' %}">Login</a>{% endblock %}</li>
-                  {% endif %}
+    {% comment %}
+        Like the keywords tag, the author and copyright META fields generally
+        aren't used anymore, but there is no harm in making them available for
+        web crawlers and automated tools.
+    {% endcomment %}
+    {% if meta_author %}
+    <meta name="author" content="{{ meta_author }}"/>
+    {% endif %}
+    {% if meta_copyright %}
+    <meta name="copyright" content="{{ meta_copyright }}"/>
+    {% endif %}
+{% endblock semantic_web %}
 
-                </ul>
-              </div>
+{% block stylesheets %}
+    {# Load Google Web Fonts based on screen width. #}
+    <style type="text/css">
+      @import url(//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700) screen and (min-width : 651px);
+    </style>
+    <!--[if lt IE 9]>
+      <link rel='stylesheet' type='text/css'
+            href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700'>
+    <![endif]-->
 
-              {% endblock %}
-              
-            </div>
-          </nav>
-        </div>
-      </header>
+    {% comment %}
+        Twitter Bootstrap is a free collection of tools for creating websites
+        and web applications. It contains HTML and CSS-based design templates
+        for typography, forms, buttons, charts, navigation and other interface
+        components, as well as optional JavaScript extensions.
+    {% endcomment %}
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/static/lib/bootstrap/{{ settings.BOOTSTRAP_VERSION }}/css/bootstrap{% if not settings.DEBUG %}.min{% endif %}.css"/>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/static/lib/bootstrap/{{ settings.BOOTSTRAP_VERSION }}/css/bootstrap-theme{% if not settings.DEBUG %}.min{% endif %}.css"/>
 
-      <div class="row" id="main-content">
-        {% block content %}
-        {% endblock content %}
-      </div>
+    {# The primary stylesheets for the current theme. #}
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/static/theme/{% if theme %}{{ theme }}{% else %}{{ settings.DEFAULT_THEME }}{% endif %}/css/main.css"/>
+{% endblock stylesheets %}
 
-      <hr>
-      {% block footer %}
-      <div id="footer">
-        <div class="container">
-          <footer class="footer" style="float:center" >
-            <p id="logo-footer">
-              <a id="logo-footer-link" class="brand" href="/">
-                <img src="{% static 'img/logo-freicoin-text.png' %}" alt="Logo Footer"
-                     width="15%" height="15%" />
-              </a>
-              <br />
-            </p>
+{% block javascript_header %}
+    {% comment %}
+        Modernizr HTML5 detection library tests the browser for support of new
+        HTML5 features, and adds classes to the <html> element allowing us to
+        target specific browser functionality in our stylesheets.
+    {% endcomment %}
+    <script type="application/javascript"
+            src="/static/lib/modernizr/{{ settings.MODERNIZR_VERSION }}/modernizr.custom{% if not settings.DEBUG %}.min{% endif %}.js"></script>
 
-            <p id="copyright-footer">
-              <span id="copyright" class="copyright">Copyright &copy; {{ site.time | date:"%Y" }} <a href="/copyright/">Freicoin Developers</a>
-            </p>
-          </footer><!-- .footer -->
-        </div><!-- .container -->
-      </div><!-- #footer -->
-      {% endblock %}
+    {# FIXME: add respond.js #}
+{% endblock javascript_header %}
+{% endblock head %}</head>
 
+<body {% if site_id %}id="{{ site_id }}"{% endif %}>{% block body %}
+
+{% comment %}
+    Prompt IE 6 users to install Chrome Frame.
+    See: <http://chromium.org/developers/how-tos/chrome-frame-getting-started>
+{% endcomment %}
+<!--[if lt IE 7]>
+    <p class="chromeframe">Your browser is <em>ancient!</em> <a
+        href="http://browsehappy.com/">Upgrade to a different browser</a> or
+        <a href="http://www.google.com/chromeframe/?redirect=true">install
+        Google Chrome Frame</a> to experience this site as it is meant to be
+        viewed.</p>
+<![endif]-->
+
+<footer class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle"
+              data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'home' %}">Freicoin Foundation</a>
     </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">{% block nav %}
+        <li class="{% block nav-home-class %}{% endblock %}">{% block nav-home %}<a href="{% url 'home' %}">Home</a>{% endblock %}</li>
+        <li class="{% block nav-faucet-class %}{% endblock %}">{% block nav-faucet %}<a href="{% url 'faucet' %}">Faucet</a>{% endblock %}</li>
+        <li class="{% block nav-donations-class %}{% endblock %}">{% block nav-donations %}<a href="{% url 'nonprofits' %}">Donations</a>{% endblock %}</li>
+        <li class="{% block nav-trade-class %}{% endblock %}">{% block nav-trade %}<a href="{% url 'trade' %}">Trade</a>{% endblock %}</li>
+        <li class="{% block nav-about-class %}{% endblock %}">{% block nav-about %}<a href="{% url 'about' %}">About</a>{% endblock %}</li>
+      {% endblock nav %}</ul>
+      <ul class="nav navbar-nav navbar-right">{% block auth %}
+        {% if user.is_authenticated %}
+          <li class="{% block nav-logout-class %}{% endblock %}">{% block nav-logout %}<a href="{% url 'logout' %}">Logout</a>{% endblock %}</li>
+        {% else %}
+          <li class="{% block nav-register-class %}{% endblock %}">{% block nav-register %}<a href="{% url 'register' %}">Register</a>{% endblock %}</li>
+          <li class="{% block nav-login-class %}{% endblock %}">{% block nav-login %}<a href="{% url 'login' %}">Login</a>{% endblock %}</li>
+        {% endif %}
+      {% endblock auth %}</ul>
+    </div>
+  </div>
+</footer>
 
-    <!-- JavaScript plugins (requires jQuery) -->
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <!-- <script src="js/bootstrap.min.js"></script> -->
+<div class="container">{% block content %}{% endblock %}</div>
 
-    <!-- Served from http://www.bootstrapcdn.com/ -->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"
-          rel="stylesheet">
+<div class="container">
+  <footer>
+    {% block footer %}
+      <p id="logo-footer">
+        <a id="logo-footer-link" class="brand" href="/">
+          <img src="{% static 'img/logo-freicoin-text.png' %}" alt="Logo Footer"
+               width="15%" height="15%" />
+        </a>
+        <br />
+      </p>
 
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+      <p id="copyright-footer">
+        <span id="copyright" class="copyright">Copyright &copy; {{ site.time | date:"%Y" }} <a href="/copyright/">Freicoin Developers</a>
+      </p>
+    {% endblock footer %}
+  </footer>
+</div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+</div>
 
-    {% block app-scripts %}
-    {% endblock %}
+{# JavaScript at the bottom for fast page loading #}
+{% block javascript_footer %}
+{% block javascript_frameworks %}
+    {% comment %}
+        jQuery, a multi-purpose JavaScript framework. We grab Google CDN's jQuery,
+        and fall back on our own if Google is not available.
+    {% endcomment %}
+    <script type="application/javascript"
+            src="//ajax.googleapis.com/ajax/libs/jquery/{{ settings.JQUERY_VERSION }}/jquery{% if not settings.DEBUG %}.min{% endif %}.js"></script>
+    <script type="application/javascript">
+        window.jQuery || Modernizr.load({
+                load: [ "/static/lib/jquery/{{ settings.JQUERY_VERSION }}/jquery{% if not settings.DEBUG %}.min{% endif %}.js" ]
+            });
+    </script>
 
-    <!-- Optionally enable responsive features in IE8 -->
-    <!-- <script src="js/respond.js"></script> -->
-</body>
+    {% comment %}
+        jQuery UI, a curated set of user interface interactions, effects,
+        widgets, and themes built on top of the jQuery JavaScript Library.
+    {% endcomment %}
+    <script type="application/javascript"
+            src="//ajax.googleapis.com/ajax/libs/jqueryui/{{ settings.JQUERY_UI_VERSION }}/jquery-ui{% if not settings.DEBUG %}.min{% endif %}.js"></script>
+    <script type="application/javascript">
+        window.jQuery.ui || Modernizr.load({
+                load: [ "/static/lib/jquery-ui/{{ settings.JQUERY_UI_VERSION }}/js/jquery-ui{% if not settings.DEBUG %}.min{% endif %}.js" ]
+            });
+    </script>
+
+    {% comment %}
+        Bootstrap JavaScript components and jQuery plugins.
+    {% endcomment %}
+    <script type="application/javascript">
+        Modernizr.load({
+                load: [ "/static/lib/bootstrap/{{ settings.BOOTSTRAP_VERSION }}/js/bootstrap{% if not settings.DEBUG %}.min{% endif %}.js" ]
+            });
+    </script>
+
+    {# AngularJS for in-browser JavaScript framework #}
+    <script type="application/javascript"
+            src="//ajax.googleapis.com/ajax/libs/angularjs/{{ settings.ANGULARJS_VERSION }}/angular{% if not settings.DEBUG %}.min{% endif %}.js"></script>
+    <script type="application/javascript">
+        angular || Modernizr.load({
+                load: [ "/static/lib/angularjs/{{ settings.ANGULARJS_VERSION }}/js/angular{% if not settings.DEBUG %}.min{% endif %}.js" ]
+            });
+    </script>
+
+{% endblock javascript_frameworks %}
+
+{% block javascript_patches %}
+{% endblock javascript_patches %}
+
+{% block javascript_profiler %}
+{% endblock javascript_profiler %}
+
+{% block javascript_analytics %}
+    {% comment %}
+        This is a variation of the official analytics snippet:
+        <http://mathiasbynens.be/notes/async-analytics-snippet>
+    {% endcomment %}
+    {% comment %}
+    {# FIXME: Sign up for analytics, replace XXXXXX-XX with our site's ID #}
+    {#        and uncomment to put it into effect. #}
+    <script type="application/javascript">
+        var _gaq = [['_setAccount', 'UA-XXXXXX-XX'], ['_trackPageview']];
+        (function(d, t) {
+            var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+            g.async = true;
+            g.src = ('https:'==location.protocol?'//ssl':'//www') + '.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g, s);
+        })(document, 'script');
+    </script>
+    {% endcomment %}
+{% endblock javascript_analytics %}
+
+{% block app-scripts %}
+{% endblock %}
+
+<!-- Optionally enable responsive features in IE8 -->
+<!-- <script src="js/respond.js"></script> -->
+{% endblock javascript_footer %}
+
+{% endblock body %}</body>
 </html>

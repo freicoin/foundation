@@ -67,10 +67,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_DIRECTORY, 'static'),
-    ('utils', os.path.join(PROJECT_DIRECTORY, 'apps', 'utils', 'utils')),
-    ('donations', os.path.join(PROJECT_DIRECTORY, 'apps', 'donations', 'donations')),
-    ('trade', os.path.join(PROJECT_DIRECTORY, 'apps', 'trade', 'trade')),
+    os.path.join(PROJECT_DIRECTORY, 'foundation', 'static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -99,6 +96,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'context_extras.context_processors.project_settings',
 )
 
 ROOT_URLCONF = 'foundation.urls'
@@ -133,6 +135,11 @@ INSTALLED_APPS = (
     # South is the most excellent database migration/schema versioning tool
     # written by Andrew Godwin.
     'south',
+
+    # django-context-extras is a simple Django app that provides some extra
+    # context processors for your Django based projects, such as adding the
+    # current site object or project settings to the context.
+    'context_extras',
 
     # Own apps
     'apps.utils',
@@ -200,6 +207,13 @@ ALLOWED_HOSTS = ['*']
 import os
 STATIC_ROOT = os.path.join(PROJECT_DIRECTORY, 'db', 'staticfiles')
 STATIC_URL = '/static/'
+
+BOOTSTRAP_VERSION = '3.0.0'
+JQUERY_VERSION = '1.9.1'
+JQUERY_UI_VERSION = '1.10.0'
+MODERNIZR_VERSION = '2.6.2'
+ANGULARJS_VERSION = '1.0.7'
+DEFAULT_THEME = 'default'
 
 # End Heroku
 
