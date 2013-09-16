@@ -103,7 +103,7 @@ def send_new_mer_mails(mer):
                          'noreply@freicoin.org', mer.email)
 
 @login_required
-def mer_edit(request, id=None, template_name='new_organiation.html'):
+def mer_edit(request, id=None, template_name='edit_merchant.html'):
 
     if id:
         mer = get_object_or_404(Merchant, pk=id)
