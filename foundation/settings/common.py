@@ -218,3 +218,7 @@ FRC_EXPLORER = 'http://cryptocoinexplorer.com:4750'
 BTC_EXPLORER = 'http://blockexplorer.com'
 
 # End external URLs
+
+# Donations public HD wallet (BIP 32) key
+DONATIONS_WALLET_KEY='xpub661MyMwAqRbcFEfGXZ3mV9KDNk3T2Top3wGWDGr7Q2yWwSgcgTgSqb2zii2QhLoySDX4LZKqPig86UG76S2KbqwPD9xERwQTJKuCsugVnc5'
+DONATIONS_LAUNCH_MONTH = 9 + (2013 * 12)

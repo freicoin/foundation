@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponseForbidden
@@ -11,7 +12,6 @@ from django.contrib.auth.decorators import login_required
 
 from djangular.views.mixins import JSONResponseMixin, HttpResponseBadRequest
 
-from django.conf import settings
 from apps.utils import utils
 from models import *
 from .fields import BitcoinAddressField
@@ -41,10 +41,10 @@ def get_organizations(category, org_type):
         orgs = category.organizations.filter(validated_by__isnull=False)
     elif org_type == OrgListView.CANDIDATES:
         orgs = category.organizations.filter(validated_by__isnull=True
-                                              ).filter(foundation_address__isnull=True)
+                                              ).filter(validated__isnull=True)
     elif org_type == OrgListView.BLOCKED:
         orgs = category.organizations.filter(validated_by__isnull=True
-                                              ).filter(foundation_address__isnull=False)
+                                              ).filter(validated__isnull=False)
     org_list = []
     for org in orgs:
         org_list.append( serialize_org_short(org) )
@@ -164,22 +164,6 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
 
     return render(request, template_name, {'form': form})
 
-def validate_org(org):
-    available_addresses = AvailableAddress.objects.all()
-    if available_addresses:
-        sel_addr = available_addresses[0]
-        ff_addr = PaymentAddress()
-        ff_addr.address = sel_addr.address
-        ff_addr.owner = org
-        ff_addr.type = PaymentAddress.FOUNDATION
-        ff_addr.save()
-        sel_addr.delete()
-        org.foundation_address = ff_addr
-        org.save()
-        return "Organization %s has been validated." % org.name
-    else:
-        return "Organization %s cannot be validated because there's no available foundation addresses." % org.name
-
 @login_required
 def org_validate(request, id=None):
     if not request.user.has_perm("donations.change_organization"):
@@ -192,10 +176,12 @@ def org_validate(request, id=None):
         msg = "Organization %s has been invalidated." % org.name
     else:
         org.validated_by = request.user
-        if org.foundation_address:
+        if org.validated:
             org.save()
             msg = "Organization %s is valid again." % org.name
         else:
-            msg = validate_org(org)
+            org.validated = datetime.now()
+            org.save()
+            msg = "Organization %s has been validated." % org.name
 
     return render(request, 'messages_list.html', {'messages': [msg]})

@@ -16,5 +16,5 @@ class OrganizationForm(forms.ModelForm):
 
     class Meta:
         model = Organization
-        fields = ['name', 'website', 'email', 
+        fields = ['name', 'category', 'website', 'email', 
                   'short_description', 'long_description']

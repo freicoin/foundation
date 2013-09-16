@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 from .fields import BitcoinAddressField
+from apps.donations import hd_addresses
 
 class Category(models.Model):
     name = models.CharField(max_length=40)
@@ -17,24 +18,25 @@ class Category(models.Model):
 class Organization(models.Model):
     name = models.CharField(max_length=40)
 
-    category = models.ForeignKey('Category', null=True, related_name='organizations')
+    category = models.ForeignKey('Category', related_name='organizations')
     website = models.URLField()
     email = models.EmailField()
     short_description = models.CharField(max_length=350)
     long_description = models.TextField()
-    user = models.ForeignKey(User)
-    validated_by = models.ForeignKey(User, null=True, related_name="organizations_validated")
-    foundation_address = models.ForeignKey('PaymentAddress', null=True, 
-                                           related_name='foundation_address_for')
     freicoin_address = models.ForeignKey('PaymentAddress', null=True, 
                                          related_name='freicoin_address_for')
     bitcoin_address = models.ForeignKey('PaymentAddress', null=True, 
                                         related_name='bitcoin_address_for')
 
+    created = models.DateTimeField(auto_now_add=True)
+    validated = models.DateTimeField(null=True)
+    validated_by = models.ForeignKey(User, null=True, related_name="organizations_validated")
+    user = models.ForeignKey(User)
+
     @property
     def foundation_address_value(self):
-        if self.foundation_address:
-            return self.foundation_address.address.encode('base58')
+        if self.id:
+            return hd_addresses.donationsCurrentSubKeyFast(self.id).bitcoin_address()
         return ''
 
     @property
@@ -59,19 +61,11 @@ class PaymentAddress(models.Model):
 
     BITCOIN    = 'bitcoin'
     FREICOIN   = 'freicoin'
-    FOUNDATION = 'foundation'
     TYPE_CHOICES = {
         BITCOIN:    _(u"Bitcoin"),
-        FREICOIN:   _(u"Freicoin"),
-        FOUNDATION: _(u"Foundation"),}
+        FREICOIN:   _(u"Freicoin"),}
     REVERSE_TYPE = dict((value,key) for key,value in six.iteritems(TYPE_CHOICES))
     type = models.CharField(choices=six.iteritems(TYPE_CHOICES), max_length=10)
-
-    def __unicode__(self):
-        return repr(self.address)
-
-class AvailableAddress(models.Model):
-    address = BitcoinAddressField(max_length=34)
 
     def __unicode__(self):
         return repr(self.address)

@@ -78,3 +78,60 @@ in the project's root.
 
 Please, contact us if these instructions aren't enough or can be
 improved for the system you're using.
+* Donations wallet setup
+
+The FFs web uses HD wallets (BIP 0032) to generate the addresses for
+the organizations to receive donations. This increases security and
+simplifies auctions.
+
+The administrator creates a wallet by running the shell locally with
+make shell and then type:
+
+#+BEGIN_SRC python
+from pycoin.wallet import Wallet
+master_wallet = Wallet.from_master_secret("change_this")
+master_wallet_public = master_wallet.public_copy()
+master_wallet_public_key = master_wallet_public.wallet_key()
+#+END_SRC
+
+The administrator must store the secret (in this case "change_this"),
+preferably on an off-line computer or paper.
+When he needs he needs to forward the received donations monthly, he
+can re-create the master wallet using that secret.
+
+But the foundation's web needs to generate addresses for each organization and
+month using the master_wallet_public_key obtained below. In this case
+the key is:
+
+#+BEGIN_SRC sh
+xpub661MyMwAqRbcFEfGXZ3mV9KDNk3T2Top3wGWDGr7Q2yWwSgcgTgSqb2zii2QhLoySDX4LZKqPig86UG76S2KbqwPD9xERwQTJKuCsugVnc5
+#+END_SRC
+
+This key must be stored on the settings file, for example:
+
+#+BEGIN_SRC python
+DONATIONS_WALLET_KEY='xpub661MyMwAqRbcFEfGXZ3mV9KDNk3T2Top3wGWDGr7Q2yWwSgcgTgSqb2zii2QhLoySDX4LZKqPig86UG76S2KbqwPD9xERwQTJKuCsugVnc5'
+#+END_SRC
+
+Anyone can re-create the public HD using pycoin or another HD wallet
+tool:
+
+#+BEGIN_SRC python
+from pycoin.wallet import Wallet
+master_wallet_public = Wallet.from_wallet_key('xpub661MyMwAqRbcFEfGXZ3mV9KDNk3T2Top3wGWDGr7Q2yWwSgcgTgSqb2zii2QhLoySDX4LZKqPig86UG76S2KbqwPD9xERwQTJKuCsugVnc5')
+#+END_SRC
+
+To generate the individual addresses for each organization, you have
+to use the month (starting to count from the web launch) and the id
+of the organization. For example, to obtain the address for the month
+14 (a year and 2 months after launch) and for the organization with
+id=5, you would do it like this:
+
+#+BEGIN_SRC python
+master_wallet_public.subkey_for_path('14/5').bitcoin_address()
+u'1DPEEVxWpiMVFuLgMAazgYe3Sr8bZ9ZFpk'
+#+END_SRC
+
+The administrator generates the sub-keys to forward the funds in the
+same way, but using the private master wallet which gives him access
+to the private keys.
