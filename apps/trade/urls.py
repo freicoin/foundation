@@ -6,9 +6,8 @@ urlpatterns = patterns('apps.trade.views',
 
     url(r'^$', 'ng_trade', name='trade'),
 
-    url(r'^json/$', JsonApiView.as_view(), {'action': 'get_merchants'}, name='mer_json'),
+    url(r'^json/$', JsonApiView.as_view(), {'action': 'get_categories'}, name='trade_json'),
 
-    url(r'^json/$', JsonApiView.as_view(), {'action': 'get_categories'}, name='generic_json'),
     url(r'^json/(?P<mer_id>[0-9]+)/$', JsonApiView.as_view(), {'action': 'get_merchant'}),
     url(r'^json/(?P<merchant_type>.+)/$', JsonApiView.as_view(), {'action': 'get_categories'}),
 

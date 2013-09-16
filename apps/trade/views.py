@@ -20,19 +20,19 @@ import forms
 def ng_trade(request):
     return render(request, 'ng-trade.html')
 
-def serialize_merchant(mer):
-    return model_to_dict(mer, fields=[], exclude=[])
-
 def serialize_merchant_short(mer):
     return model_to_dict(mer, fields=['id', 'name', 'website', 'short_description'])
 
+def serialize_merchant(mer):
+    return model_to_dict(mer, fields=[], exclude=[])
+
 def get_merchants(category, merchant_type):
-    if merchant_type == 'validated':
+    if merchant_type == JsonApiView.VALIDATED:
         merchants = category.merchants.filter(validated_by__isnull=False)
-    elif merchant_type == 'candidates':
+    elif merchant_type == JsonApiView.CANDIDATES:
         merchants = category.merchants.filter(validated_by__isnull=True
                                               ).filter(validated__isnull=True)
-    elif merchant_type == 'blocked':
+    elif merchant_type == JsonApiView.BLOCKED:
         merchants = category.merchants.filter(validated_by__isnull=True
                                               ).filter(validated__isnull=False)
     else:
@@ -70,12 +70,15 @@ def serialize_categories(categories, merchant_type):
 
 
 class JsonApiView(JSONResponseMixin, View):
-    # VALIDATED    = 'validated'
-    # CANDIDATES   = 'candidates'
-    # BLOCKED = 'blocked'
+    VALIDATED    = 'validated'
+    CANDIDATES   = 'candidates'
+    BLOCKED = 'blocked'
     def get_categories(self):
+        merchant_type = self.kwargs['merchant_type']
+        if not merchant_type:
+            merchant_type = self.VALIDATED
         categories = Category.objects.filter(parent_category__isnull=True)
-        return serialize_categories(categories, self.kwargs['merchant_type'])
+        return serialize_categories(categories, merchant_type)
 
     def get_merchant(self):
         mer = Merchant.objects.get(pk=self.kwargs['mer_id'])
