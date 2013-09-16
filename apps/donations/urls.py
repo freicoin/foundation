@@ -1,15 +1,15 @@
 from django.conf.urls import patterns, include, url
 
-from .views import OrgListView, OrgDetailView
+from .views import JsonApiView
 
 urlpatterns = patterns('apps.donations.views',
 
     url(r'^$', 'ng_donations', name='nonprofits'),
-    url(r'^json/$', OrgListView.as_view(), {'action': 'get_organizations'}, name='org_json'),
-    url(r'^json/(?P<org_id>[0-9]+)/$', OrgDetailView.as_view(), 
-        {'action': 'get_organization'}, name='org_json'),
-    url(r'^candidates/json/$', OrgListView.as_view(), {'action': 'get_candidates'}, name='candidates_json'),
-    url(r'^blocked/json/$', OrgListView.as_view(), {'action': 'get_blocked'}, name='blocked_json'),
+
+    url(r'^json/$', JsonApiView.as_view(), {'action': 'get_categories'}, name='donations_json'),
+
+    url(r'^json/(?P<org_id>[0-9]+)/$', JsonApiView.as_view(), {'action': 'get_organization'}),
+    url(r'^json/(?P<org_type>.+)/$', JsonApiView.as_view(), {'action': 'get_categories'}),
 
     url(r'^join/$', 'org_edit', name='org_new'),
     url(r'^edit/$', 'org_edit', name='org_edit'),

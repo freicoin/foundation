@@ -1,41 +1,23 @@
 
-function GenericListCtrl($scope, $http, django, type) {
-  $scope.django = django;
+angular.module('donationsControllers', ['django_constants', 'donationsServices'])
+  .controller('CategoriesCtrl', ['$scope', '$routeParams', 'django', 'DonationsSrv', 
+                                 function($scope, $routeParams, django, DonationsSrv){
 
-  $scope.type = type;
+    $scope.django = django;
+    $scope.type = $routeParams.orgType ? $routeParams.orgType : 'validated';
+    $scope.orderProp = 'id';
 
-  $http.get( django.urlForType(type) ).
-    success(function (data){
-      $scope.categories_tree = data;
-
-      $scope.org_count = 0;
-      for (var i=0; i < data.length; i++){
-        $scope.org_count += data[i].inner_orgs;
-      }
+    DonationsSrv.getCategories($scope.type, function(categories, org_count){
+      $scope.categories_tree = categories;
+      $scope.org_count = org_count;
     });
-  $scope.orderProp = '-id';
-}
+  }])
+  .controller('OrgDetailCtrl', ['$scope', '$routeParams', 'django', 'DonationsSrv', 
+                                 function($scope, $routeParams, django, DonationsSrv){
 
-function OrgListCtrl($scope, $http, django) {
+    $scope.django = django;
 
-  GenericListCtrl($scope, $http, django, 'validated');
-}
-
-function CandidatesListCtrl($scope, $http, django) {
-
-  GenericListCtrl($scope, $http, django, 'candidates');
-}
-
-function BlockedListCtrl($scope, $http, django) {
-
-  GenericListCtrl($scope, $http, django, 'blocked');
-}
-
-function OrgDetailCtrl($scope, $routeParams, $http, django) {
-  $scope.django = django;
-
-  $http.get(django.urls.json + $routeParams.orgId).
-    success(function(data) {
-      $scope.org = data;
-    });
-}
+     DonationsSrv.getOrganization($routeParams.orgId, function(org) {
+       $scope.org = org;
+     });
+  }]);

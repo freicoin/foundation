@@ -29,18 +29,7 @@ angular.module('django_constants', [])
       "join": "{% url 'org_new' %}",
       "edit": "{% url 'org_edit' %}",
       "validate": "{% url 'org_validate' %}",
-      "json": "{% url 'org_json' %}",
-    },
-    "urlForType": function (type){
-
-      if (type == "validated"){
-        return "{% url 'org_json' %}";
-      } else if (type == "candidates"){
-        return "{% url 'candidates_json' %}";
-      } else if (type == "blocked"){
-        return "{% url 'blocked_json' %}";
-      }
-      return "";
+      "json": "{% url 'donations_json' %}"
     }
   });
 
@@ -48,5 +37,6 @@ angular.module('django_constants', [])
 
 <script src="{% static 'donations/js/app.js' %}"></script>
 <script src="{% static 'donations/js/controllers.js' %}"></script>
+<script src="{% static 'donations/js/services.js' %}"></script>
 <script src="{% static 'utils/js/filters.js' %}"></script>
 {% endblock %}

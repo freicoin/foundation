@@ -1,9 +1,9 @@
-angular.module('appDonations', ['django_constants', 'utilsFilters']).
+angular.module('appDonations', ['django_constants', 'donationsControllers', 'donationsServices', 
+                                'utilsFilters']).
   config(function($routeProvider, django) {
     $routeProvider.
-      when('/', {templateUrl: django.urls.list, controller: OrgListCtrl}).
-      when('/candidates', {templateUrl: django.urls.list, controller: CandidatesListCtrl}).
-      when('/blocked', {templateUrl: django.urls.list, controller: BlockedListCtrl}).
-      when('/detail/:orgId', {templateUrl: django.urls.detail, controller: OrgDetailCtrl}).
+      when('/', {templateUrl: django.urls.list, controller: 'CategoriesCtrl'}).
+      when('/:orgType', {templateUrl: django.urls.list, controller: 'CategoriesCtrl'}).
+      when('/detail/:orgId', {templateUrl: django.urls.detail, controller: 'OrgDetailCtrl'}).
       otherwise({redirectTo: '/'});
   });

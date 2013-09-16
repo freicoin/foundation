@@ -37,12 +37,12 @@ def serialize_org(org):
 
 def get_organizations(category, org_type):
 
-    if org_type == OrgListView.VALIDATED:
+    if org_type == JsonApiView.VALIDATED:
         orgs = category.organizations.filter(validated_by__isnull=False)
-    elif org_type == OrgListView.CANDIDATES:
+    elif org_type == JsonApiView.CANDIDATES:
         orgs = category.organizations.filter(validated_by__isnull=True
                                               ).filter(validated__isnull=True)
-    elif org_type == OrgListView.BLOCKED:
+    elif org_type == JsonApiView.BLOCKED:
         orgs = category.organizations.filter(validated_by__isnull=True
                                               ).filter(validated__isnull=False)
     org_list = []
@@ -76,24 +76,18 @@ def serialize_categories(categories, org_type):
             cat_list.append(cat_dict)
     return cat_list
 
-class OrgListView(JSONResponseMixin, View):
+class JsonApiView(JSONResponseMixin, View):
     VALIDATED    = 'validated'
     CANDIDATES   = 'candidates'
     BLOCKED = 'blocked'
-    def get_organizations(self):
+    def get_categories(self):
+        org_type = self.kwargs['org_type']
+        if not org_type:
+            org_type = self.VALIDATED
         categories = Category.objects.filter(parent_category__isnull=True)
-        return serialize_categories(categories, self.VALIDATED)
+        return serialize_categories(categories, org_type)
 
-    def get_candidates(self):
-        categories = Category.objects.filter(parent_category__isnull=True)
-        return serialize_categories(categories, self.CANDIDATES)
-
-    def get_blocked(self):
-        categories = Category.objects.filter(parent_category__isnull=True)
-        return serialize_categories(categories, self.BLOCKED)
-
-class OrgDetailView(JSONResponseMixin, View):
-    def get_organization(self, organization_id=None):
+    def get_organization(self):
         org = Organization.objects.get(pk=self.kwargs['org_id'])
         return serialize_org(org)
 
