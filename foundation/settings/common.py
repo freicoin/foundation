@@ -237,5 +237,7 @@ BTC_EXPLORER = 'http://blockexplorer.com'
 # End external URLs
 
 # Donations public HD wallet (BIP 32) key
-DONATIONS_WALLET_KEY='xpub661MyMwAqRbcFEfGXZ3mV9KDNk3T2Top3wGWDGr7Q2yWwSgcgTgSqb2zii2QhLoySDX4LZKqPig86UG76S2KbqwPD9xERwQTJKuCsugVnc5'
+DONATIONS_WALLET_KEY = os.environ.get('DONATIONS_WALLET_KEY',
+    'xpub661MyMwAqRbcF1Wdgn9SqfrVSp2zvAKkgLDGH3xpwEusFvBupwWT'
+    '43ZhGmf9yba9xxJ3iZrSiisv3Fjq6tKEudmgm61nMNSTAqWRvrtL6MG')
 DONATIONS_LAUNCH_MONTH = 9 + (2013 * 12)
