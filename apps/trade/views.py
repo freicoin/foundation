@@ -118,16 +118,15 @@ def mer_edit(request, id=None, template_name='edit_merchant.html'):
 
     form = forms.MerchantForm(request.POST or None, instance=mer)
 
-    if form.is_valid():
+    if (request.POST or id) and form.is_valid():
 
         mer = form.save()
         mer.save()
 
         mer.email = request.user.email
         send_new_mer_mails(mer)
-
         msg = "Thank you for submitting your request. It will be validated by a human soon."
-        return render(request, 'messages_list.html', {'messages': [msg]})
+        return render(request, template_name, {'msg': msg})
 
     return render(request, template_name, {'form': form})
 

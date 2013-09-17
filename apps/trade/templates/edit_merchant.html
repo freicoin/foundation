@@ -23,19 +23,43 @@ Go back to <a href="{% url 'trade' %}">merchant list</a>.
   receive through this section.
 </p>
 
-    {% if form.errors %}
-        <p style="color: red;">
-            Please correct the error{{ form.errors|pluralize }} below.
-        </p>
-    {% endif %}
+ <script src="http://code.jquery.com/jquery.js"></script>
+  <script type="text/javascript">
+  /*<![CDATA[*/
+  jQuery(function() {
+      var form = jQuery("#merchant_form");
+      form.submit(function(e) {
+          jQuery("#submit_button").attr('disabled', true)
+          jQuery("#submit_wrapper").append('<span>Sending message, please wait... </span>')
+          jQuery("#ajax_wrapper").load(
+              form.attr('action') + ' #ajax_wrapper',
+              form.serializeArray(),
+              function(responseText, responseStatus) {
+                  jQuery("#submit_button").attr('disabled', false)
+              }
+          );
+          e.preventDefault(); 
+      });
+  });
+  /*]]>*/
+  </script>
 
-    <form action="" method="post" class="form-horizontal">
-      {% csrf_token %}
-      {{ form|as_bootstrap }}
-      <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Submit Request">
-      </div>
-    </form>
+  <form action="{% url 'mer_edit' %}" method="post"
+        class="form-horizontal" id="merchant_form">
+    <div id="ajax_wrapper">
+      {% if msg %}
+        <p style="color: Green;">
+          {{ msg }}
+        </p>        
+      {% else %}
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form|as_bootstrap }}
+        <div class="form-actions" id="submit_wrapper">
+          <input type="submit" class="btn btn-primary" value="Submit Request" id="submit_button">
+        </div>
+      {% endif %}
+    </div>
+  </form>
 
 {% endblock %}
-
