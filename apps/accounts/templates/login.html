@@ -1,19 +1,25 @@
 
 {% extends "base.html" %}
 
-{% load bootstrap_toolkit %}
+{% load crispy_forms_tags %}
 
-{% block nav-login %}<strong class="nav-active">Login</strong>{% endblock %}
+{% block nav-login-class %} active{% endblock %}
 
 {% block content %}
+    <h3>Login</h3>
 
-    <form action="" method="post" class="form-horizontal">
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <p>
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    </div>
+    {% endif %}
+
+    <form method="POST" action="">
       {% csrf_token %}
-      {{ form|as_bootstrap }}
-      <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Login">
-      </div>
+      {{ form|crispy }}
+      <input type="submit" class="btn btn-primary" value="Authenticate" />
     </form>
-
 {% endblock %}
 

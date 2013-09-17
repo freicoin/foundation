@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     # From pip    
     'bootstrap_toolkit',
     'captcha',
+    'crispy_forms',
     # jrief/django-angular, not appliedsec/djangular
     'djangular',
 
@@ -214,6 +215,8 @@ JQUERY_UI_VERSION = '1.10.0'
 MODERNIZR_VERSION = '2.6.2'
 ANGULARJS_VERSION = '1.0.7'
 DEFAULT_THEME = 'default'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # End Heroku
 

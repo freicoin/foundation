@@ -1,31 +1,29 @@
 
 {% extends "base.html" %}
 
-{% load bootstrap_toolkit %}
+{% load crispy_forms_tags %}
 
-{% block nav-register %}<strong class="nav-active">Register</strong>{% endblock %}
+{% block nav-register-class %} active{% endblock %}
 
 {% block content %}
 
 <h3>User registration form:</h3>
-
 <p>
   You have to create a user to register non-profit organizations.
 </p>
 
     {% if form.errors %}
-        <p style="color: red;">
+    <div class="alert alert-danger">
+        <p>
             Please correct the error{{ form.errors|pluralize }} below.
         </p>
+    </div>
     {% endif %}
 
-    <form action="" method="post" class="form-horizontal">
-      {% csrf_token %}
-      {{ form|as_bootstrap }}
-      <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Register">
-      </div>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" class="btn btn-primary" value="Complete registration" />
     </form>
-
 {% endblock %}
 
