@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'bootstrap_toolkit',
     'captcha',
     'crispy_forms',
+    'django_patterns',
     # jrief/django-angular, not appliedsec/djangular
     'djangular',
 
