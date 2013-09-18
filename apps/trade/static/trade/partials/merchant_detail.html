@@ -21,8 +21,7 @@
   <!-- BUTTONS -->
   <a ng-show="django.trade_admin ||
               (django.user_authenticated && django.user_id == merchant.user)"
-       href="{{django.urls.edit}}{{merchant.id}}" class="btn
-       btn-primary">
+       href="#/edit/{{merchant.id}}" class="btn btn-primary">
     Edit
   </a>
 
