@@ -1,13 +1,4 @@
-{% extends "base.html" %}
-
 {% load bootstrap_toolkit %}
-
-{% block nav-trade %}<strong class="nav-active">Trade</strong>{% endblock %}
-
-{% block content %}
-<p>
-Go back to <a href="{% url 'trade' %}">merchant list</a>.
-</p>
 
 <h3>Merchant edit form:</h3>
 
@@ -22,27 +13,6 @@ Go back to <a href="{% url 'trade' %}">merchant list</a>.
   donations here. The foundation won't increase the donations you
   receive through this section.
 </p>
-
- <script src="http://code.jquery.com/jquery.js"></script>
-  <script type="text/javascript">
-  /*<![CDATA[*/
-  jQuery(function() {
-      var form = jQuery("#merchant_form");
-      form.submit(function(e) {
-          jQuery("#submit_button").attr('disabled', true)
-          jQuery("#submit_wrapper").append('<span>Sending message, please wait... </span>')
-          jQuery("#ajax_wrapper").load(
-              form.attr('action') + ' #ajax_wrapper',
-              form.serializeArray(),
-              function(responseText, responseStatus) {
-                  jQuery("#submit_button").attr('disabled', false)
-              }
-          );
-          e.preventDefault(); 
-      });
-  });
-  /*]]>*/
-  </script>
 
   <form action="{% url 'mer_edit' %}" method="post"
         class="form-horizontal" id="merchant_form">
@@ -61,5 +31,3 @@ Go back to <a href="{% url 'trade' %}">merchant list</a>.
       {% endif %}
     </div>
   </form>
-
-{% endblock %}
