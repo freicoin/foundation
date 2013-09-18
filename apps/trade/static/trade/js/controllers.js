@@ -17,27 +17,27 @@ angular.module('tradeControllers', ['django_constants', 'tradeServices'])
 
     $scope.django = django;
 
-     TradeSrv.getMerchant($routeParams.merchantId, function(merchant) {
-       $scope.merchant = merchant;
-     });
+    TradeSrv.getMerchant($routeParams.merchantId, function(merchant) {
+      $scope.merchant = merchant;
+    });
   }])
   .controller('MerchantEditCtrl', ['$scope', '$routeParams', 'django', 
                                    function($scope, $routeParams, django){
 
     $scope.django = django;
 
-      var form = $("#merchant_form");
-      form.submit(function(e) {
-          $("#submit_button").attr('disabled', true)
-          $("#submit_wrapper").append('<span>Sending message, please wait... </span>')
-          $("#ajax_wrapper").load(
-              form.attr('action') + ' #ajax_wrapper',
-              form.serializeArray(),
-              function(responseText, responseStatus) {
-                  $("#submit_button").attr('disabled', false)
-              }
-          );
-          e.preventDefault(); 
-      });
+    var form = $("#merchant_form");
+    form.submit(function(e) {
+      $("#submit_button").attr('disabled', true)
+      $("#submit_wrapper").append('<span>Sending message, please wait... </span>')
+      $("#ajax_wrapper").load(
+        form.attr('action') + ' #ajax_wrapper',
+        form.serializeArray(),
+        function(responseText, responseStatus) {
+          $("#submit_button").attr('disabled', false)
+        }
+      );
+      e.preventDefault(); 
+    });
 
   }]);
