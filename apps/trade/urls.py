@@ -8,7 +8,7 @@ urlpatterns = patterns('apps.trade.views',
 
     url(r'^json/$', JsonApiView.as_view(), {'action': 'get_categories'}, name='trade_json'),
 
-    url(r'^json/(?P<mer_id>[0-9]+)/$', JsonApiView.as_view(), {'action': 'get_merchant'}),
+    url(r'^json/(?P<mer_id>[0-9]+)/$', 'getMerchant'),
     url(r'^json/(?P<merchant_type>.+)/$', JsonApiView.as_view(), {'action': 'get_categories'}),
 
     url(r'^join/$', 'mer_edit', name='mer_new'),

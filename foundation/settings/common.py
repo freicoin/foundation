@@ -143,6 +143,9 @@ INSTALLED_APPS = (
     # current site object or project settings to the context.
     'context_extras',
 
+    # http://django-rest-framework.org/
+    'rest_framework',
+
     # Own apps
     'apps.utils',
     'apps.accounts',

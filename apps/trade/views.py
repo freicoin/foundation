@@ -11,11 +11,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from djangular.views.mixins import JSONResponseMixin, HttpResponseBadRequest
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from django.conf import settings
 from apps.utils import utils
 from models import *
 import forms
+import serializers
 
 def ng_trade(request):
     return render(request, 'ng-trade.html')
@@ -80,9 +83,11 @@ class JsonApiView(JSONResponseMixin, View):
         categories = Category.objects.filter(parent_category__isnull=True)
         return serialize_categories(categories, merchant_type)
 
-    def get_merchant(self):
-        mer = Merchant.objects.get(pk=self.kwargs['mer_id'])
-        return serialize_merchant(mer)
+@api_view(['GET'])
+def getMerchant(request, mer_id):
+    mer = get_object_or_404(Merchant, pk=mer_id)
+    serializer = serializers.MerchantSerializer(mer)
+    return Response(serializer.data)
 
 def send_new_mer_mails(mer):
     context = {'merchant': mer}

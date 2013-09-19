@@ -14,6 +14,7 @@ django-crispy-forms==1.4.0
 django-extensions==1.1.1
 django-patterns==0.0.3
 django-recaptcha==0.0.6
+djangorestframework==2.3.8
 ecdsa==0.8
 gmpy2==2.0.1
 gunicorn==17.5
