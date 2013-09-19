@@ -10,12 +10,21 @@
   </div>
 
   <div ng-show="!merchant.validated_by">
-    <h2>Candidate merchant: {{ merchant.name }}</h2>
+    <div ng-show="!merchant.validated">
+      <h2>Candidate merchant: {{ merchant.name }}</h2>
 
-    <p>
-      This merchant has its validation pending and doesn't appear in the
-      main merchant list yet.
-    </p>
+      <p>
+        This merchant has its validation pending and doesn't appear in the
+        main merchant list yet.
+      </p>
+    </div>
+
+    <div ng-show="merchant.validated">
+      <h2>Blocked merchant: {{ merchant.name }}</h2>
+      <p>
+        This merchant has been blocked.
+      </p>
+    </div>
   </div>
 
   <!-- BUTTONS -->
