@@ -273,7 +273,6 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">{% block nav %}
-        <li class="{% block nav-home-class %}{% endblock %}">{% block nav-home %}<a href="{% url 'home' %}">Home</a>{% endblock %}</li>
         <li class="{% block nav-faucet-class %}{% endblock %}">{% block nav-faucet %}<a href="{% url 'faucet' %}">Faucet</a>{% endblock %}</li>
         <li class="{% block nav-donations-class %}{% endblock %}">{% block nav-donations %}<a href="{% url 'nonprofits' %}">Donations</a>{% endblock %}</li>
         <li class="{% block nav-trade-class %}{% endblock %}">{% block nav-trade %}<a href="{% url 'trade' %}">Trade</a>{% endblock %}</li>
