@@ -10,7 +10,7 @@ Go back to <a href="#/">non-profit list</a>.
   </div>
 
   <div ng-show="!org.validated_by">
-    <div ng-show="!org.foundation_address">
+    <div ng-show="!org.validated">
       <h2>Candidate organization: {{ org.name }}</h2>
       <p>
         This organization has its validation pending and doesn't have a
@@ -18,7 +18,7 @@ Go back to <a href="#/">non-profit list</a>.
       </p>
     </div>
 
-    <div ng-show="org.foundation_address">
+    <div ng-show="org.validated">
       <h2>Blocked organization: {{ org.name }}</h2>
       <p>
         This organization has been blocked.
