@@ -34,6 +34,9 @@ angular.module('tradeServices', ['django_constants'])
       },
       getMerchant: function(merchantId, callback){
           $http.get(django.urls.json + merchantId).success(callback);
+      },
+      validateMerchant: function(merchantId, callback){
+        $http.get(django.urls.validate + merchantId + '/').success(callback);
       }
     };
   });

@@ -135,24 +135,25 @@ def mer_edit(request, id=None, template_name='edit_merchant.html'):
 
     return render(request, template_name, {'form': form})
 
-@login_required
-def mer_validate(request, id=None):
+@api_view(['GET', 'POST'])
+def mer_validate(request, id):
     if not request.user.has_perm("trade.change_merchant"):
         return HttpResponseForbidden()
     mer = get_object_or_404(Merchant, pk=id)
     
     if mer.validated_by:
+        # Block merchant
         mer.validated_by = None
         mer.save()
-        msg = "Merchant %s has been invalidated." % mer.name
     else:
         mer.validated_by = request.user
         if mer.validated:
+            # Unblock merchant
             mer.save()
-            msg = "Merchant %s is valid again." % mer.name
         else:
+            # Validate merchant
             mer.validated = datetime.now()
             mer.save()
-            msg = "Merchant %s has been validated." % mer.name
 
-    return render(request, 'messages_list.html', {'messages': [msg]})
+    serializer = serializers.MerchantSerializer(mer)
+    return Response(serializer.data)

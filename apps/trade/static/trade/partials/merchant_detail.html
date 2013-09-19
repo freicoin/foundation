@@ -35,12 +35,12 @@
   </a>
 
   <a ng-show="django.trade_admin && !merchant.validated_by"
-     href="{{django.urls.validate}}{{merchant.id}}" class="btn btn-success">
+     ng-click="validate()" class="btn btn-success">
     Validate
   </a>
 
   <a ng-show="django.trade_admin && merchant.validated_by"
-     href="{{django.urls.validate}}{{merchant.id}}" class="btn btn-danger">
+     ng-click="validate()" class="btn btn-danger">
     Invalidate
   </a>
 

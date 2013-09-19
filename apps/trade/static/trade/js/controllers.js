@@ -20,6 +20,13 @@ angular.module('tradeControllers', ['django_constants', 'tradeServices'])
     TradeSrv.getMerchant($routeParams.merchantId, function(merchant) {
       $scope.merchant = merchant;
     });
+
+    $scope.validate = function() {
+      TradeSrv.validateMerchant($routeParams.merchantId, function(merchant) {
+        $scope.merchant = merchant;
+      });
+    };
+
   }])
   .controller('MerchantEditCtrl', ['$scope', '$routeParams', 'django', 'TradeSrv',
                                    function($scope, $routeParams, django, TradeSrv){
