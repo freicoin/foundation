@@ -11,8 +11,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from djangular.views.mixins import JSONResponseMixin, HttpResponseBadRequest
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import generics
 
 from django.conf import settings
 from apps.utils import utils
@@ -83,11 +84,10 @@ class JsonApiView(JSONResponseMixin, View):
         categories = Category.objects.filter(parent_category__isnull=True)
         return serialize_categories(categories, merchant_type)
 
-@api_view(['GET'])
-def getMerchant(request, mer_id):
-    mer = get_object_or_404(Merchant, pk=mer_id)
-    serializer = serializers.MerchantSerializer(mer)
-    return Response(serializer.data)
+
+class MerchantDetail(generics.RetrieveAPIView):
+    queryset = Merchant.objects.all()
+    serializer_class = serializers.MerchantSerializer
 
 def send_new_mer_mails(mer):
     context = {'merchant': mer}
@@ -135,25 +135,25 @@ def mer_edit(request, id=None, template_name='edit_merchant.html'):
 
     return render(request, template_name, {'form': form})
 
-@api_view(['GET', 'POST'])
-def mer_validate(request, id):
-    if not request.user.has_perm("trade.change_merchant"):
-        return HttpResponseForbidden()
-    mer = get_object_or_404(Merchant, pk=id)
+class MerchantValidate(APIView):
+    def get(self, request, pk):
+        if not request.user.has_perm("trade.change_merchant"):
+            return HttpResponseForbidden()
+        mer = get_object_or_404(Merchant, pk=pk)
     
-    if mer.validated_by:
-        # Block merchant
-        mer.validated_by = None
-        mer.save()
-    else:
-        mer.validated_by = request.user
-        if mer.validated:
-            # Unblock merchant
+        if mer.validated_by:
+            # Block merchant
+            mer.validated_by = None
             mer.save()
         else:
-            # Validate merchant
-            mer.validated = datetime.now()
-            mer.save()
+            mer.validated_by = request.user
+            if mer.validated:
+                # Unblock merchant
+                mer.save()
+            else:
+                # Validate merchant
+                mer.validated = datetime.now()
+                mer.save()
 
-    serializer = serializers.MerchantSerializer(mer)
-    return Response(serializer.data)
+        serializer = serializers.MerchantSerializer(mer)
+        return Response(serializer.data)
