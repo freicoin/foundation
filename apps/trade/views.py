@@ -24,70 +24,25 @@ import serializers
 def ng_trade(request):
     return render(request, 'ng-trade.html')
 
-def serialize_merchant_short(mer):
-    return model_to_dict(mer, fields=['id', 'name', 'website', 'short_description'])
-
-def serialize_merchant(mer):
-    return model_to_dict(mer, fields=[], exclude=[])
-
-def get_merchants(category, merchant_type):
-    if merchant_type == JsonApiView.VALIDATED:
-        merchants = category.merchants.filter(validated_by__isnull=False)
-    elif merchant_type == JsonApiView.CANDIDATES:
-        merchants = category.merchants.filter(validated_by__isnull=True
-                                              ).filter(validated__isnull=True)
-    elif merchant_type == JsonApiView.BLOCKED:
-        merchants = category.merchants.filter(validated_by__isnull=True
-                                              ).filter(validated__isnull=False)
-    else:
-        merchants = []
-    mer_list = []
-    for mer in merchants:
-        mer_list.append( serialize_merchant_short(mer) )
-    return mer_list 
-
-def serialize_category(category, merchant_type):
-    mer_list = get_merchants(category, merchant_type)
-    mer_count = len(mer_list)
-
-    categories = category.child_categories.all()
-    cat_list = []
-    for cat in categories:
-        cat_dict = serialize_category(cat, merchant_type)
-        if cat_dict['inner_merchants'] > 0:
-            mer_count += cat_dict['inner_merchants']
-            cat_list.append(cat_dict)
-
-    return {'id': category.pk,
-            'name': category.name,
-            'merchants': mer_list,
-            'inner_merchants': mer_count,            
-            'child_categories': cat_list}
-
-def serialize_categories(categories, merchant_type):
-    cat_list = []
-    for cat in categories:
-        cat_dict = serialize_category(cat, merchant_type)
-        if cat_dict['inner_merchants'] > 0:
-            cat_list.append(cat_dict)
-    return cat_list
-
-
-class JsonApiView(JSONResponseMixin, View):
-    VALIDATED    = 'validated'
-    CANDIDATES   = 'candidates'
-    BLOCKED = 'blocked'
-    def get_categories(self):
-        merchant_type = self.kwargs['merchant_type']
-        if not merchant_type:
-            merchant_type = self.VALIDATED
-        categories = Category.objects.filter(parent_category__isnull=True)
-        return serialize_categories(categories, merchant_type)
-
-
 class MerchantDetail(generics.RetrieveAPIView):
     queryset = Merchant.objects.all()
     serializer_class = serializers.MerchantSerializer
+
+class CategoryList(APIView):
+
+    def get(self, request, merchant_type=None):
+        categories = Category.objects.filter(parent_category__isnull=True)
+
+        if merchant_type == 'validated':
+            serializer = serializers.CategoryValidatedSerializer(categories)
+        elif merchant_type == 'candidates':
+            serializer = serializers.CategoryCandidatesSerializer(categories)
+        elif merchant_type == 'blocked':
+            serializer = serializers.CategoryBlockedSerializer(categories)
+        else:
+            serializer = serializers.CategorySerializer(categories)
+            
+        return Response(serializer.data)
 
 def send_new_mer_mails(mer):
     context = {'merchant': mer}
@@ -135,7 +90,8 @@ def mer_edit(request, id=None, template_name='edit_merchant.html'):
 
     return render(request, template_name, {'form': form})
 
-class MerchantValidate(APIView):
+class ValidateMerchant(APIView):
+
     def get(self, request, pk):
         if not request.user.has_perm("trade.change_merchant"):
             return HttpResponseForbidden()
