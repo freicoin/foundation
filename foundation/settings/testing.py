@@ -14,6 +14,11 @@ necessary to setup a sandboxed settings environment.
 # configuration:
 from .common import *
 
+# Session and CSRF keys for the production site are not kept under version
+# control, but rather provided by the production environment configuration.
+# For the testing purposes, a deterministic secret key is used:
+SECRET_KEY = '1234567890abcdefghijklmnopqrstuvwxyz'
+
 # Run syncdb and migrate on first run if an in-memory database is used.
 MIDDLEWARE_CLASSES = (
         'django_patterns.middleware.SyncDBOnStartupMiddleware',
