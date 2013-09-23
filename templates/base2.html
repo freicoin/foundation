@@ -262,36 +262,6 @@
         viewed.</p>
 <![endif]-->
 
-<footer class="navbar navbar-default navbar-static-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle"
-              data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="{% url 'home' %}#/">Freicoin Foundation</a>
-    </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">{% block nav %}
-        <li class="{% block nav-faucet-class %}{% endblock %}">{% block nav-faucet %}<a href="{% url 'faucet' %}">Faucet</a>{% endblock %}</li>
-        <li class="{% block nav-donations-class %}{% endblock %}">{% block nav-donations %}<a href="{% url 'nonprofits' %}">Donations</a>{% endblock %}</li>
-        <li class="{% block nav-trade-class %}{% endblock %}">{% block nav-trade %}<a href="{% url 'home' %}#/trade">Trade</a>{% endblock %}</li>
-        <li class="{% block nav-about-class %}{% endblock %}">{% block nav-about %}<a href="{% url 'home' %}#/about">About</a>{% endblock %}</li>
-      {% endblock nav %}</ul>
-      <ul class="nav navbar-nav navbar-right">{% block auth %}
-        {% if user.is_authenticated %}
-          <li class="{% block nav-logout-class %}{% endblock %}">{% block nav-logout %}<a href="{% url 'logout' %}">Logout</a>{% endblock %}</li>
-        {% else %}
-          <li class="{% block nav-register-class %}{% endblock %}">{% block nav-register %}<a href="{% url 'register' %}">Register</a>{% endblock %}</li>
-          <li class="{% block nav-login-class %}{% endblock %}">{% block nav-login %}<a href="{% url 'login' %}">Login</a>{% endblock %}</li>
-        {% endif %}
-      {% endblock auth %}</ul>
-    </div>
-  </div>
-</footer>
-
 <div class="container">{% block content %}{% endblock %}</div>
 
 <div class="container">
@@ -306,7 +276,7 @@
       </p>
 
       <p id="copyright-footer">
-        <span id="copyright" class="copyright">Copyright &copy; {{ site.time | date:"%Y" }} <a href="{% url 'home' %}#/copyright/">Freicoin Developers</a>
+        <span id="copyright" class="copyright">Copyright &copy; {{ site.time | date:"%Y" }} <a href="#/copyright/">Freicoin Developers</a>
       </p>
     {% endblock footer %}
   </footer>

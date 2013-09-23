@@ -1,13 +1,46 @@
-{% extends "base.html" %}
+{% extends "base2.html" %}
 
 {% block nav-trade-class %} active{% endblock %}
 
 {% load staticfiles %}
 
 {% block content %}
-{% verbatim %}
 
-<div ng-app="appTrade">
+<div ng-app="foundationApp">
+
+<footer class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle"
+              data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/">Freicoin Foundation</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav" ng-controller="NavigationCtrl">
+        {% block nav %}
+        <li><a href="{% url 'faucet' %}">Faucet</a></li>
+        <li><a href="{% url 'nonprofits' %}">Donations</a></li>
+        <li ng-class="navClass('trade')"><a href="#/trade">Trade</a></li>
+        <li ng-class="navClass('about')"><a href="#/about">About</a></li>
+        {% endblock %}
+      </ul>
+      <ul class="nav navbar-nav navbar-right">{% block auth %}
+        {% if user.is_authenticated %}
+          <li class="{% block nav-logout-class %}{% endblock %}">{% block nav-logout %}<a href="{% url 'logout' %}">Logout</a>{% endblock %}</li>
+        {% else %}
+          <li class="{% block nav-register-class %}{% endblock %}">{% block nav-register %}<a href="{% url 'register' %}">Register</a>{% endblock %}</li>
+          <li class="{% block nav-login-class %}{% endblock %}">{% block nav-login %}<a href="{% url 'login' %}">Login</a>{% endblock %}</li>
+        {% endif %}
+      {% endblock auth %}</ul>
+    </div>
+  </div>
+</footer>
+
+{% verbatim %}
 
 <div ng-switch="messages.length != null">
   <div ng-switch-when="true">
@@ -60,6 +93,9 @@ angular.module('django_constants', [])
     "trade_admin": {% if perms.trade.change_merchant %} 1 {% else %} null {% endif %},
     "csrf_token": "{{ csrf_token }}",
     "static_urls": {
+      "home": "{% static 'html/home.html' %}",
+      "about": "{% static 'html/about.html' %}",
+      "copyright": "{% static 'html/copyright.html' %}",
       "list": "{% static 'trade/partials/merchant_list.html' %}",
       "detail": "{% static 'trade/partials/merchant_detail.html' %}",
       "edit": "{% static 'trade/partials/merchant_form.html' %}"
@@ -76,6 +112,7 @@ angular.module('django_constants', [])
 </script>
 
 <script src="{% static 'trade/js/app.js' %}"></script>
+<script src="{% static 'js/controllers/navigation.js' %}"></script>
 <script src="{% static 'trade/js/controllers.js' %}"></script>
 <script src="{% static 'trade/js/services.js' %}"></script>
 <script src="{% static 'trade/js/commonServices.js' %}"></script>
