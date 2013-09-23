@@ -5,10 +5,10 @@
 {% load staticfiles %}
 
 {% block content %}
+{% verbatim %}
 
 <div ng-app="appTrade">
 
-{% verbatim %}
 <div ng-switch="messages.length != null">
   <div ng-switch-when="true">
     <div class="alert alert-{{message_style}}" ng-repeat="message in messages">
@@ -42,11 +42,11 @@
     </div>
   </div>
 </div>
-{% endverbatim %}
 
   <div ng-view></div>
 </div>
 
+{% endverbatim %}
 {% endblock %}
 
 {% block app-scripts %}
