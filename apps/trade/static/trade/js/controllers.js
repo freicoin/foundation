@@ -43,12 +43,8 @@ angular.module('tradeControllers', ['django_constants', 'commonServices', 'trade
 
     $scope.django = django;
 
-    var form = $("#merchant_form");
-    var actionUrl = form.attr('action');
-
     if ($routeParams.merchantId) {
     
-      actionUrl += $routeParams.merchantId;
       TradeSrv.getMerchant($routeParams.merchantId, function(merchant) {
         $scope.merchant = merchant;
       });
