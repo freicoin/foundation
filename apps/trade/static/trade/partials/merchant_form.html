@@ -20,20 +20,31 @@
       <label class="control-label" for="id_name">Name</label>
       <div class="controls">
         <input id="id_name" maxlength="40" name="name" ng-model="merchant.name" type="text" required/>
+        <span class="help-inline" style="color:red" 
+              ng-show="form.name.$dirty && form.name.$error.required">Required!</span>
       </div>
     </div>
     <div class="control-group required">
       <label class="control-label" for="id_category">Category</label>
       <div class="controls">
-        <select ng-model="merchant.category" required 
+        <select name="category" ng-model="merchant.category" required 
                 ng-options="c.id as c.name for c in categories">
         </select>
+        <span class="help-inline" style="color:red"
+              ng-show="form.category.$dirty && form.category.$error.required">Required!</span>     
       </div>
     </div>
     <div class="control-group required">
       <label class="control-label" for="id_website">Website</label>
       <div class="controls">
-        <input id="id_website" maxlength="200" name="website" ng-model="merchant.website" type="text" required/>
+        <input id="id_website" maxlength="200" name="website" 
+               ng-model="merchant.website" type="url" required/>
+          <span class="help-inline" style="color:red"
+               ng-show="form.website.$dirty && form.website.$error.required">
+            Required!</span>
+          <span class="help-inline" style="color:red" 
+                ng-show="form.website.$dirty && form.website.$error.url">
+            Invalid URL format!</span>
       </div>
     </div>
     <div class="control-group required">
@@ -43,6 +54,8 @@
                   name="short_description"
                   ng-model="merchant.short_description" rows="5" required>
         </textarea>
+        <span class="help-inline" style="color:red" 
+              ng-show="form.short_description.$dirty && form.short_description.$error.required">Required!</span>      
       </div>
     </div>
     <div class="control-group required">
@@ -52,11 +65,13 @@
                   name="long_description"
                   ng-model="merchant.long_description" rows="10" required>
         </textarea>
+         <span class="help-inline" style="color:red" 
+               ng-show="form.long_description.$dirty && form.long_description.$error.required">Required!</span>     
       </div>
     </div>
     <div class="form-actions">
       <button class="btn btn-primary" ng-click="submit()"
-              ng-disabled="disableSubmit">Submit Request</button>
+              ng-disabled="form.$invalid || disableSubmit">Submit Request</button>
       <span ng-show="disableSubmit">Sending message, please wait... </span>
     </div>
     
