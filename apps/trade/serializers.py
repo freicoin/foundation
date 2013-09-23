@@ -22,13 +22,9 @@ class MerchantShortSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'website', 'short_description')
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
-    merchants = MerchantShortSerializer(source='merchants')
-
     class Meta:
         model = Category
-        fields = ('id', 'name', 'merchants', 'child_categories')
-
-CategorySerializer.base_fields['child_categories'] = CategorySerializer()
+        fields = ('id', 'name')
 
 class CategoryValidatedSerializer(serializers.HyperlinkedModelSerializer):
     merchants = MerchantShortSerializer(source='validated')

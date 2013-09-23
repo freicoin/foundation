@@ -50,6 +50,10 @@ angular.module('tradeControllers', ['django_constants', 'commonServices', 'trade
       });
     }
 
+    TradeSrv.getCategories("all", function(categories) {
+      $scope.categories = categories;
+    });
+
     $scope.submit = function() {
       $scope.disableSubmit = true;
 

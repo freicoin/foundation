@@ -2,11 +2,13 @@ angular.module('tradeServices', ['django_constants', 'commonServices'])
   .service('TradeSrv', function ($http, django, MessageSrv){
 
       var categories = {
+        all: [],
         validated: [],
         candidates: [],
         blocked: []
       };
       var merchantCount = {
+        all: 0,
         validated: 0,
         candidates: 0,
         blocked: 0

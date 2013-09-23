@@ -25,14 +25,8 @@
     <div class="control-group required">
       <label class="control-label" for="id_category">Category</label>
       <div class="controls">
-        <select id="id_category" name="category"
-                ng-model="merchant.category" required>
-          <option value="" selected="selected">---------</option>
-          <option value="1">aaaaaaaaa</option>
-          <option value="2">bbbbbbbbbb</option>
-          <option value="3">cccccccccc</option>
-          <option value="4">zzzzzzzz</option>
-          <option value="5">yyyyyyyyy</option>
+        <select ng-model="merchant.category" required 
+                ng-options="c.id as c.name for c in categories">
         </select>
       </div>
     </div>
