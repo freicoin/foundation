@@ -1,0 +1,70 @@
+<h3>Merchant edit form:</h3>
+
+<p>
+  If you're a merchant that accepts Freicoin as payment you should
+  advertise yourself for free here.
+</p>
+  
+<p>
+  If you accept donations but your organization doesn't qualify as
+  non-profit you can also advertise yourself to receive Freicoin
+  donations here. The foundation won't increase the donations you
+  receive through this section.
+</p>
+
+<form name="form" class="form-horizontal"
+      id="merchant_form" novalidate>
+  <div id="ajax_wrapper">
+    
+    <div class="control-group required">
+      <label class="control-label" for="id_name">Name</label>
+      <div class="controls">
+        <input id="id_name" maxlength="40" name="name" ng-model="merchant.name" type="text" required/>
+      </div>
+    </div>
+    <div class="control-group required">
+      <label class="control-label" for="id_category">Category</label>
+      <div class="controls">
+        <select id="id_category" name="category"
+                ng-model="merchant.category" required>
+          <option value="" selected="selected">---------</option>
+          <option value="1">aaaaaaaaa</option>
+          <option value="2">bbbbbbbbbb</option>
+          <option value="3">cccccccccc</option>
+          <option value="4">zzzzzzzz</option>
+          <option value="5">yyyyyyyyy</option>
+        </select>
+      </div>
+    </div>
+    <div class="control-group required">
+      <label class="control-label" for="id_website">Website</label>
+      <div class="controls">
+        <input id="id_website" maxlength="200" name="website" ng-model="merchant.website" type="text" required/>
+      </div>
+    </div>
+    <div class="control-group required">
+      <label class="control-label" for="id_short_description">Short description</label>
+      <div class="controls">
+        <textarea cols="50" id="id_short_description"
+                  name="short_description"
+                  ng-model="merchant.short_description" rows="5" required>
+        </textarea>
+      </div>
+    </div>
+    <div class="control-group required">
+      <label class="control-label" for="id_long_description">Long description</label>
+      <div class="controls">
+        <textarea cols="50" id="id_long_description"
+                  name="long_description"
+                  ng-model="merchant.long_description" rows="10" required>
+        </textarea>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" ng-click="submit()"
+              ng-disabled="disableSubmit">Submit Request</button>
+      <span ng-show="disableSubmit">Sending message, please wait... </span>
+    </div>
+    
+  </div>
+</form>

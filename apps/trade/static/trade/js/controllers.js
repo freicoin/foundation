@@ -1,5 +1,5 @@
 
-angular.module('tradeControllers', ['django_constants', 'tradeServices'])
+angular.module('tradeControllers', ['django_constants', 'commonServices', 'tradeServices'])
   .controller('CategoriesCtrl', ['$scope', '$routeParams', 'django', 'TradeSrv', 
                                  function($scope, $routeParams, django, TradeSrv){
 
@@ -12,8 +12,8 @@ angular.module('tradeControllers', ['django_constants', 'tradeServices'])
       $scope.merchant_count = merchant_count;
     });
   }])
-  .controller('MerchantDetailCtrl', ['$scope', '$routeParams', 'django', 'TradeSrv', 
-                                 function($scope, $routeParams, django, TradeSrv){
+  .controller('MerchantDetailCtrl', ['$scope', '$routeParams', 'django', 'MessageSrv', 'TradeSrv', 
+                                 function($scope, $routeParams, django, MessageSrv, TradeSrv){
 
     $scope.django = django;
 
@@ -22,8 +22,18 @@ angular.module('tradeControllers', ['django_constants', 'tradeServices'])
     });
 
     $scope.validate = function() {
+      var msg = null;
+      if ($scope.merchant.validated_by){
+        msg = "The merchant has been blocked."
+      } else if ($scope.merchant.validated) {
+        msg = "The merchant is valid again."
+      } else {
+        msg = "The merchant has been validated."
+      }
+         
       TradeSrv.validateMerchant($routeParams.merchantId, function(merchant) {
         $scope.merchant = merchant;
+        MessageSrv.setMessage(msg, "success");
       });
     };
 
@@ -44,17 +54,17 @@ angular.module('tradeControllers', ['django_constants', 'tradeServices'])
       });
     }
 
-    form.submit(function(e) {
-      $("#submit_button").attr('disabled', true)
-      $("#submit_wrapper").append('<span>Sending message, please wait... </span>')
-      $("#ajax_wrapper").load(
-        actionUrl + ' #ajax_wrapper',
-        form.serializeArray(),
-        function(responseText, responseStatus) {
-          $("#submit_button").attr('disabled', false)
-        }
-      );
-      e.preventDefault(); 
-    });
+    $scope.submit = function() {
+      $scope.disableSubmit = true;
 
+      var callback = function() {
+        $scope.disableSubmit = false;
+      }
+
+      if ($routeParams.merchantId) {
+        TradeSrv.updateMerchant($scope.merchant, $routeParams.merchantId, callback);
+      } else {
+        TradeSrv.createMerchant($scope.merchant, callback);
+      }
+    };
   }]);

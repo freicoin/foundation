@@ -7,6 +7,43 @@
 {% block content %}
 
 <div ng-app="appTrade">
+
+{% verbatim %}
+<div ng-switch="messages.length != null">
+  <div ng-switch-when="true">
+    <div class="alert alert-{{message_style}}" ng-repeat="message in messages">
+      <li>{{ message }}</li>
+    </div>
+    
+  </div>
+  <!-- If doesn't has length it's an object/dictionary -->
+  <div ng-switch-when="false">
+    <div class="alert alert-{{message_style}}" ng-repeat="(key, values) in messages">
+
+      <div ng-switch="isString(values)">
+        <div ng-switch-when="true">
+          <strong> {{ key }} </strong> {{ values }}
+        </div>
+        <div ng-switch-when="false">
+
+          <div ng-switch="values.length > 1">
+            <div ng-switch-when="true">
+              <strong> {{ key }} </strong>
+              <ul ng-repeat="value in values">
+                <li>{{ value }}</li>
+              </ul>
+            </div>
+            <div ng-switch-when="false">
+              <strong> {{ key }} </strong> {{ values[0] }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endverbatim %}
+
   <div ng-view></div>
 </div>
 
@@ -21,13 +58,14 @@ angular.module('django_constants', [])
     "user_authenticated": {% if user.is_authenticated %}1{% else %}0{% endif %},
     "user_id": {% if user.is_authenticated %} {{ user.id }} {% else %} null {% endif %},
     "trade_admin": {% if perms.trade.change_merchant %} 1 {% else %} null {% endif %},
+    "csrf_token": "{{ csrf_token }}",
     "urls": {
       "list": "{% static 'trade/partials/merchant_list.html' %}",
       "detail": "{% static 'trade/partials/merchant_detail.html' %}",
-      "join": "{% url 'mer_new' %}",
-      "edit": "{% url 'mer_edit' %}",
+      "edit": "{% static 'trade/partials/merchant_form.html' %}",
       "validate": "{% url 'mer_validate' %}",
-      "json": "{% url 'trade_json' %}"
+      "json": "{% url 'trade_json' %}",
+      "json_edit": "{% url 'mer_edit' %}"
     }
   });
 
@@ -36,4 +74,6 @@ angular.module('django_constants', [])
 <script src="{% static 'trade/js/app.js' %}"></script>
 <script src="{% static 'trade/js/controllers.js' %}"></script>
 <script src="{% static 'trade/js/services.js' %}"></script>
+<script src="{% static 'trade/js/commonServices.js' %}"></script>
 {% endblock %}
+

@@ -231,6 +231,8 @@
     {# The primary stylesheets for the current theme. #}
     <link rel="stylesheet" type="text/css" media="all"
           href="/static/theme/{% if theme %}{{ theme }}{% else %}{{ settings.DEFAULT_THEME }}{% endif %}/css/main.css"/>
+
+    <link rel="stylesheet" type="text/css" media="all" href="/static/css/main.css"/>
 {% endblock stylesheets %}
 
 {% block javascript_header %}

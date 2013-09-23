@@ -1,0 +1,51 @@
+
+form[novalidate] input {
+    border-color: black;
+    border-style: solid;
+}
+
+input[required].ng-pristine {
+    border-color: black;
+}
+
+input.ng-invalid.ng-dirty {
+    border-color: red;
+}
+
+input.ng-valid.ng-dirty {
+    border-color: green;
+}
+
+form[novalidate] textarea {
+    border-color: black;
+    border-style: solid;
+}
+
+textarea[required].ng-pristine {
+    border-color: black;
+}
+
+textarea.ng-invalid.ng-dirty {
+    border-color: red;
+}
+
+textarea.ng-valid.ng-dirty {
+    border-color: green;
+}
+
+form[novalidate] select {
+    border-color: black;
+    border-style: solid;
+}
+
+select[required].ng-pristine {
+    border-color: black;
+}
+
+select.ng-invalid.ng-dirty {
+    border-color: red;
+}
+
+select.ng-valid.ng-dirty {
+    border-color: green;
+}

@@ -1,5 +1,5 @@
-angular.module('tradeServices', ['django_constants'])
-  .service('TradeSrv', function ($http, django){
+angular.module('tradeServices', ['django_constants', 'commonServices'])
+  .service('TradeSrv', function ($http, django, MessageSrv){
 
       var categories = {
         validated: [],
@@ -35,8 +35,56 @@ angular.module('tradeServices', ['django_constants'])
       getMerchant: function(merchantId, callback){
           $http.get(django.urls.json + merchantId).success(callback);
       },
+      createMerchant: function(merchant, callback){
+
+        var successCallback = function(messages) {
+          MessageSrv.setMessages(messages, "success");
+          callback();
+        }
+        var errorCallback = function(messages, status) {
+          MessageSrv.setMessages(messages, "error");
+          callback();
+        }
+
+        if (merchant == null) {
+          errorCallback("The merchant cannot be empty!")
+        } else {
+          $http.post(django.urls.json_edit, merchant)
+            .success(successCallback)
+            .error(errorCallback);
+        }
+      },
+      updateMerchant: function(merchant, merchantId, callback){
+        
+        var successCallback = function(messages) {
+          MessageSrv.setMessages(messages, "success");
+          callback();
+        }
+        var errorCallback = function(messages, status) {
+          MessageSrv.setMessages(messages, "error");
+          callback();
+        }
+
+        if (merchant == null) {
+          errorCallback("The merchant cannot be empty!")
+        } else {
+          $http.put(django.urls.json_edit + merchantId + '/', merchant)
+            .success(successCallback)
+            .error(errorCallback);
+        }
+
+        
+      },
       validateMerchant: function(merchantId, callback){
-        $http.get(django.urls.validate + merchantId + '/').success(callback);
+
+        var errorCallback = function(messages, status) {
+          MessageSrv.setMessages(messages, "error");
+          callback();
+        }
+
+        $http.put(django.urls.validate + merchantId + '/', {})
+          .success(callback)
+          .error(errorCallback);
       }
     };
   });

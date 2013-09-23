@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from djangular.views.mixins import JSONResponseMixin, HttpResponseBadRequest
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import status, generics
 
 from django.conf import settings
 from apps.utils import utils
@@ -65,34 +65,54 @@ def send_new_mer_mails(mer):
                          "Thanks for registering your business !", 
                          'noreply@freicoin.org', mer.email)
 
-@login_required
-def mer_edit(request, id=None, template_name='edit_merchant.html'):
+class EditMerchant(APIView):
 
-    if id:
-        mer = get_object_or_404(Merchant, pk=id)
+    def commonSave(self, request, serializer):
+        serializer.save()
+
+    def put(self, request, pk):
+
+        mer = get_object_or_404(Merchant, pk=pk)
         if (not request.user.has_perm("trade.change_merchant")
             and mer.user != request.user):
             return HttpResponseForbidden()
-    else:
-        mer = Merchant(user=request.user)
 
-    form = forms.MerchantForm(request.POST or None, instance=mer)
+        data = request.DATA
+        data['user'] = mer.user.id
+        serializer = serializers.MerchantSerializer(mer, data=data)
+        if serializer.is_valid():
+            
+            mer = serializer.save()
+            mer.save()
+            # mer.email = request.user.email
+            # send_new_mer_mails(mer)
 
-    if (request.POST or id) and form.is_valid():
+            # return Response(serializer.data, status=status.HTTP_201_CREATED)
+            msg = "Thank you for submitting your request. It will be validated by a human soon."
+            return Response({"Success: ": [msg]}, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        mer = form.save()
-        mer.save()
+    def post(self, request):
 
-        mer.email = request.user.email
-        send_new_mer_mails(mer)
-        msg = "Thank you for submitting your request. It will be validated by a human soon."
-        return render(request, template_name, {'msg': msg})
+        data = request.DATA
+        data['user'] = request.user.id
+        serializer = serializers.MerchantSerializer(data=data)
+        if serializer.is_valid():
+            
+            serializer.save()
+            # mer.email = request.user.email
+            # send_new_mer_mails(mer)
 
-    return render(request, template_name, {'form': form})
+            # return Response(serializer.data, status=status.HTTP_201_CREATED)
+            msg = "Thank you for submitting your request. It will be validated by a human soon."
+            return Response({"Success: ": [msg]}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ValidateMerchant(APIView):
 
-    def get(self, request, pk):
+    def put(self, request, pk):
         if not request.user.has_perm("trade.change_merchant"):
             return HttpResponseForbidden()
         mer = get_object_or_404(Merchant, pk=pk)

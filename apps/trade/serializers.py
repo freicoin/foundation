@@ -4,11 +4,13 @@ from .models import *
 
 class MerchantSerializer(serializers.ModelSerializer):
     category_name = serializers.Field(source='category.name')
-    user = serializers.Field(source='user.username')
+    owner = serializers.Field(source='user.username')
+    validated_by = serializers.Field(source='validated_by.username')
+    validated = serializers.Field(source='validated')
 
     class Meta:
         model = Merchant
-        fields = ('id', 'name', 'website', 'category', 'category_name', 'user',
+        fields = ('id', 'name', 'website', 'category', 'category_name', 'user', 'owner',
                   'short_description', 'long_description', 'validated', 'validated_by')
 
 class MerchantShortSerializer(serializers.ModelSerializer):
