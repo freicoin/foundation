@@ -7,7 +7,7 @@ angular.module('tradeControllers', ['django_constants', 'commonServices', 'trade
     $scope.type = $routeParams.merchantType ? $routeParams.merchantType : 'validated';
     $scope.orderProp = 'id';
 
-    TradeSrv.getCategories($scope.type, function(categories, merchant_count){
+    TradeSrv.getCategoryTree($scope.type, function(categories, merchant_count){
       $scope.categories_tree = categories;
       $scope.merchant_count = merchant_count;
     });
@@ -50,7 +50,7 @@ angular.module('tradeControllers', ['django_constants', 'commonServices', 'trade
       });
     }
 
-    TradeSrv.getCategories("all", function(categories) {
+    TradeSrv.getCategories(function(categories) {
       $scope.categories = categories;
     });
 

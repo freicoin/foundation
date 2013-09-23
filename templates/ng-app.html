@@ -59,13 +59,17 @@ angular.module('django_constants', [])
     "user_id": {% if user.is_authenticated %} {{ user.id }} {% else %} null {% endif %},
     "trade_admin": {% if perms.trade.change_merchant %} 1 {% else %} null {% endif %},
     "csrf_token": "{{ csrf_token }}",
-    "urls": {
+    "static_urls": {
       "list": "{% static 'trade/partials/merchant_list.html' %}",
       "detail": "{% static 'trade/partials/merchant_detail.html' %}",
-      "edit": "{% static 'trade/partials/merchant_form.html' %}",
-      "validate": "{% url 'mer_validate' %}",
-      "json": "{% url 'trade_json' %}",
-      "json_edit": "{% url 'mer_edit' %}"
+      "edit": "{% static 'trade/partials/merchant_form.html' %}"
+    },
+    "urls": {
+      "trade_categories": "{% url 'trade_categories' %}",
+      "trade_category_tree": "{% url 'trade_category_tree' %}",
+      "trade_merchant_detail": "{% url 'trade_merchant_detail' %}",
+      "trade_merchant_edit": "{% url 'trade_merchant_edit' %}",
+      "trade_merchant_validate": "{% url 'trade_merchant_validate' %}"
     }
   });
 

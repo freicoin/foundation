@@ -21,11 +21,11 @@ from models import *
 import forms
 import serializers
 
-class MerchantDetail(generics.RetrieveAPIView):
-    queryset = Merchant.objects.all()
-    serializer_class = serializers.MerchantSerializer
+class CategoryList(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = serializers.CategoryShortSerializer
 
-class CategoryList(APIView):
+class CategoryTree(APIView):
 
     def get(self, request, merchant_type=None):
         categories = Category.objects.filter(parent_category__isnull=True)
@@ -41,6 +41,10 @@ class CategoryList(APIView):
             serializer = serializers.CategorySerializer(categories)
             
         return Response(serializer.data)
+
+class MerchantDetail(generics.RetrieveAPIView):
+    queryset = Merchant.objects.all()
+    serializer_class = serializers.MerchantSerializer
 
 def send_new_mer_mails(mer):
     context = {'merchant': mer}

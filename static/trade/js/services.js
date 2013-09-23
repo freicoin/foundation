@@ -1,27 +1,42 @@
 angular.module('tradeServices', ['django_constants', 'commonServices'])
   .service('TradeSrv', function ($http, django, MessageSrv){
 
-      var categories = {
-        all: [],
-        validated: [],
-        candidates: [],
-        blocked: []
-      };
-      var merchantCount = {
-        all: 0,
-        validated: 0,
-        candidates: 0,
-        blocked: 0
-      };
+    var categories_short = [];
+
+    var categories = {
+      all: [],
+      validated: [],
+      candidates: [],
+      blocked: []
+    };
+    var merchantCount = {
+      all: 0,
+      validated: 0,
+      candidates: 0,
+      blocked: 0
+    };
 
     return {
-      getCategories: function (merchant_type, callback){
+      getCategories: function (callback){
+
+        if (categories_short.length > 0){
+            callback(categories_short);
+        } else {
+
+          $http.get(django.urls.trade_categories)
+            .success(function(data) {
+              categories_short = data;
+              callback(categories_short);
+            });
+        }
+      },
+      getCategoryTree: function (merchant_type, callback){
 
         if (merchantCount[merchant_type] > 0){
             callback(categories[merchant_type], merchantCount[merchant_type]);
         } else {
 
-          $http.get(django.urls.json + merchant_type)
+          $http.get(django.urls.trade_category_tree + merchant_type)
             .success(function(data) {
 
               categories[merchant_type] = data;
@@ -35,7 +50,7 @@ angular.module('tradeServices', ['django_constants', 'commonServices'])
         }
       },
       getMerchant: function(merchantId, callback){
-          $http.get(django.urls.json + merchantId).success(callback);
+          $http.get(django.urls.trade_merchant_detail + merchantId).success(callback);
       },
       createMerchant: function(merchant, callback){
 
@@ -51,7 +66,7 @@ angular.module('tradeServices', ['django_constants', 'commonServices'])
         if (merchant == null) {
           errorCallback("The merchant cannot be empty!")
         } else {
-          $http.post(django.urls.json_edit, merchant)
+          $http.post(django.urls.trade_merchant_edit, merchant)
             .success(successCallback)
             .error(errorCallback);
         }
@@ -70,7 +85,7 @@ angular.module('tradeServices', ['django_constants', 'commonServices'])
         if (merchant == null) {
           errorCallback("The merchant cannot be empty!")
         } else {
-          $http.put(django.urls.json_edit + merchantId + '/', merchant)
+          $http.put(django.urls.trade_merchant_edit + merchantId + '/', merchant)
             .success(successCallback)
             .error(errorCallback);
         }
@@ -84,7 +99,7 @@ angular.module('tradeServices', ['django_constants', 'commonServices'])
           callback();
         }
 
-        $http.put(django.urls.validate + merchantId + '/', {})
+        $http.put(django.urls.trade_merchant_validate + merchantId + '/', {})
           .success(callback)
           .error(errorCallback);
       }
