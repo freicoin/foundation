@@ -23,6 +23,8 @@ urlpatterns = patterns('',
     url(r'^about/$', TemplateView.as_view(template_name='about.html'), name='about'),
     url(r'^copyright/$', TemplateView.as_view(template_name='copyright.html'), name='copyright'),
 
+    url(r'^trade/$', 'foundation.views.ng_app', name='trade'),
+
     # Included apps and their root
     url(r'', include('apps.accounts.urls')),
     url(r'^faucet/', include('apps.faucet.urls')),

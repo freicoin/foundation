@@ -4,8 +4,6 @@ import views
 
 urlpatterns = patterns('apps.trade.views',
 
-    url(r'^$', 'ng_trade', name='trade'),
-
     url(r'^json/$', views.CategoryList.as_view(), name='trade_json'),
 
     url(r'^json/(?P<pk>[0-9]+)/$', views.MerchantDetail.as_view()),

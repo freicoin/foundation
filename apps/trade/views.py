@@ -21,9 +21,6 @@ from models import *
 import forms
 import serializers
 
-def ng_trade(request):
-    return render(request, 'ng-trade.html')
-
 class MerchantDetail(generics.RetrieveAPIView):
     queryset = Merchant.objects.all()
     serializer_class = serializers.MerchantSerializer
