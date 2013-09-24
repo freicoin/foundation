@@ -1,6 +1,6 @@
 
 angular.module('tradeControllers', ['django_constants', 'commonServices', 'tradeServices'])
-  .controller('CategoriesCtrl', ['$scope', '$routeParams', 'django', 'TradeSrv', 
+  .controller('MerCategoriesCtrl', ['$scope', '$routeParams', 'django', 'TradeSrv', 
                                  function($scope, $routeParams, django, TradeSrv){
 
     $scope.django = django;

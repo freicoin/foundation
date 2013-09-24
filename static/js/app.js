@@ -7,14 +7,14 @@ var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls', 
       when('/about', {templateUrl: django.static_urls.about}).
       when('/copyright', {templateUrl: django.static_urls.copyright}).
 
-      when('/trade', {templateUrl: django.static_urls.trade_list, controller: 'CategoriesCtrl'}).
+      when('/trade', {templateUrl: django.static_urls.trade_list, controller: 'MerCategoriesCtrl'}).
       when('/trade/join', {templateUrl: django.static_urls.trade_edit, controller: 'MerchantEditCtrl'}).
       when('/trade/edit/:merchantId', {templateUrl: django.static_urls.trade_edit, 
                                        controller: 'MerchantEditCtrl'}).
       when('/trade/detail/:merchantId', {templateUrl: django.static_urls.trade_detail, 
                                          controller: 'MerchantDetailCtrl'}).
       when('/trade/:merchantType', {templateUrl: django.static_urls.trade_list, 
-                                    controller: 'CategoriesCtrl'}).
+                                    controller: 'MerCategoriesCtrl'}).
 
       when('/donations', {templateUrl: django.static_urls.donations_list, 
                           controller: 'OrgCategoriesCtrl'}).
