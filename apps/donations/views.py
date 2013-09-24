@@ -26,66 +26,29 @@ def ng_donations(request):
                   {'frc_explorer': settings.FRC_EXPLORER,
                    'btc_explorer': settings.BTC_EXPLORER})
 
-def serialize_org_short(org):
-    org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'short_description'])
-    org_dict['foundation_address'] = org.foundation_address_value
-    return org_dict
+class CategoryList(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = serializers.CategoryShortSerializer
 
-def get_organizations(category, org_type):
+class CategoryTree(APIView):
 
-    if org_type == JsonApiView.VALIDATED:
-        orgs = category.organizations.filter(validated_by__isnull=False)
-    elif org_type == JsonApiView.CANDIDATES:
-        orgs = category.organizations.filter(validated_by__isnull=True
-                                              ).filter(validated__isnull=True)
-    elif org_type == JsonApiView.BLOCKED:
-        orgs = category.organizations.filter(validated_by__isnull=True
-                                              ).filter(validated__isnull=False)
-    org_list = []
-    for org in orgs:
-        org_list.append( serialize_org_short(org) )
-    return org_list
+    def get(self, request, organization_type=None):
+        categories = Category.objects.filter(parent_category__isnull=True)
 
-def serialize_category(category, org_type):
-    orgs = get_organizations(category, org_type)
-    org_count = len(orgs)
-
-    categories = category.child_categories.all()
-    cat_list = []
-    for cat in categories:
-        cat_dict = serialize_category(cat, org_type)
-        if cat_dict['inner_organizations'] > 0:
-            org_count += cat_dict['inner_organizations']
-            cat_list.append(cat_dict)
-
-    return {'id': category.pk,
-            'name': category.name,
-            'organizations': orgs,
-            'inner_organizations': org_count,            
-            'child_categories': cat_list}
-
-def serialize_categories(categories, org_type):
-    cat_list = []
-    for cat in categories:
-        cat_dict = serialize_category(cat, org_type)
-        if cat_dict['inner_organizations'] > 0:
-            cat_list.append(cat_dict)
-    return cat_list
+        if organization_type == 'validated':
+            serializer = serializers.CategoryValidatedSerializer(categories)
+        elif organization_type == 'candidates':
+            serializer = serializers.CategoryCandidatesSerializer(categories)
+        elif organization_type == 'blocked':
+            serializer = serializers.CategoryBlockedSerializer(categories)
+        else:
+            serializer = serializers.CategorySerializer(categories)
+            
+        return Response(serializer.data)
 
 class OrganizationDetail(generics.RetrieveAPIView):
     queryset = Organization.objects.all()
     serializer_class = serializers.OrganizationSerializer
-
-class JsonApiView(JSONResponseMixin, View):
-    VALIDATED    = 'validated'
-    CANDIDATES   = 'candidates'
-    BLOCKED = 'blocked'
-    def get_categories(self):
-        org_type = self.kwargs['org_type']
-        if not org_type:
-            org_type = self.VALIDATED
-        categories = Category.objects.filter(parent_category__isnull=True)
-        return serialize_categories(categories, org_type)
 
 def send_new_org_mails(org):
     context = {'org': org}
