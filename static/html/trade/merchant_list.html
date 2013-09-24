@@ -9,11 +9,11 @@
   </p>
 
   <p>
-    See <a href="#/candidates">candidates list</a>.
+    See <a href="#/trade/candidates">candidates list</a>.
   </p>
 
   <p ng-show="django.trade_admin">
-    See <a href="#/blocked">blocked merchants list</a>.
+    See <a href="#/trade/blocked">blocked merchants list</a>.
   </p>
 </div>
 
@@ -26,7 +26,7 @@
   </p>
 
   <p>
-    Go back to <a href="#/">merchant list</a>.
+    Go back to <a href="#/trade">merchant list</a>.
   </p>
 </div>
 
@@ -38,14 +38,14 @@
   </p>
 
   <p>
-    Go back to <a href="#/">merchant list</a>.
+    Go back to <a href="#/trade">merchant list</a>.
   </p>
 </div>
 
   <!-- BUTTONS -->
 <p ng-show="django.user_authenticated">
   <br>
-  <a href="#/join" class="btn btn-primary">Add new Merchant</a>
+  <a href="#/trade/join" class="btn btn-primary">Add new Merchant</a>
   <br>
 </p>
 
@@ -76,7 +76,7 @@
   <table border="1">
     <tr ng-repeat="merchant in category.merchants | filter:query | orderBy:orderProp">
 
-      <td><a href="#/detail/{{merchant.id}}">{{merchant.name}}</a></td>
+      <td><a href="#/trade/detail/{{merchant.id}}">{{merchant.name}}</a></td>
       <td><a href="{{ merchant.website }}">{{ merchant.website }}</a></td>
       <td>{{ merchant.short_description }}</td>
     </tr>

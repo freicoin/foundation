@@ -96,9 +96,9 @@ angular.module('django_constants', [])
       "home": "{% static 'html/home.html' %}",
       "about": "{% static 'html/about.html' %}",
       "copyright": "{% static 'html/copyright.html' %}",
-      "list": "{% static 'trade/partials/merchant_list.html' %}",
-      "detail": "{% static 'trade/partials/merchant_detail.html' %}",
-      "edit": "{% static 'trade/partials/merchant_form.html' %}"
+      "list": "{% static 'html/trade/merchant_list.html' %}",
+      "detail": "{% static 'html/trade/merchant_detail.html' %}",
+      "edit": "{% static 'html/trade/merchant_form.html' %}"
     },
     "urls": {
       "trade_categories": "{% url 'trade_categories' %}",
@@ -111,10 +111,13 @@ angular.module('django_constants', [])
 
 </script>
 
-<script src="{% static 'trade/js/app.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+
 <script src="{% static 'js/controllers/navigation.js' %}"></script>
-<script src="{% static 'trade/js/controllers.js' %}"></script>
-<script src="{% static 'trade/js/services.js' %}"></script>
-<script src="{% static 'trade/js/commonServices.js' %}"></script>
+<script src="{% static 'js/controllers/trade.js' %}"></script>
+
+<script src="{% static 'js/services/common.js' %}"></script>
+<script src="{% static 'js/services/trade.js' %}"></script>
+
 {% endblock %}
 

@@ -1,5 +1,5 @@
 <p>
-  Go back to <a href="#/">merchant list</a>.
+  Go back to <a href="#/trade">merchant list</a>.
 </p>
 
 <div ng-show="merchant">
@@ -30,7 +30,7 @@
   <!-- BUTTONS -->
   <a ng-show="django.trade_admin ||
               (django.user_authenticated && django.user_id == merchant.user)"
-       href="#/edit/{{merchant.id}}" class="btn btn-primary">
+       href="#trade/edit/{{merchant.id}}" class="btn btn-primary">
     Edit
   </a>
 

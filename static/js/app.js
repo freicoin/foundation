@@ -6,7 +6,7 @@ var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls', 
       when('/copyright', {templateUrl: django.static_urls.copyright}).
 
       when('/trade', {templateUrl: django.static_urls.list, controller: 'CategoriesCtrl'}).
-      when('/trade/join', {templateUrl: django.urls.edit, controller: 'MerchantEditCtrl'}).
+      when('/trade/join', {templateUrl: django.static_urls.edit, controller: 'MerchantEditCtrl'}).
       when('/trade/edit/:merchantId', {templateUrl: django.static_urls.edit, 
                                        controller: 'MerchantEditCtrl'}).
       when('/trade/detail/:merchantId', {templateUrl: django.static_urls.detail, 
