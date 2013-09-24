@@ -37,7 +37,6 @@ class CategoryTree(APIView):
         elif merchant_type == 'blocked':
             serializer = serializers.CategoryBlockedSerializer(categories)
         else:
-            categories = Category.objects.all()
             serializer = serializers.CategorySerializer(categories)
             
         return Response(serializer.data)
