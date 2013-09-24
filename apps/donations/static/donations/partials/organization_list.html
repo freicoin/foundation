@@ -101,11 +101,11 @@
   </table>
   <ul ui:sortable ng:model="category.child_categories">
     <li ng-repeat="category in category.child_categories | orderBy:orderProp"
-        ng-include="'category_renderer.html'"></li>
+        ng-include="'category_renderer.html'" ng-show="category.inner_organizations"></li>
   </ul>
 </script>
 
 <ul ui:sortable ng:model="categories_tree"> 
   <li ng-repeat="category in categories_tree | filter:searchCategory | orderBy:orderProp"
-      ng-include="'category_renderer.html'"></li>
+      ng-include="'category_renderer.html'" ng-show="category.inner_organizations"></li>
 </ul>

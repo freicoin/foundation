@@ -54,21 +54,21 @@ def serialize_category(category, org_type):
     cat_list = []
     for cat in categories:
         cat_dict = serialize_category(cat, org_type)
-        if cat_dict['inner_orgs'] > 0:
-            org_count += cat_dict['inner_orgs']
+        if cat_dict['inner_organizations'] > 0:
+            org_count += cat_dict['inner_organizations']
             cat_list.append(cat_dict)
 
     return {'id': category.pk,
             'name': category.name,
             'organizations': orgs,
-            'inner_orgs': org_count,            
+            'inner_organizations': org_count,            
             'child_categories': cat_list}
 
 def serialize_categories(categories, org_type):
     cat_list = []
     for cat in categories:
         cat_dict = serialize_category(cat, org_type)
-        if cat_dict['inner_orgs'] > 0:
+        if cat_dict['inner_organizations'] > 0:
             cat_list.append(cat_dict)
     return cat_list
 
