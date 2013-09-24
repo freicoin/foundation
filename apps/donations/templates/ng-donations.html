@@ -21,15 +21,18 @@ angular.module('django_constants', [])
     "user_authenticated": {% if user.is_authenticated %}1{% else %}0{% endif %},
     "user_id": {% if user.is_authenticated %} {{ user.id }} {% else %} null {% endif %},
     "donations_admin": {% if perms.donations.change_organization %} 1 {% else %} null {% endif %},
+    "static_urls": {
+      "donations_list": "{% static 'donations/partials/organization_list.html' %}",
+      "donations_detail": "{% static 'donations/partials/organization_detail.html' %}"
+    },
     "urls": {
       "frc_explorer": "{{ frc_explorer }}",
       "btc_explorer": "{{ btc_explorer }}",
-      "list": "{% static 'donations/partials/organization_list.html' %}",
-      "detail": "{% static 'donations/partials/organization_detail.html' %}",
-      "join": "{% url 'org_new' %}",
-      "edit": "{% url 'org_edit' %}",
-      "validate": "{% url 'org_validate' %}",
-      "json": "{% url 'donations_json' %}"
+      "donations_categories": "{% url 'donations_categories' %}",
+      "donations_category_tree": "{% url 'donations_category_tree' %}",
+      "donations_organization_detail": "{% url 'donations_organization_detail' %}",
+      "donations_organization_edit": "{% url 'donations_organization_edit' %}",
+      "donations_organization_validate": "{% url 'donations_organization_validate' %}"
     }
   });
 

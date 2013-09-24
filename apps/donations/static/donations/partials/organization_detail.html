@@ -29,17 +29,17 @@ Go back to <a href="#/">non-profit list</a>.
   <!-- BUTTONS -->
   <a ng-show="django.donations_admin ||
             (django.user_authenticated && django.user_id == org.user)"
-     href="{{django.urls.edit}}{{org.id}}" class="btn btn-primary">
+     href="{{django.urls.donations_organization_edit}}{{org.id}}" class="btn btn-primary">
     Edit
   </a>
 
   <a ng-show="django.donations_admin && !org.validated_by"
-     href="{{django.urls.validate}}{{org.id}}" class="btn btn-success">
+     href="{{django.urls.donations_organization_validate}}{{org.id}}" class="btn btn-success">
     Validate
   </a>
 
   <a ng-show="django.donations_admin && org.validated_by"
-     href="{{django.urls.validate}}{{org.id}}" class="btn btn-danger">
+     href="{{django.urls.donations_organization_validate}}{{org.id}}" class="btn btn-danger">
     Invalidate
   </a>
 

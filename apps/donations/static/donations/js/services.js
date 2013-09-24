@@ -19,7 +19,7 @@ angular.module('donationsServices', ['django_constants'])
             callback(categories[org_type], orgCount[org_type]);
         } else {
 
-          $http.get(django.urls.json + org_type)
+          $http.get(django.urls.donations_category_tree + org_type)
             .success(function(data) {
 
               categories[org_type] = data;
@@ -33,7 +33,7 @@ angular.module('donationsServices', ['django_constants'])
         }
       },
       getOrganization: function(orgId, callback){
-          $http.get(django.urls.json + orgId).success(callback);
+          $http.get(django.urls.donations_organization_detail + orgId).success(callback);
       }
     };
   });
