@@ -21,6 +21,13 @@ class Category(models.Model):
                                      ).filter(validated__isnull=False)
 
     @property
+    def inner_merchants(self):
+        total = self.merchants.count()
+        for cat in self.child_categories.all():
+            total += cat.inner_merchants
+        return total
+
+    @property
     def inner_validated(self):
         total = self.validated.count()
         for cat in self.child_categories.all():
