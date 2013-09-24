@@ -1,4 +1,4 @@
-angular.module('tradeServices', ['django_constants', 'commonServices'])
+angular.module('tradeSrvs', ['django_constants', 'commonSrvs'])
   .service('TradeSrv', function ($http, django, MessageSrv){
 
     var categories_short = [];

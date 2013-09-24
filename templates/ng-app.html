@@ -100,8 +100,8 @@ angular.module('django_constants', [])
       "trade_list": "{% static 'html/trade/merchant_list.html' %}",
       "trade_detail": "{% static 'html/trade/merchant_detail.html' %}",
       "trade_edit": "{% static 'html/trade/merchant_form.html' %}",
-      "donations_list": "{% static 'donations/partials/organization_list.html' %}",
-      "donations_detail": "{% static 'donations/partials/organization_detail.html' %}"
+      "donations_list": "{% static 'html/donations/organization_list.html' %}",
+      "donations_detail": "{% static 'html/donations/organization_detail.html' %}"
     },
     "urls": {
       "trade_categories": "{% url 'trade_categories' %}",
@@ -122,16 +122,15 @@ angular.module('django_constants', [])
 </script>
 
 <script src="{% static 'js/app.js' %}"></script>
-
-<script src="{% static 'js/controllers/navigation.js' %}"></script>
-<script src="{% static 'js/controllers/trade.js' %}"></script>
-
-<script src="{% static 'js/services/common.js' %}"></script>
-<script src="{% static 'js/services/trade.js' %}"></script>
-
-<script src="{% static 'donations/js/controllers.js' %}"></script>
-<script src="{% static 'donations/js/services.js' %}"></script>
 <script src="{% static 'js/filters.js' %}"></script>
+
+<script src="{% static 'js/controllers/navigationCtrl.js' %}"></script>
+<script src="{% static 'js/controllers/tradeCtrls.js' %}"></script>
+<script src="{% static 'js/controllers/donationsCtrls.js' %}"></script>
+
+<script src="{% static 'js/services/commonSrvs.js' %}"></script>
+<script src="{% static 'js/services/tradeSrvs.js' %}"></script>
+<script src="{% static 'js/services/donationsSrvs.js' %}"></script>
 
 {% endblock %}
 

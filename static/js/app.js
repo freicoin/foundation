@@ -1,6 +1,6 @@
 var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls', 'utilsFilters',
-                                                'tradeControllers', 'tradeServices',
-                                                'donationsControllers', 'donationsServices']).
+                                                'tradeCtrls', 'tradeSrvs',
+                                                'donationsCtrls', 'donationsSrvs']).
   config(function($routeProvider, django) {
     $routeProvider.
       when('/', {templateUrl: django.static_urls.home}).

@@ -1,5 +1,5 @@
 
-angular.module('tradeControllers', ['django_constants', 'commonServices', 'tradeServices'])
+angular.module('tradeCtrls', ['django_constants', 'commonSrvs', 'tradeSrvs'])
   .controller('MerCategoriesCtrl', ['$scope', '$routeParams', 'django', 'TradeSrv', 
                                  function($scope, $routeParams, django, TradeSrv){
 

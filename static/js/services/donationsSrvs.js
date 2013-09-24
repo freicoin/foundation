@@ -1,4 +1,4 @@
-angular.module('donationsServices', ['django_constants', 'commonServices'])
+angular.module('donationsSrvs', ['django_constants', 'commonSrvs'])
   .service('DonationsSrv', function ($http, django, MessageSrv){
 
     var categories = {

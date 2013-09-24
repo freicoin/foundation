@@ -1,4 +1,4 @@
-angular.module('commonServices', [])
+angular.module('commonSrvs', [])
   .service('MessageSrv', function ($rootScope, $timeout){
 
     $rootScope.isString = function(input) {

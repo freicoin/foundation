@@ -1,5 +1,5 @@
 
-angular.module('donationsControllers', ['django_constants', 'donationsServices'])
+angular.module('donationsCtrls', ['django_constants', 'donationsSrvs'])
   .controller('OrgCategoriesCtrl', ['$scope', '$routeParams', 'django', 'DonationsSrv', 
                                  function($scope, $routeParams, django, DonationsSrv){
 
