@@ -111,24 +111,26 @@ def org_edit(request, id=None, template_name='new_organiation.html'):
 
     return render(request, template_name, {'form': form})
 
-@login_required
-def org_validate(request, id=None):
-    if not request.user.has_perm("donations.change_organization"):
-        return HttpResponseForbidden()
-    org = get_object_or_404(Organization, pk=id)
-    
-    if org.validated_by:
-        org.validated_by = None
-        org.save()
-        msg = "Organization %s has been invalidated." % org.name
-    else:
-        org.validated_by = request.user
-        if org.validated:
-            org.save()
-            msg = "Organization %s is valid again." % org.name
-        else:
-            org.validated = datetime.now()
-            org.save()
-            msg = "Organization %s has been validated." % org.name
+class ValidateOrganization(APIView):
 
-    return render(request, 'messages_list.html', {'messages': [msg]})
+    def put(self, request, pk):
+        if not request.user.has_perm("donations.change_organization"):
+            return HttpResponseForbidden()
+        org = get_object_or_404(Organization, pk=pk)
+    
+        if org.validated_by:
+            # Block organization
+            org.validated_by = None
+            org.save()
+        else:
+            org.validated_by = request.user
+            if org.validated:
+                # Unblock organization
+                org.save()
+            else:
+                # Validate organization
+                org.validated = datetime.now()
+                org.save()
+
+        serializer = serializers.OrganizationSerializer(org)
+        return Response(serializer.data)

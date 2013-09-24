@@ -16,10 +16,6 @@ urlpatterns = patterns('apps.donations.views',
     # url(r'^organization/edit/(?P<pk>\d+)/$', views.EditOrganization.as_view()),
     url(r'^organization/edit/(?P<id>\d+)/$', 'org_edit'),
 
-    # url(r'^validate/$', views.ValidateOrganization.as_view(), name='donations_organization_validate'),
-    url(r'^validate/$', 'org_validate', name='donations_organization_validate'),
-    # url(r'^validate/(?P<pk>\d+)/$', views.ValidateOrganization.as_view()),
-    url(r'^validate/(?P<id>\d+)/$', 'org_validate'),
-
-
+    url(r'^validate/$', views.ValidateOrganization.as_view(), name='donations_organization_validate'),
+    url(r'^validate/(?P<pk>\d+)/$', views.ValidateOrganization.as_view()),
 )

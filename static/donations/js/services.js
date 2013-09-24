@@ -1,5 +1,5 @@
-angular.module('donationsServices', ['django_constants'])
-  .service('DonationsSrv', function ($http, django){
+angular.module('donationsServices', ['django_constants', 'commonServices'])
+  .service('DonationsSrv', function ($http, django, MessageSrv){
 
     var categories = {
       all: [],
@@ -36,6 +36,17 @@ angular.module('donationsServices', ['django_constants'])
       },
       getOrganization: function(orgId, callback){
           $http.get(django.urls.donations_organization_detail + orgId).success(callback);
+      },
+      validateOrganization: function(orgId, callback){
+
+        var errorCallback = function(messages, status) {
+          MessageSrv.setMessages(messages, "error");
+          callback();
+        }
+
+        $http.put(django.urls.donations_organization_validate + orgId + '/', {})
+          .success(callback)
+          .error(errorCallback);
       }
     };
   });

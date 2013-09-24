@@ -34,12 +34,12 @@ Go back to <a href="#/donations">non-profit list</a>.
   </a>
 
   <a ng-show="django.donations_admin && !org.validated_by"
-     href="{{django.urls.donations_organization_validate}}{{org.id}}" class="btn btn-success">
+     ng-click="validate()" class="btn btn-success">
     Validate
   </a>
 
   <a ng-show="django.donations_admin && org.validated_by"
-     href="{{django.urls.donations_organization_validate}}{{org.id}}" class="btn btn-danger">
+     ng-click="validate()" class="btn btn-danger">
     Invalidate
   </a>
 
