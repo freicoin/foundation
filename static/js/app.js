@@ -5,13 +5,13 @@ var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls', 
       when('/about', {templateUrl: django.static_urls.about}).
       when('/copyright', {templateUrl: django.static_urls.copyright}).
 
-      when('/trade', {templateUrl: django.static_urls.list, controller: 'CategoriesCtrl'}).
-      when('/trade/join', {templateUrl: django.static_urls.edit, controller: 'MerchantEditCtrl'}).
-      when('/trade/edit/:merchantId', {templateUrl: django.static_urls.edit, 
+      when('/trade', {templateUrl: django.static_urls.trade_list, controller: 'CategoriesCtrl'}).
+      when('/trade/join', {templateUrl: django.static_urls.trade_edit, controller: 'MerchantEditCtrl'}).
+      when('/trade/edit/:merchantId', {templateUrl: django.static_urls.trade_edit, 
                                        controller: 'MerchantEditCtrl'}).
-      when('/trade/detail/:merchantId', {templateUrl: django.static_urls.detail, 
+      when('/trade/detail/:merchantId', {templateUrl: django.static_urls.trade_detail, 
                                          controller: 'MerchantDetailCtrl'}).
-      when('/trade/:merchantType', {templateUrl: django.static_urls.list, 
+      when('/trade/:merchantType', {templateUrl: django.static_urls.trade_list, 
                                     controller: 'CategoriesCtrl'}).
       otherwise({redirectTo: '/'});
   });
