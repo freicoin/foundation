@@ -4,7 +4,7 @@
   If you're a merchant that accepts Freicoin as payment you should
   advertise yourself for free here.
 </p>
-  
+
 <p>
   If you accept donations but your organization doesn't qualify as
   non-profit you can also advertise yourself to receive Freicoin
@@ -39,12 +39,12 @@
       <div class="controls">
         <input id="id_website" maxlength="200" name="website" 
                ng-model="merchant.website" type="url" required/>
-          <span class="help-inline" style="color:red"
-               ng-show="form.website.$dirty && form.website.$error.required">
-            Required!</span>
-          <span class="help-inline" style="color:red" 
-                ng-show="form.website.$dirty && form.website.$error.url">
-            Invalid URL format!</span>
+        <span class="help-inline" style="color:red"
+              ng-show="form.website.$dirty && form.website.$error.required">
+          Required!</span>
+        <span class="help-inline" style="color:red" 
+              ng-show="form.website.$dirty && form.website.$error.url">
+          Invalid URL format!</span>
       </div>
     </div>
     <div class="control-group required">
@@ -65,8 +65,8 @@
                   name="long_description"
                   ng-model="merchant.long_description" rows="10" required>
         </textarea>
-         <span class="help-inline" style="color:red" 
-               ng-show="form.long_description.$dirty && form.long_description.$error.required">Required!</span>     
+        <span class="help-inline" style="color:red" 
+              ng-show="form.long_description.$dirty && form.long_description.$error.required">Required!</span>     
       </div>
     </div>
     <div class="form-actions">
