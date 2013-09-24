@@ -13,10 +13,8 @@ urlpatterns = patterns('apps.donations.views',
     # url(r'^categories/tree/(?P<organization_type>.+)/$', views.CategoryTree.as_view()),
     url(r'^categories/tree/(?P<org_type>.+)/$', views.JsonApiView.as_view(), {'action': 'get_categories'}),
 
-    # url(r'^organization/$', views.OrganizationDetail.as_view(), name='donations_organization_detail'),
-    url(r'^organization/$', views.JsonApiView.as_view(), {'action': 'get_organization'}, name='donations_organization_detail'),
-    # url(r'^organization/(?P<pk>[0-9]+)/$', views.OrganizationDetail.as_view()),
-    url(r'^organization/(?P<org_id>[0-9]+)/$', views.JsonApiView.as_view(), {'action': 'get_organization'}),
+    url(r'^organization/$', views.OrganizationDetail.as_view(), name='donations_organization_detail'),
+    url(r'^organization/(?P<pk>[0-9]+)/$', views.OrganizationDetail.as_view()),
 
     # url(r'^organization/edit/$', views.EditOrganization.as_view(), name='donations_organization_edit'),
     url(r'^organization/edit/$', 'org_edit', name='donations_organization_edit'),

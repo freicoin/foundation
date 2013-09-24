@@ -11,11 +11,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from djangular.views.mixins import JSONResponseMixin, HttpResponseBadRequest
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status, generics
 
 from apps.utils import utils
 from models import *
 from .fields import BitcoinAddressField
 import forms
+import serializers
 
 def ng_donations(request):
     return render(request, 'ng-donations.html', 
@@ -25,14 +29,6 @@ def ng_donations(request):
 def serialize_org_short(org):
     org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'short_description'])
     org_dict['foundation_address'] = org.foundation_address_value
-    return org_dict
-
-def serialize_org(org):
-    org_dict = model_to_dict(org, fields=['id', 'name', 'website', 'validated_by',
-                                          'short_description', 'long_description'])
-    org_dict['category'] = org.category.name
-    org_dict['foundation_address'] = org.foundation_address_value
-    org_dict['freicoin_address'] = org.freicoin_address_value
     return org_dict
 
 def get_organizations(category, org_type):
@@ -76,6 +72,10 @@ def serialize_categories(categories, org_type):
             cat_list.append(cat_dict)
     return cat_list
 
+class OrganizationDetail(generics.RetrieveAPIView):
+    queryset = Organization.objects.all()
+    serializer_class = serializers.OrganizationSerializer
+
 class JsonApiView(JSONResponseMixin, View):
     VALIDATED    = 'validated'
     CANDIDATES   = 'candidates'
@@ -86,10 +86,6 @@ class JsonApiView(JSONResponseMixin, View):
             org_type = self.VALIDATED
         categories = Category.objects.filter(parent_category__isnull=True)
         return serialize_categories(categories, org_type)
-
-    def get_organization(self):
-        org = Organization.objects.get(pk=self.kwargs['org_id'])
-        return serialize_org(org)
 
 def send_new_org_mails(org):
     context = {'org': org}
