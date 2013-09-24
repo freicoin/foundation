@@ -1,16 +1,18 @@
 angular.module('donationsServices', ['django_constants'])
   .service('DonationsSrv', function ($http, django){
 
-      var categories = {
-        validated: [],
-        candidates: [],
-        blocked: []
-      };
-      var orgCount = {
-        validated: 0,
-        candidates: 0,
-        blocked: 0
-      };
+    var categories = {
+      all: [],
+      validated: [],
+      candidates: [],
+      blocked: []
+    };
+    var orgCount = {
+      all: 0,
+      validated: 0,
+      candidates: 0,
+      blocked: 0
+    };
 
     return {
       getCategories: function (org_type, callback){
@@ -25,7 +27,7 @@ angular.module('donationsServices', ['django_constants'])
               categories[org_type] = data;
               orgCount[org_type] = 0;
               for (var i=0; i < data.length; i++){
-                orgCount[org_type] += data[i].inner_orgs;
+                orgCount[org_type] += data[i].inner_organizations;
               }
 
               callback(categories[org_type], orgCount[org_type]);

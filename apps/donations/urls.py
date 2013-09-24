@@ -4,8 +4,6 @@ import views
 
 urlpatterns = patterns('apps.donations.views',
 
-    url(r'^$', 'ng_donations', name='nonprofits'),
-
     url(r'^categories/$', views.CategoryList.as_view(), name='donations_categories'),
     url(r'^categories/tree/$', views.CategoryTree.as_view(), name='donations_category_tree'),
     url(r'^categories/tree/(?P<organization_type>.+)/$', views.CategoryTree.as_view()),

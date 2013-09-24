@@ -9,11 +9,11 @@
   </p>
 
   <p>
-    See <a href="#/candidates">candidates list</a>.
+    See <a href="#/donations/candidates">candidates list</a>.
   </p>
 
   <p ng-show="django.donations_admin">
-    See <a href="#/blocked">blocked organizations list</a>.
+    See <a href="#/donations/blocked">blocked organizations list</a>.
   </p>
 </div>
 
@@ -26,7 +26,7 @@
   </p>
 
   <p>
-    Go back to <a href="#/">non-profit list</a>.
+    Go back to <a href="#/donations">non-profit list</a>.
   </p>
 </div>
 
@@ -39,7 +39,7 @@
   </p>
 
   <p>
-    Go back to <a href="#/">non-profit list</a>.
+    Go back to <a href="#/donations/">non-profit list</a>.
   </p>
 </div>
   <!-- TEXT -->
@@ -93,7 +93,7 @@
   <table border="1">
     <tr ng-repeat="org in category.organizations | filter:query | orderBy:orderProp">
 
-      <td><a href="#/detail/{{org.id}}/">{{org.name}}</a></td>
+      <td><a href="#/donations/detail/{{org.id}}/">{{org.name}}</a></td>
       <td>{{ org.short_description }}</td>
       <td><div ng-bind-html-unsafe="org.foundation_address | frc_address"></div></td>
       <td><a href="{{ org.website }}">{{ org.website }}</a></td>

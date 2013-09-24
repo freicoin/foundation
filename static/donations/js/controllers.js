@@ -1,6 +1,6 @@
 
 angular.module('donationsControllers', ['django_constants', 'donationsServices'])
-  .controller('CategoriesCtrl', ['$scope', '$routeParams', 'django', 'DonationsSrv', 
+  .controller('OrgCategoriesCtrl', ['$scope', '$routeParams', 'django', 'DonationsSrv', 
                                  function($scope, $routeParams, django, DonationsSrv){
 
     $scope.django = django;

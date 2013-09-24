@@ -276,7 +276,7 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">{% block nav %}
         <li class="{% block nav-faucet-class %}{% endblock %}">{% block nav-faucet %}<a href="{% url 'faucet' %}">Faucet</a>{% endblock %}</li>
-        <li class="{% block nav-donations-class %}{% endblock %}">{% block nav-donations %}<a href="{% url 'nonprofits' %}">Donations</a>{% endblock %}</li>
+        <li class="{% block nav-donations-class %}{% endblock %}">{% block nav-donations %}<a href="{% url 'home' %}#/donations">Donations</a>{% endblock %}</li>
         <li class="{% block nav-trade-class %}{% endblock %}">{% block nav-trade %}<a href="{% url 'home' %}#/trade">Trade</a>{% endblock %}</li>
         <li class="{% block nav-about-class %}{% endblock %}">{% block nav-about %}<a href="{% url 'home' %}#/about">About</a>{% endblock %}</li>
       {% endblock nav %}</ul>

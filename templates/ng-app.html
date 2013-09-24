@@ -23,7 +23,7 @@
       <ul class="nav navbar-nav" ng-controller="NavigationCtrl">
         {% block nav %}
         <li><a href="{% url 'faucet' %}">Faucet</a></li>
-        <li><a href="{% url 'nonprofits' %}">Donations</a></li>
+        <li ng-class="navClass('donations')"><a href="#/donations">Donations</a></li>
         <li ng-class="navClass('trade')"><a href="#/trade">Trade</a></li>
         <li ng-class="navClass('about')"><a href="#/about">About</a></li>
         {% endblock %}
@@ -91,6 +91,7 @@ angular.module('django_constants', [])
     "user_authenticated": {% if user.is_authenticated %}1{% else %}0{% endif %},
     "user_id": {% if user.is_authenticated %} {{ user.id }} {% else %} null {% endif %},
     "trade_admin": {% if perms.trade.change_merchant %} 1 {% else %} null {% endif %},
+    "donations_admin": {% if perms.donations.change_organization %} 1 {% else %} null {% endif %},
     "csrf_token": "{{ csrf_token }}",
     "static_urls": {
       "home": "{% static 'html/home.html' %}",
@@ -98,14 +99,23 @@ angular.module('django_constants', [])
       "copyright": "{% static 'html/copyright.html' %}",
       "trade_list": "{% static 'html/trade/merchant_list.html' %}",
       "trade_detail": "{% static 'html/trade/merchant_detail.html' %}",
-      "trade_edit": "{% static 'html/trade/merchant_form.html' %}"
+      "trade_edit": "{% static 'html/trade/merchant_form.html' %}",
+      "donations_list": "{% static 'donations/partials/organization_list.html' %}",
+      "donations_detail": "{% static 'donations/partials/organization_detail.html' %}"
     },
     "urls": {
       "trade_categories": "{% url 'trade_categories' %}",
       "trade_category_tree": "{% url 'trade_category_tree' %}",
       "trade_merchant_detail": "{% url 'trade_merchant_detail' %}",
       "trade_merchant_edit": "{% url 'trade_merchant_edit' %}",
-      "trade_merchant_validate": "{% url 'trade_merchant_validate' %}"
+      "trade_merchant_validate": "{% url 'trade_merchant_validate' %}",
+      "frc_explorer": "{{ frc_explorer }}",
+      "btc_explorer": "{{ btc_explorer }}",
+      "donations_categories": "{% url 'donations_categories' %}",
+      "donations_category_tree": "{% url 'donations_category_tree' %}",
+      "donations_organization_detail": "{% url 'donations_organization_detail' %}",
+      "donations_organization_edit": "{% url 'donations_organization_edit' %}",
+      "donations_organization_validate": "{% url 'donations_organization_validate' %}"
     }
   });
 
@@ -118,6 +128,10 @@ angular.module('django_constants', [])
 
 <script src="{% static 'js/services/common.js' %}"></script>
 <script src="{% static 'js/services/trade.js' %}"></script>
+
+<script src="{% static 'donations/js/controllers.js' %}"></script>
+<script src="{% static 'donations/js/services.js' %}"></script>
+<script src="{% static 'js/filters.js' %}"></script>
 
 {% endblock %}
 

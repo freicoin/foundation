@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponseForbidden
 from django.views.generic import View
 from django.forms.models import model_to_dict
-from django.conf import settings
 
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -20,11 +19,6 @@ from models import *
 from .fields import BitcoinAddressField
 import forms
 import serializers
-
-def ng_donations(request):
-    return render(request, 'ng-donations.html', 
-                  {'frc_explorer': settings.FRC_EXPLORER,
-                   'btc_explorer': settings.BTC_EXPLORER})
 
 class CategoryList(generics.ListAPIView):
     queryset = Category.objects.all()

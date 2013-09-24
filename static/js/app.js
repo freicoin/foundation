@@ -1,4 +1,6 @@
-var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls', 'tradeControllers', 'tradeServices']).
+var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls', 'utilsFilters',
+                                                'tradeControllers', 'tradeServices',
+                                                'donationsControllers', 'donationsServices']).
   config(function($routeProvider, django) {
     $routeProvider.
       when('/', {templateUrl: django.static_urls.home}).
@@ -13,6 +15,14 @@ var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls', 
                                          controller: 'MerchantDetailCtrl'}).
       when('/trade/:merchantType', {templateUrl: django.static_urls.trade_list, 
                                     controller: 'CategoriesCtrl'}).
+
+      when('/donations', {templateUrl: django.static_urls.donations_list, 
+                          controller: 'OrgCategoriesCtrl'}).
+      when('/donations/detail/:orgId', {templateUrl: django.static_urls.donations_detail, 
+                              controller: 'OrgDetailCtrl'}).
+      when('/donations/:orgType', {templateUrl: django.static_urls.donations_list, 
+                                   controller: 'OrgCategoriesCtrl'}).
+
       otherwise({redirectTo: '/'});
   });
 
