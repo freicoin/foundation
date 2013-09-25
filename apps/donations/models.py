@@ -76,7 +76,7 @@ class Organization(models.Model):
 
     @property
     def foundation_address_value(self):
-        if self.id:
+        if self.validated and self.id:
             return hd_addresses.donationsCurrentSubKeyFast(self.id).bitcoin_address()
         return ''
 
