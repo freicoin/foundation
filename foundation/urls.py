@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     # Included apps and their root
     url(r'', include('apps.accounts.urls')),
     url(r'^faucet/', include('apps.faucet.urls')),
-    url(r'^nonprofits/', include('apps.donations.urls')),
+    url(r'^api/donations/', include('apps.donations.urls')),
     url(r'^api/trade/', include('apps.trade.urls')),
 
     # Examples:
