@@ -8,8 +8,8 @@ var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls', 
       when('/copyright', {templateUrl: django.static_urls.copyright}).
 
       when('/trade', {templateUrl: django.static_urls.trade_list, controller: 'MerCategoriesCtrl'}).
-      when('/trade/join', {templateUrl: django.static_urls.trade_edit, controller: 'MerchantEditCtrl'}).
-      when('/trade/edit/:merchantId', {templateUrl: django.static_urls.trade_edit, 
+      when('/trade/join', {templateUrl: django.static_urls.trade_form, controller: 'MerchantEditCtrl'}).
+      when('/trade/edit/:merchantId', {templateUrl: django.static_urls.trade_form, 
                                        controller: 'MerchantEditCtrl'}).
       when('/trade/detail/:merchantId', {templateUrl: django.static_urls.trade_detail, 
                                          controller: 'MerchantDetailCtrl'}).
@@ -18,6 +18,9 @@ var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls', 
 
       when('/donations', {templateUrl: django.static_urls.donations_list, 
                           controller: 'OrgCategoriesCtrl'}).
+      when('/donations/join', {templateUrl: django.static_urls.donations_form, controller: 'OrgEditCtrl'}).
+      when('/donations/edit/:orgId', {templateUrl: django.static_urls.donations_form, 
+                                       controller: 'OrgEditCtrl'}).
       when('/donations/detail/:orgId', {templateUrl: django.static_urls.donations_detail, 
                               controller: 'OrgDetailCtrl'}).
       when('/donations/:orgType', {templateUrl: django.static_urls.donations_list, 

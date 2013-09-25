@@ -65,51 +65,85 @@ def send_new_org_mails(org):
                          "Thanks for registering your organization !", 
                          'noreply@freicoin.org', org.email)
 
-@login_required
-def org_edit(request, id=None, template_name='new_organiation.html'):
+class EditOrganization(APIView):
 
-    if id:
-        org = get_object_or_404(Organization, pk=id)
+    def put(self, request, pk):
+
+        org = get_object_or_404(Organization, pk=pk)
         if (not request.user.has_perm("donations.change_organization")
             and org.user != request.user):
             return HttpResponseForbidden()
-    else:
-        org = Organization(user=request.user)
 
-    form = forms.OrganizationForm(request.POST or None, instance=org,
-                                  initial={'freicoin_address': org.freicoin_address_value,
-                                           'bitcoin_address': org.bitcoin_address_value})
+        data = request.DATA
+        data['user'] = org.user.id
+        serializer = serializers.OrganizationSerializer(org, data=data)
+        if serializer.is_valid():
+            
+            org = serializer.save()
+            org.save()
 
-    if form.is_valid():
+            if data['freicoin_address'] != org.freicoin_address_value:
+                frc_addr = PaymentAddress()
+                frc_addr.address = data['freicoin_address']
+                frc_addr.owner = org
+                frc_addr.type = PaymentAddress.FREICOIN
+                frc_addr.save()
+                org.freicoin_address = frc_addr
 
-        org = form.save()
-        org.save()
+            if data.has_key('bitcoin_address') and data['bitcoin_address'] != org.bitcoin_address_value:
+                btc_addr = PaymentAddress()
+                btc_addr.address = data['bitcoin_address']
+                btc_addr.owner = org
+                btc_addr.type = PaymentAddress.BITCOIN
+                btc_addr.save()
+                org.bitcoin_address = btc_addr
 
-        cd = form.cleaned_data
+            org.save()
+            # org.email = request.user.email
+            # send_new_org_mails(org)
 
-        if cd['freicoin_address'] != org.freicoin_address_value:
-            frc_addr = PaymentAddress()
-            frc_addr.address = cd['freicoin_address']
-            frc_addr.owner = org
-            frc_addr.type = PaymentAddress.FREICOIN
-            frc_addr.save()
-            org.freicoin_address = frc_addr
+            # return Response(serializer.data, status=status.HTTP_201_CREATED)
+            msg = "Thank you for submitting your request. It will be validated by a human soon."
+            return Response({"Success: ": [msg]}, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if cd['bitcoin_address'] != org.bitcoin_address_value:
-            btc_addr = PaymentAddress()
-            btc_addr.address = cd['bitcoin_address']
-            btc_addr.owner = org
-            btc_addr.type = PaymentAddress.BITCOIN
-            btc_addr.save()
-            org.bitcoin_address = btc_addr
+    def post(self, request):
 
-        org.save()
-        send_new_org_mails(org)
+        data = request.DATA
+        data['user'] = request.user.id
+        serializer = serializers.OrganizationSerializer(data=data)
+        if serializer.is_valid():
+            
+            org = serializer.save()
+            org.save()
 
-        msg = "Thank you for submitting your request. It will be validated by a human soon."
-        return render(request, 'messages_list.html', {'messages': [msg]})
+            if data['freicoin_address'] != org.freicoin_address_value:
+                frc_addr = PaymentAddress()
+                frc_addr.address = data['freicoin_address']
+                frc_addr.owner = org
+                frc_addr.type = PaymentAddress.FREICOIN
+                frc_addr.save()
+                org.freicoin_address = frc_addr
 
-    return render(request, template_name, {'form': form})
+            if data.has_key('bitcoin_address') and data['bitcoin_address'] != org.bitcoin_address_value:
+                btc_addr = PaymentAddress()
+                btc_addr.address = data['bitcoin_address']
+                btc_addr.owner = org
+                btc_addr.type = PaymentAddress.BITCOIN
+                btc_addr.save()
+                org.bitcoin_address = btc_addr
+
+            org.save()
+
+            # org.email = request.user.email
+            # send_new_org_mails(org)
+
+            # return Response(serializer.data, status=status.HTTP_201_CREATED)
+            msg = "Organization saved with id %s" % org.id
+            return Response({"Success: ": [msg]}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ValidateOrganization(APIView):
 

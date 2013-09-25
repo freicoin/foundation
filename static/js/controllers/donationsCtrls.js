@@ -7,7 +7,7 @@ angular.module('donationsCtrls', ['django_constants', 'donationsSrvs'])
     $scope.type = $routeParams.orgType ? $routeParams.orgType : 'validated';
     $scope.orderProp = 'id';
 
-    DonationsSrv.getCategories($scope.type, function(categories, org_count){
+    DonationsSrv.getCategoryTree($scope.type, function(categories, org_count){
       $scope.categories_tree = categories;
       $scope.org_count = org_count;
     });
@@ -37,4 +37,43 @@ angular.module('donationsCtrls', ['django_constants', 'donationsSrvs'])
       });
     };
 
+  }])
+  .controller('OrgEditCtrl', ['$scope', '$routeParams', 'django', 'MessageSrv', 'DonationsSrv', 
+                                   function($scope, $routeParams, django, MessageSrv, DonationsSrv){
+
+    $scope.django = django;
+
+    if ($routeParams.orgId) {
+    
+      DonationsSrv.getOrganization($routeParams.orgId, function(org) {
+        $scope.org = org;
+      });
+    }
+
+    DonationsSrv.getCategories(function(categories) {
+      $scope.categories = categories;
+    });
+
+    $scope.isValidAddress = function(address) {
+        if (address && address[0] = '1') {
+          return true;
+        } else {
+          return false;
+        }
+    };
+
+    $scope.submit = function() {
+      
+      $scope.disableSubmit = true;
+
+      var callback = function() {
+        $scope.disableSubmit = false;
+      }
+
+      if ($routeParams.orgId) {
+        DonationsSrv.updateOrganization($scope.org, $routeParams.orgId, callback);
+      } else {
+        DonationsSrv.createOrganization($scope.org, callback);
+      }
+    };
   }]);

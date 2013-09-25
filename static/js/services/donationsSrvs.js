@@ -1,6 +1,8 @@
 angular.module('donationsSrvs', ['django_constants', 'commonSrvs'])
   .service('DonationsSrv', function ($http, django, MessageSrv){
 
+    var categories_short = [];
+
     var categories = {
       all: [],
       validated: [],
@@ -15,7 +17,20 @@ angular.module('donationsSrvs', ['django_constants', 'commonSrvs'])
     };
 
     return {
-      getCategories: function (org_type, callback){
+      getCategories: function (callback){
+
+        if (categories_short.length > 0){
+            callback(categories_short);
+        } else {
+
+          $http.get(django.urls.trade_categories)
+            .success(function(data) {
+              categories_short = data;
+              callback(categories_short);
+            });
+        }
+      },
+      getCategoryTree: function (org_type, callback){
 
         if (orgCount[org_type] > 0){
             callback(categories[org_type], orgCount[org_type]);
@@ -36,6 +51,46 @@ angular.module('donationsSrvs', ['django_constants', 'commonSrvs'])
       },
       getOrganization: function(orgId, callback){
           $http.get(django.urls.donations_organization_detail + orgId).success(callback);
+      },
+      createOrganization: function(org, callback){
+
+        var successCallback = function(messages) {
+          MessageSrv.setMessages(messages, "success");
+          callback();
+        }
+        var errorCallback = function(messages, status) {
+          MessageSrv.setMessages(messages, "error");
+          callback();
+        }
+
+        if (org == null) {
+          errorCallback("The organization cannot be empty!")
+        } else {
+          $http.post(django.urls.donations_organization_edit, org)
+            .success(successCallback)
+            .error(errorCallback);
+        }
+      },
+      updateOrganization: function(org, orgId, callback){
+        
+        var successCallback = function(messages) {
+          MessageSrv.setMessages(messages, "success");
+          callback();
+        }
+        var errorCallback = function(messages, status) {
+          MessageSrv.setMessages(messages, "error");
+          callback();
+        }
+
+        if (org == null) {
+          errorCallback("The organization cannot be empty!")
+        } else {
+          $http.put(django.urls.donations_organization_edit + orgId + '/', org)
+            .success(successCallback)
+            .error(errorCallback);
+        }
+
+        
       },
       validateOrganization: function(orgId, callback){
 

@@ -29,7 +29,7 @@ Go back to <a href="#/donations">non-profit list</a>.
   <!-- BUTTONS -->
   <a ng-show="django.donations_admin ||
             (django.user_authenticated && django.user_id == org.user)"
-     href="{{django.urls.donations_organization_edit}}{{org.id}}" class="btn btn-primary">
+     href="#donations/edit/{{org.id}}" class="btn btn-primary">
     Edit
   </a>
 
