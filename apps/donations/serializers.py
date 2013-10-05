@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from apps.utils.serializers import BtcAddressField
 from .models import *
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -8,8 +9,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
     validated_by = serializers.Field(source='validated_by.username')
     validated = serializers.Field(source='validated')
     foundation_address = serializers.Field(source='foundation_address_value')
-    freicoin_address = serializers.Field(source='freicoin_address_value')
-    bitcoin_address = serializers.Field(source='bitcoin_address_value')
+    freicoin_address = BtcAddressField(source='freicoin_address_value', max_length=34)
+    bitcoin_address = BtcAddressField(source='bitcoin_address_value', required=False, max_length=34)
 
     class Meta:
         model = Organization

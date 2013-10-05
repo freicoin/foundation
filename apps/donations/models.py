@@ -86,11 +86,19 @@ class Organization(models.Model):
             return self.freicoin_address.address.encode('base58')
         return ''
 
+    @freicoin_address_value.setter
+    def freicoin_address_value(self, value):
+        pass
+
     @property
     def bitcoin_address_value(self):
         if self.bitcoin_address:
             return self.bitcoin_address.address.encode('base58')
         return ''
+
+    @bitcoin_address_value.setter
+    def bitcoin_address_value(self, value):
+        pass
 
     def __unicode__(self):
         return self.name

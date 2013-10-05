@@ -17,7 +17,6 @@ from rest_framework import status, generics
 from apps.utils import utils
 from models import *
 from .fields import BitcoinAddressField
-import forms
 import serializers
 
 class CategoryList(generics.ListAPIView):
@@ -90,7 +89,9 @@ class EditOrganization(APIView):
                 frc_addr.save()
                 org.freicoin_address = frc_addr
 
-            if data.has_key('bitcoin_address') and data['bitcoin_address'] != org.bitcoin_address_value:
+            if (data.has_key('bitcoin_address') 
+                and data['bitcoin_address'] != org.bitcoin_address_value):
+
                 btc_addr = PaymentAddress()
                 btc_addr.address = data['bitcoin_address']
                 btc_addr.owner = org
@@ -118,15 +119,14 @@ class EditOrganization(APIView):
             org = serializer.save()
             org.save()
 
-            if data['freicoin_address'] != org.freicoin_address_value:
-                frc_addr = PaymentAddress()
-                frc_addr.address = data['freicoin_address']
-                frc_addr.owner = org
-                frc_addr.type = PaymentAddress.FREICOIN
-                frc_addr.save()
-                org.freicoin_address = frc_addr
+            frc_addr = PaymentAddress()
+            frc_addr.address = data['freicoin_address']
+            frc_addr.owner = org
+            frc_addr.type = PaymentAddress.FREICOIN
+            frc_addr.save()
+            org.freicoin_address = frc_addr
 
-            if data.has_key('bitcoin_address') and data['bitcoin_address'] != org.bitcoin_address_value:
+            if data.has_key('bitcoin_address'):
                 btc_addr = PaymentAddress()
                 btc_addr.address = data['bitcoin_address']
                 btc_addr.owner = org
