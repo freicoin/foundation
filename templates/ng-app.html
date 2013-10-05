@@ -42,7 +42,7 @@
 
 {% verbatim %}
 
-<div ng-switch="messages.length != null">
+<div ng-switch="messages.length != null" ng-cloak>
   <div ng-switch-when="true">
     <div class="alert alert-{{message_style}}" ng-repeat="message in messages">
       <li>{{ message }}</li>
