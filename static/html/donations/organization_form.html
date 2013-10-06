@@ -107,12 +107,12 @@
   <div class="control-group error required">
     <label class="control-label" for="id_freicoin_address">Freicoin address</label>
     <div class="controls">
-      <input id="id_freicoin_address" maxlength="34" name="freicoin_address" required ng-model="org.freicoin_address" type="address"/>
+      <input id="id_freicoin_address" maxlength="34" name="freicoin_address" required ng-model="org.freicoin_address" type="text" btc-address/>
         <p ng-show="form.freicoin_address.$dirty && form.freicoin_address.$error.required" 
            class="help-block" style="color:red">
           This field is required.
         </p>
-        <p ng-show="form.freicoin_address.$dirty && form.freicoin_address.$error.address" 
+        <p ng-show="form.freicoin_address.$dirty && form.freicoin_address.$error.btcAddress" 
            class="help-block" style="color:red">
           Enter a valid address.
         </p>
@@ -122,8 +122,8 @@
   <div class="control-group error">
     <label class="control-label" for="id_bitcoin_address">Bitcoin address</label>
     <div class="controls">
-      <input id="id_bitcoin_address" maxlength="34" name="bitcoin_address" ng-model="org.bitcoin_address" type="address"/>
-        <p ng-show="form.bitcoin_address.$dirty && form.bitcoin_address.$error.address"
+      <input id="id_bitcoin_address" maxlength="34" name="bitcoin_address" ng-model="org.bitcoin_address" type="text" btc-address/>
+        <p ng-show="form.bitcoin_address.$dirty && form.bitcoin_address.$error.btcAddress"
            class="help-block" style="color:red">
           Enter a valid address.
         </p>
