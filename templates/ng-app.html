@@ -1,4 +1,4 @@
-{% extends "base2.html" %}
+{% extends "base.html" %}
 
 {% block nav-trade-class %} active{% endblock %}
 
@@ -22,7 +22,6 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav" ng-controller="NavigationCtrl">
         {% block nav %}
-        <li><a href="{% url 'faucet' %}">Faucet</a></li>
         <li ng-class="navClass('donations')"><a href="#/donations">Donations</a></li>
         <li ng-class="navClass('trade')"><a href="#/trade">Trade</a></li>
         <li ng-class="navClass('about')"><a href="#/about">About</a></li>
