@@ -8,7 +8,7 @@ angular.module('accountsCtrls', ['django_constants', 'commonSrvs', 'commonDirect
       var loginData = {"username": $scope.username, "password": $scope.password};
       $http.post(django.urls.login, loginData)
         .success(function(data){
-          window.location = "http://127.0.0.1:8000/";
+          window.location = "/";
         })
         .error(function(messages){
           MessageSrv.setMessages(messages, "error");
@@ -20,7 +20,7 @@ angular.module('accountsCtrls', ['django_constants', 'commonSrvs', 'commonDirect
       var loginData = {"username": $scope.username, "password": $scope.password};
       $http.post(django.urls.logout, {})
         .success(function(data){
-          window.location = "http://127.0.0.1:8000/";
+          window.location = "/";
         })
         .error(function(messages){
           MessageSrv.setMessages(messages, "error");
@@ -41,7 +41,6 @@ angular.module('accountsCtrls', ['django_constants', 'commonSrvs', 'commonDirect
         .success(function(data){
           MessageSrv.setMessages("You've registered as " + data.username 
                                  + ". Please, login.", "success");
-          // window.location = "http://127.0.0.1:8000/";
         })
         .error(function(messages){
           MessageSrv.setMessages(messages, "error");
