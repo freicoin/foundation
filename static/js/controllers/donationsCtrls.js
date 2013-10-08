@@ -54,14 +54,6 @@ angular.module('donationsCtrls', ['django_constants', 'donationsSrvs', 'validati
       $scope.categories = categories;
     });
 
-    $scope.isValidAddress = function(address) {
-        if (address && address[0] = '1') {
-          return true;
-        } else {
-          return false;
-        }
-    };
-
     $scope.submit = function() {
       
       $scope.disableSubmit = true;
