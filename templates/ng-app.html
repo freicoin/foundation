@@ -28,14 +28,26 @@
         <li ng-class="navClass('about')"><a href="#/about">About</a></li>
         {% endblock %}
       </ul>
-      <ul class="nav navbar-nav navbar-right">{% block auth %}
-        {% if user.is_authenticated %}
-          <li class="{% block nav-logout-class %}{% endblock %}">{% block nav-logout %}<a href="{% url 'logout' %}">Logout</a>{% endblock %}</li>
-        {% else %}
-          <li class="{% block nav-register-class %}{% endblock %}">{% block nav-register %}<a href="{% url 'register' %}">Register</a>{% endblock %}</li>
-          <li class="{% block nav-login-class %}{% endblock %}">{% block nav-login %}<a href="{% url 'login' %}">Login</a>{% endblock %}</li>
-        {% endif %}
-      {% endblock auth %}</ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% block auth %}
+        <li>
+          <form name="form" ng-controller="LoginCtrl" novalidate>
+            {% if user.is_authenticated %}
+              <input class="btn btn-xs btn-default" type="button" value="Logout" 
+                     ng-click="logout();" />
+            {% else %}
+              <input type="text" name="login" id="username" ng-model="username" 
+                     size="10" auto-fill-sync/>
+              <input type="password" name="password" id="password" ng-model="password" 
+                     size="10" auto-fill-sync/>
+              <input class="btn btn-xs btn-default" type="submit" value="Login" 
+                     ng-disabled="!username || !password" ng-click="login();" />
+              <a class="btn btn-xs btn-default" href="#/register"/>Register</a>
+            {% endif %}
+          </form>
+        </li>
+      {% endblock auth %}
+      </ul>
     </div>
   </div>
 </footer>
@@ -95,6 +107,7 @@ angular.module('django_constants', [])
     "csrf_token": "{{ csrf_token }}",
     "static_urls": {
       "home": "{% static 'html/home.html' %}",
+      "register": "{% static 'html/register_form.html' %}",
       "about": "{% static 'html/about.html' %}",
       "copyright": "{% static 'html/copyright.html' %}",
       "trade_list": "{% static 'html/trade/merchant_list.html' %}",
@@ -105,6 +118,9 @@ angular.module('django_constants', [])
       "donations_form": "{% static 'html/donations/organization_form.html' %}"
     },
     "urls": {
+      "login": "{% url 'login' %}",
+      "logout": "{% url 'logout' %}",
+      "register": "{% url 'register' %}",
       "trade_categories": "{% url 'trade_categories' %}",
       "trade_category_tree": "{% url 'trade_category_tree' %}",
       "trade_merchant_detail": "{% url 'trade_merchant_detail' %}",
@@ -124,9 +140,11 @@ angular.module('django_constants', [])
 
 <script src="{% static 'js/app.js' %}"></script>
 <script src="{% static 'js/filters.js' %}"></script>
+<script src="{% static 'js/directives/common.js' %}"></script>
 <script src="{% static 'js/directives/validators.js' %}"></script>
 
 <script src="{% static 'js/controllers/navigationCtrl.js' %}"></script>
+<script src="{% static 'js/controllers/accountsCtrls.js' %}"></script>
 <script src="{% static 'js/controllers/tradeCtrls.js' %}"></script>
 <script src="{% static 'js/controllers/donationsCtrls.js' %}"></script>
 

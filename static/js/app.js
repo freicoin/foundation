@@ -1,4 +1,5 @@
 var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls', 'utilsFilters',
+                                                'accountsCtrls',
                                                 'tradeCtrls', 'tradeSrvs',
                                                 'donationsCtrls', 'donationsSrvs']).
   config(function($routeProvider, django) {
@@ -6,6 +7,7 @@ var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls', 
       when('/', {templateUrl: django.static_urls.home}).
       when('/about', {templateUrl: django.static_urls.about}).
       when('/copyright', {templateUrl: django.static_urls.copyright}).
+      when('/register', {templateUrl: django.static_urls.register, controller: 'RegisterCtrl'}).
 
       when('/trade', {templateUrl: django.static_urls.trade_list, controller: 'MerCategoriesCtrl'}).
       when('/trade/join', {templateUrl: django.static_urls.trade_form, controller: 'MerchantEditCtrl'}).
