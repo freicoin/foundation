@@ -1,5 +1,5 @@
 
-angular.module('accountsCtrls', ['django_constants', 'commonSrvs', 'commonDirectives', 'vcRecaptcha'])
+angular.module('accountsCtrls', ['django_constants', 'commonSrvs', 'commonDirectives'])
   .controller('LoginCtrl', ['$scope', '$http', 'django', 'MessageSrv', 
                                  function($scope, $http, django, MessageSrv){
 
@@ -29,8 +29,8 @@ angular.module('accountsCtrls', ['django_constants', 'commonSrvs', 'commonDirect
 
 
   }])
-  .controller('RegisterCtrl', ['$scope', '$http', 'django', 'vcRecaptchaService', 'MessageSrv', 
-                                 function($scope, $http, django, vcRecaptchaService, MessageSrv){
+  .controller('RegisterCtrl', ['$scope', '$http', 'django', 'MessageSrv', 
+                                 function($scope, $http, django, MessageSrv){
 
     $scope.submit = function() {
 
