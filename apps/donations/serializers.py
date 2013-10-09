@@ -21,10 +21,11 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class OrganizationShortSerializer(serializers.ModelSerializer):
     category_name = serializers.Field(source='category.name')
     user = serializers.Field(source='user.username')
+    foundation_address = serializers.Field(source='foundation_address_value')
 
     class Meta:
         model = Organization
-        fields = ('id', 'name', 'website', 'short_description')
+        fields = ('id', 'name', 'website', 'foundation_address', 'short_description')
 
 class CategoryShortSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
