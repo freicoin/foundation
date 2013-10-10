@@ -97,18 +97,6 @@
 
 angular.module('django_constants', [])
   .constant('django', {
-    "static_urls": {
-      "home": "{% static 'html/home.html' %}",
-      "register": "{% static 'html/register_form.html' %}",
-      "about": "{% static 'html/about.html' %}",
-      "copyright": "{% static 'html/copyright.html' %}",
-      "trade_list": "{% static 'html/trade/merchant_list.html' %}",
-      "trade_detail": "{% static 'html/trade/merchant_detail.html' %}",
-      "trade_form": "{% static 'html/trade/merchant_form.html' %}",
-      "donations_list": "{% static 'html/donations/organization_list.html' %}",
-      "donations_detail": "{% static 'html/donations/organization_detail.html' %}",
-      "donations_form": "{% static 'html/donations/organization_form.html' %}"
-    },
     "urls": {
       "login": "{% url 'login' %}",
       "logout": "{% url 'logout' %}",
