@@ -12,7 +12,7 @@
     See <a href="#/donations/candidates">candidates list</a>.
   </p>
 
-  <p ng-show="django.donations_admin">
+  <p ng-show="security.inGroup('donations_mod')">
     See <a href="#/donations/blocked">blocked organizations list</a>.
   </p>
 </div>
@@ -60,7 +60,7 @@
 </p>
 
   <!-- BUTTONS -->
-<p ng-show="django.user_authenticated">
+<p ng-show="security.getUser().autenticated">
   <br>
   <a href="#/donations/join" class="btn btn-primary">Add new organization</a>
   <br>

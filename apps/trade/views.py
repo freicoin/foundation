@@ -76,7 +76,8 @@ class EditMerchant(APIView):
         mer = get_object_or_404(Merchant, pk=pk)
         if (not request.user.has_perm("trade.change_merchant")
             and mer.user != request.user):
-            return HttpResponseForbidden()
+            msg = "You don't have permissions to edit merchant %s." % pk
+            return Response({"Error:": [msg]}, status=status.HTTP_403_FORBIDDEN)
 
         data = request.DATA
         data['user'] = mer.user.id
@@ -114,8 +115,10 @@ class EditMerchant(APIView):
 class ValidateMerchant(APIView):
 
     def put(self, request, pk):
-        if not request.user.has_perm("trade.change_merchant"):
-            return HttpResponseForbidden()
+        if ( not request.user.is_superuser and 
+              request.user.groups.filter(name='trade_mod').count() == 0 ):
+            msg = "You don't have permissions to validate merchants."
+            return Response({"Error:": [msg]}, status=status.HTTP_403_FORBIDDEN)
         mer = get_object_or_404(Merchant, pk=pk)
     
         if mer.validated_by:

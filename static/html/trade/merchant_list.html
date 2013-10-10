@@ -12,7 +12,7 @@
     See <a href="#/trade/candidates">candidates list</a>.
   </p>
 
-  <p ng-show="django.trade_admin">
+  <p ng-show="security.inGroup('trade_mod')">
     See <a href="#/trade/blocked">blocked merchants list</a>.
   </p>
 </div>
@@ -43,7 +43,7 @@
 </div>
 
   <!-- BUTTONS -->
-<p ng-show="django.user_authenticated">
+<p ng-show="security.getUser().autenticated">
   <br>
   <a href="#/trade/join" class="btn btn-primary">Add new Merchant</a>
   <br>

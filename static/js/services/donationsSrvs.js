@@ -96,7 +96,6 @@ angular.module('donationsSrvs', ['django_constants', 'commonSrvs'])
 
         var errorCallback = function(messages, status) {
           MessageSrv.setMessages(messages, "error");
-          callback();
         }
 
         $http.put(django.urls.donations_organization_validate + orgId + '/', {})

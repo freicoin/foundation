@@ -1,3 +1,4 @@
+from django.core.context_processors import csrf
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.contrib import auth
@@ -12,6 +13,20 @@ from rest_framework import status, generics
 from django.conf import settings
 
 import serializers
+
+class CurrentUser(APIView):
+    def get(self, request):
+        user = request.user
+
+        user_dict = {
+            'id': user.id,
+            'username': user.username,
+            'autenticated': user.is_authenticated(),
+            'admin': user.is_superuser,
+            'groups': [g.name for g in user.groups.all()]}
+        user_dict.update(csrf(request))
+
+        return Response(user_dict, status=status.HTTP_200_OK)
 
 class Login(APIView):
 
@@ -40,7 +55,7 @@ class Register(APIView):
 
     def post(self, request):
 
-        serialized = serializers.RegisterSerializer(data=request.DATA['register'])
+        serialized = serializers.RegisterSerializer(data=request.DATA)
         if serialized.is_valid():
             try:
                 auth.models.User.objects.create_user(

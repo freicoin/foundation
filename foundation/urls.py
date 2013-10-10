@@ -22,8 +22,8 @@ urlpatterns = patterns('',
     url(r'^$', 'foundation.views.ng_app', name='home'),
 
     # Included apps and their root
-    url(r'', include('apps.accounts.urls')),
-    url(r'^faucet/', include('apps.faucet.urls')),
+    url(r'api/', include('apps.accounts.urls')),
+    # url(r'^faucet/', include('apps.faucet.urls')),
     url(r'^api/donations/', include('apps.donations.urls')),
     url(r'^api/trade/', include('apps.trade.urls')),
 

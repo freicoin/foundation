@@ -62,5 +62,6 @@
   <!--    theme="clean"> -->
   <!-- </div> -->
 
-  <input type="submit" class="btn btn-primary" ng-click="submit();" value="Complete registration" />
+  <input type="submit" class="btn btn-primary" ng-disabled="form.$invalid" ng-click="submit();" 
+         value="Complete registration" />
 </form>

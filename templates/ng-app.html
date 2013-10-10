@@ -5,6 +5,7 @@
 {% load staticfiles %}
 
 {% block content %}
+{% verbatim %}
 
 <div ng-app="foundationApp">
 
@@ -21,37 +22,34 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav" ng-controller="NavigationCtrl">
-        {% block nav %}
         <li ng-class="navClass('donations')"><a href="#/donations">Donations</a></li>
         <li ng-class="navClass('trade')"><a href="#/trade">Trade</a></li>
         <li ng-class="navClass('about')"><a href="#/about">About</a></li>
-        {% endblock %}
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        {% block auth %}
         <li>
           <form name="form" ng-controller="LoginCtrl" novalidate>
-            {% if user.is_authenticated %}
-              <input class="btn btn-xs btn-default" type="button" value="Logout" 
-                     ng-click="logout();" />
-            {% else %}
-              <input type="text" name="login" id="username" ng-model="username" 
-                     size="10" auto-fill-sync/>
-              <input type="password" name="password" id="password" ng-model="password" 
-                     size="10" auto-fill-sync/>
-              <input class="btn btn-xs btn-default" type="submit" value="Login" 
-                     ng-disabled="!username || !password" ng-click="login();" />
-              <a class="btn btn-xs btn-default" href="#/register"/>Register</a>
-            {% endif %}
-          </form>
+
+              <div ng-show="security.getUser().autenticated">
+                <input class="btn btn-xs btn-default" type="button" value="Logout" 
+                       ng-click="logout();" />
+              </div>
+              <div ng-show="!security.getUser().autenticated">
+                <input type="text" name="login" id="username" ng-model="username" 
+                       size="10" auto-fill-sync required/>
+                <input type="password" name="password" id="password" ng-model="password" 
+                       size="10" auto-fill-sync required/>
+                <input class="btn btn-xs btn-default" type="submit" value="Login" 
+                       ng-disabled="form.$invalid" ng-click="login();" />
+                <a class="btn btn-xs btn-default" href="#/register"/>Register</a>
+             </div>
+         </form>
         </li>
-      {% endblock auth %}
       </ul>
+
     </div>
   </div>
 </footer>
-
-{% verbatim %}
 
 <div ng-switch="messages.length != null" ng-cloak>
   <div ng-switch-when="true">
@@ -99,11 +97,6 @@
 
 angular.module('django_constants', [])
   .constant('django', {
-    "user_authenticated": {% if user.is_authenticated %}1{% else %}0{% endif %},
-    "user_id": {% if user.is_authenticated %} {{ user.id }} {% else %} null {% endif %},
-    "trade_admin": {% if perms.trade.change_merchant %} 1 {% else %} null {% endif %},
-    "donations_admin": {% if perms.donations.change_organization %} 1 {% else %} null {% endif %},
-    "csrf_token": "{{ csrf_token }}",
     "static_urls": {
       "home": "{% static 'html/home.html' %}",
       "register": "{% static 'html/register_form.html' %}",
@@ -120,6 +113,7 @@ angular.module('django_constants', [])
       "login": "{% url 'login' %}",
       "logout": "{% url 'logout' %}",
       "register": "{% url 'register' %}",
+      "current_user": "{% url 'current_user' %}",
       "trade_categories": "{% url 'trade_categories' %}",
       "trade_category_tree": "{% url 'trade_category_tree' %}",
       "trade_merchant_detail": "{% url 'trade_merchant_detail' %}",
@@ -148,6 +142,7 @@ angular.module('django_constants', [])
 <script src="{% static 'js/controllers/donationsCtrls.js' %}"></script>
 
 <script src="{% static 'js/services/commonSrvs.js' %}"></script>
+<script src="{% static 'js/services/securitySrv.js' %}"></script>
 <script src="{% static 'js/services/tradeSrvs.js' %}"></script>
 <script src="{% static 'js/services/donationsSrvs.js' %}"></script>
 

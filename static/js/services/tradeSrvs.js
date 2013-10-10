@@ -96,7 +96,6 @@ angular.module('tradeSrvs', ['django_constants', 'commonSrvs'])
 
         var errorCallback = function(messages, status) {
           MessageSrv.setMessages(messages, "error");
-          callback();
         }
 
         $http.put(django.urls.trade_merchant_validate + merchantId + '/', {})

@@ -27,18 +27,17 @@ Go back to <a href="#/donations">non-profit list</a>.
   </div>
 
   <!-- BUTTONS -->
-  <a ng-show="django.donations_admin ||
-            (django.user_authenticated && django.user_id == org.user)"
+  <a ng-show="security.getUser().admin || security.getUser().id == org.user"
      href="#donations/edit/{{org.id}}" class="btn btn-primary">
     Edit
   </a>
 
-  <a ng-show="django.donations_admin && !org.validated_by"
+  <a ng-show="security.inGroup('donations_mod') && !org.validated_by"
      ng-click="validate()" class="btn btn-success">
     Validate
   </a>
 
-  <a ng-show="django.donations_admin && org.validated_by"
+  <a ng-show="security.inGroup('donations_mod') && org.validated_by"
      ng-click="validate()" class="btn btn-danger">
     Invalidate
   </a>

@@ -28,18 +28,17 @@
   </div>
 
   <!-- BUTTONS -->
-  <a ng-show="django.trade_admin ||
-              (django.user_authenticated && django.user_id == merchant.user)"
+  <a ng-show="security.getUser().admin || security.getUser().id == merchant.user"
        href="#trade/edit/{{merchant.id}}" class="btn btn-primary">
     Edit
   </a>
 
-  <a ng-show="django.trade_admin && !merchant.validated_by"
+  <a ng-show="security.inGroup('trade_mod') && !merchant.validated_by"
      ng-click="validate()" class="btn btn-success">
     Validate
   </a>
 
-  <a ng-show="django.trade_admin && merchant.validated_by"
+  <a ng-show="security.inGroup('trade_mod') && merchant.validated_by"
      ng-click="validate()" class="btn btn-danger">
     Invalidate
   </a>

@@ -71,7 +71,8 @@ class EditOrganization(APIView):
         org = get_object_or_404(Organization, pk=pk)
         if (not request.user.has_perm("donations.change_organization")
             and org.user != request.user):
-            return HttpResponseForbidden()
+            msg = "You don't have permissions to edit organization %s." % pk
+            return Response({"Error:": [msg]}, status=status.HTTP_403_FORBIDDEN)
 
         data = request.DATA
         data['user'] = org.user.id
@@ -148,8 +149,10 @@ class EditOrganization(APIView):
 class ValidateOrganization(APIView):
 
     def put(self, request, pk):
-        if not request.user.has_perm("donations.change_organization"):
-            return HttpResponseForbidden()
+        if ( not request.user.is_superuser and 
+              request.user.groups.filter(name='donations_mod').count() == 0 ):
+            msg = "You don't have permissions to validate organizations."
+            return Response({"Error:": [msg]}, status=status.HTTP_403_FORBIDDEN)
         org = get_object_or_404(Organization, pk=pk)
     
         if org.validated_by:
