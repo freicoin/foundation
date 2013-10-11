@@ -34,11 +34,9 @@ module.service('TradeSrv', ['$http', 'MessageSrv',
     }
   };
 
-  srv.getCategoryTree = function (merchant_type, callback){
+  srv.getCategoryTree = function (merchant_type, callback, force){
 
-    if (merchantCount[merchant_type] > 0){
-      callback(categories[merchant_type], merchantCount[merchant_type]);
-    } else {
+    if (force || merchantCount[merchant_type] == 0){
 
       $http.get("api/trade/categories/tree/" + merchant_type)
         .success(function(data) {
@@ -51,6 +49,8 @@ module.service('TradeSrv', ['$http', 'MessageSrv',
 
           callback(categories[merchant_type], merchantCount[merchant_type]);
         });
+    } else {
+      callback(categories[merchant_type], merchantCount[merchant_type]);
     }
   };
 

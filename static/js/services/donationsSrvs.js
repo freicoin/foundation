@@ -34,11 +34,9 @@ module.service('DonationsSrv', ['$http', 'MessageSrv',
     }
   };
 
-  srv.getCategoryTree = function (org_type, callback){
+  srv.getCategoryTree = function (org_type, callback, force){
 
-    if (orgCount[org_type] > 0){
-      callback(categories[org_type], orgCount[org_type]);
-    } else {
+    if (force || orgCount[org_type] == 0){
 
       $http.get("api/donations/categories/tree/" + org_type)
         .success(function(data) {
@@ -51,6 +49,8 @@ module.service('DonationsSrv', ['$http', 'MessageSrv',
 
           callback(categories[org_type], orgCount[org_type]);
         });
+    } else {
+      callback(categories[org_type], orgCount[org_type]);
     }
   };
 
