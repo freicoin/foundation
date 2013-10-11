@@ -1,5 +1,6 @@
 angular.module('commonSrvs', [])
-  .service('MessageSrv', function ($rootScope, $timeout){
+  .service('MessageSrv', ['$rootScope', '$timeout',
+                          function ($rootScope, $timeout){
 
     $rootScope.isString = function(input) {
       return typeof input === 'string';
@@ -37,4 +38,4 @@ angular.module('commonSrvs', [])
       srv.setMessages(message, type);
     }
     return srv;
-});
+}]);

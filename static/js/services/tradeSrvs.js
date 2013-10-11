@@ -1,5 +1,6 @@
 angular.module('tradeSrvs', ['commonSrvs'])
-  .service('TradeSrv', function ($http, MessageSrv){
+  .service('TradeSrv', ['$http', 'MessageSrv',
+                        function ($http, MessageSrv){
 
     var categories_short = [];
 
@@ -103,5 +104,5 @@ angular.module('tradeSrvs', ['commonSrvs'])
           .error(errorCallback);
       }
     };
-  });
+  }]);
 

@@ -1,5 +1,6 @@
 angular.module('securitySrv', ['commonSrvs'])
-  .service('SecuritySrv', function ($rootScope, $http, MessageSrv){
+  .service('SecuritySrv', ['$rootScope', '$http', 'MessageSrv',
+                           function ($rootScope, $http, MessageSrv){
 
     var currentUser = null;
 
@@ -77,5 +78,5 @@ angular.module('securitySrv', ['commonSrvs'])
     
     srv.getUser(true);
     return srv;
-  });
+  }]);
 

@@ -2,7 +2,8 @@ var tradeApp = angular.module('foundationApp', ['navCtrls',
                                                 'accountsCtrls', 'securitySrv',
                                                 'tradeCtrls', 'tradeSrvs',
                                                 'donationsCtrls', 'donationsSrvs']).
-  config(function($routeProvider) {
+  config(['$routeProvider',
+          function($routeProvider) {
     $routeProvider.
       when('/', {templateUrl: 'static/html/home.html'}).
       when('/about', {templateUrl: 'static/html/about.html'}).
@@ -33,8 +34,9 @@ var tradeApp = angular.module('foundationApp', ['navCtrls',
                                    controller: 'OrgCategoriesCtrl'}).
 
       otherwise({redirectTo: '/'});
-  });
+  }]);
 
-tradeApp.run(function($rootScope, SecuritySrv){
+tradeApp.run(['$rootScope', 'SecuritySrv', 
+              function($rootScope, SecuritySrv){
   $rootScope.security = SecuritySrv;
-});
+}]);

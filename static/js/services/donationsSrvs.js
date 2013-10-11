@@ -1,5 +1,6 @@
 angular.module('donationsSrvs', ['commonSrvs'])
-  .service('DonationsSrv', function ($http, MessageSrv){
+  .service('DonationsSrv', ['$http', 'MessageSrv',
+                            function ($http, MessageSrv){
 
     var categories_short = [];
 
@@ -103,4 +104,4 @@ angular.module('donationsSrvs', ['commonSrvs'])
           .error(errorCallback);
       }
     };
-  });
+  }]);

@@ -3,7 +3,7 @@ var module = angular.module('commonDirectives', []);
 // TODO Stop using this when the following issue is fixed:
 // https://github.com/angular/angular.js/issues/1460
 
-module.directive('autoFillSync', function($timeout) {
+module.directive('autoFillSync', ['$timeout', function($timeout) {
   return {
     require: 'ngModel',
     link: function(scope, elem, attrs, ngModel) {
@@ -16,7 +16,7 @@ module.directive('autoFillSync', function($timeout) {
       }, 500);
     }
   }
-});
+}]);
 
 module.directive('explorerLink', function() {
   return {
