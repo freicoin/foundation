@@ -1,4 +1,4 @@
-var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls', 'utilsFilters',
+var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls',
                                                 'accountsCtrls', 'securitySrv',
                                                 'tradeCtrls', 'tradeSrvs',
                                                 'donationsCtrls', 'donationsSrvs']).

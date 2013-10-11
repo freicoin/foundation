@@ -60,7 +60,7 @@ Go back to <a href="#/donations">non-profit list</a>.
 
   <tr>
     <td>Donation address:</td>
-    <td><div ng-bind-html-unsafe="org.foundation_address | frc_address"></div></td>
+    <td><a explorer-link="{{org.foundation_address}}" type="address" currency="frc"></a></td>
   </tr>
 
   <tr>
@@ -80,7 +80,7 @@ Go back to <a href="#/donations">non-profit list</a>.
 
   <tr>
     <td>Freicoin address:</td>
-    <td><div ng-bind-html-unsafe="org.freicoin_address | frc_address"></div></td>
+    <td><a explorer-link="{{org.freicoin_address}}"></a></td>
   </tr>
 
 </table>

@@ -95,7 +95,7 @@
 
       <td><a href="#/donations/detail/{{org.id}}/">{{org.name}}</a></td>
       <td>{{ org.short_description }}</td>
-      <td><div ng-bind-html-unsafe="org.foundation_address | frc_address"></div></td>
+      <td><a explorer-link="{{org.foundation_address}}"></a></td>
       <td><a href="{{ org.website }}">{{ org.website }}</a></td>
     </tr>
   </table>

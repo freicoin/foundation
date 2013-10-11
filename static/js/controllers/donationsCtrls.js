@@ -1,5 +1,6 @@
 
-angular.module('donationsCtrls', ['django_constants', 'donationsSrvs', 'validationDirectives'])
+angular.module('donationsCtrls', ['django_constants', 'donationsSrvs', 
+                                  'validationDirectives', 'commonDirectives'])
   .controller('OrgCategoriesCtrl', ['$scope', '$routeParams', 'django', 'DonationsSrv', 
                                  function($scope, $routeParams, django, DonationsSrv){
 
@@ -17,9 +18,9 @@ angular.module('donationsCtrls', ['django_constants', 'donationsSrvs', 'validati
 
     $scope.django = django;
 
-     DonationsSrv.getOrganization($routeParams.orgId, function(org) {
-       $scope.org = org;
-     });
+    DonationsSrv.getOrganization($routeParams.orgId, function(org) {
+      $scope.org = org;
+    });
 
     $scope.validate = function() {
       var msg = null;
