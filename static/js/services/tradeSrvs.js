@@ -1,108 +1,114 @@
-angular.module('tradeSrvs', ['commonSrvs'])
-  .service('TradeSrv', ['$http', 'MessageSrv',
-                        function ($http, MessageSrv){
+var module = angular.module('tradeSrvs', ['commonSrvs']);
 
-    var categories_short = [];
+module.service('TradeSrv', ['$http', 'MessageSrv',
+                            function ($http, MessageSrv)
+{
+  var categories_short = [];
 
-    var categories = {
-      all: [],
-      validated: [],
-      candidates: [],
-      blocked: []
-    };
-    var merchantCount = {
-      all: 0,
-      validated: 0,
-      candidates: 0,
-      blocked: 0
-    };
+  var categories = {
+    all: [],
+    validated: [],
+    candidates: [],
+    blocked: []
+  };
+  var merchantCount = {
+    all: 0,
+    validated: 0,
+    candidates: 0,
+    blocked: 0
+  };
 
-    return {
-      getCategories: function (callback){
+  var srv = {};
 
-        if (categories_short.length > 0){
-            callback(categories_short);
-        } else {
+  srv.getCategories = function (callback){
 
-          $http.get("api/trade/categories")
-            .success(function(data) {
-              categories_short = data;
-              callback(categories_short);
-            });
-        }
-      },
-      getCategoryTree: function (merchant_type, callback){
+    if (categories_short.length > 0){
+      callback(categories_short);
+    } else {
 
-        if (merchantCount[merchant_type] > 0){
-            callback(categories[merchant_type], merchantCount[merchant_type]);
-        } else {
+      $http.get("api/trade/categories")
+        .success(function(data) {
+          categories_short = data;
+          callback(categories_short);
+        });
+    }
+  };
 
-          $http.get("api/trade/categories/tree/" + merchant_type)
-            .success(function(data) {
+  srv.getCategoryTree = function (merchant_type, callback){
 
-              categories[merchant_type] = data;
-              merchantCount[merchant_type] = 0;            
-              for (var i=0; i < data.length; i++){
-                merchantCount[merchant_type] += data[i].inner_merchants;
-              }
+    if (merchantCount[merchant_type] > 0){
+      callback(categories[merchant_type], merchantCount[merchant_type]);
+    } else {
 
-              callback(categories[merchant_type], merchantCount[merchant_type]);
-            });
-        }
-      },
-      getMerchant: function(merchantId, callback){
-          $http.get("api/trade/merchant/" + merchantId).success(callback);
-      },
-      createMerchant: function(merchant, callback){
+      $http.get("api/trade/categories/tree/" + merchant_type)
+        .success(function(data) {
 
-        var successCallback = function(messages) {
-          MessageSrv.setMessages(messages, "success");
-          callback();
-        }
-        var errorCallback = function(messages, status) {
-          MessageSrv.setMessages(messages, "error");
-          callback();
-        }
+          categories[merchant_type] = data;
+          merchantCount[merchant_type] = 0;            
+          for (var i=0; i < data.length; i++){
+            merchantCount[merchant_type] += data[i].inner_merchants;
+          }
 
-        if (merchant == null) {
-          errorCallback("The merchant cannot be empty!")
-        } else {
-          $http.post("api/trade/merchant/create/", merchant)
-            .success(successCallback)
-            .error(errorCallback);
-        }
-      },
-      updateMerchant: function(merchant, merchantId, callback){
-        
-        var successCallback = function(messages) {
-          MessageSrv.setMessages(messages, "success");
-          callback();
-        }
-        var errorCallback = function(messages, status) {
-          MessageSrv.setMessages(messages, "error");
-          callback();
-        }
+          callback(categories[merchant_type], merchantCount[merchant_type]);
+        });
+    }
+  };
 
-        if (merchant == null) {
-          errorCallback("The merchant cannot be empty!")
-        } else {
-          $http.put("api/trade/merchant/edit/" + merchantId, merchant)
-            .success(successCallback)
-            .error(errorCallback);
-        }
+  srv.getMerchant = function(merchantId, callback){
+    $http.get("api/trade/merchant/" + merchantId).success(callback);
+  };
 
-        
-      },
-      validateMerchant: function(merchantId, callback){
+  srv.createMerchant = function(merchant, callback){
 
-        var errorCallback = function(messages, status) {
-          MessageSrv.setMessages(messages, "error");
-        }
+    var successCallback = function(messages) {
+      MessageSrv.setMessages(messages, "success");
+      callback();
+    }
+    var errorCallback = function(messages, status) {
+      MessageSrv.setMessages(messages, "error");
+      callback();
+    }
 
-        $http.put("api/trade/merchant/validate/" + merchantId, {})
-          .success(callback)
-          .error(errorCallback);
-      }
-    };
-  }]);
+    if (merchant == null) {
+      errorCallback("The merchant cannot be empty!")
+    } else {
+      $http.post("api/trade/merchant/create/", merchant)
+        .success(successCallback)
+        .error(errorCallback);
+    }
+  };
+
+  srv.updateMerchant = function(merchant, merchantId, callback){
+    
+    var successCallback = function(messages) {
+      MessageSrv.setMessages(messages, "success");
+      callback();
+    }
+    var errorCallback = function(messages, status) {
+      MessageSrv.setMessages(messages, "error");
+      callback();
+    }
+
+    if (merchant == null) {
+      errorCallback("The merchant cannot be empty!")
+    } else {
+      $http.put("api/trade/merchant/edit/" + merchantId, merchant)
+        .success(successCallback)
+        .error(errorCallback);
+    }
+  };
+
+  srv.validateMerchant = function(merchantId, callback){
+
+    var errorCallback = function(messages, status) {
+      MessageSrv.setMessages(messages, "error");
+    }
+
+    $http.put("api/trade/merchant/validate/" + merchantId, {})
+      .success(callback)
+      .error(errorCallback);
+  };
+
+  return srv;
+}]);
 

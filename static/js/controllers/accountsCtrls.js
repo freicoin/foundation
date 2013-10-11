@@ -1,20 +1,21 @@
+var module = angular.module('accountsCtrls', ['commonDirs', 'securitySrv']);
 
-angular.module('accountsCtrls', ['commonSrvs', 'securitySrv', 'commonDirectives'])
-  .controller('LoginCtrl', ['$scope', '$http', 'MessageSrv', 'SecuritySrv',
-                                 function($scope, $http, MessageSrv, SecuritySrv){
+module.controller('LoginCtrl', ['$scope', '$http', 'SecuritySrv',
+                                function($scope, $http, SecuritySrv)
+{
+  $scope.login = function() {
+    SecuritySrv.login($scope.username, $scope.password);
+  };
 
-    $scope.login = function() {
-      SecuritySrv.login($scope.username, $scope.password);
-    };
+  $scope.logout = function() {
+    SecuritySrv.logout();
+  };
+}]);
 
-    $scope.logout = function() {
-      SecuritySrv.logout();
-    };
-  }])
-  .controller('RegisterCtrl', ['$scope', '$http', 'MessageSrv', 'SecuritySrv', 
-                                 function($scope, $http, MessageSrv, SecuritySrv){
-
-    $scope.submit = function() {
-      SecuritySrv.register($scope.register);
-    };
-  }]);
+module.controller('RegisterCtrl', ['$scope', '$http', 'SecuritySrv', 
+                                   function($scope, $http, SecuritySrv)
+{
+  $scope.submit = function() {
+    SecuritySrv.register($scope.register);
+  };
+}]);

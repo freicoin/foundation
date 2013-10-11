@@ -1,9 +1,10 @@
-var module = angular.module('commonDirectives', []);
+var module = angular.module('commonDirs', []);
 
 // TODO Stop using this when the following issue is fixed:
 // https://github.com/angular/angular.js/issues/1460
-
-module.directive('autoFillSync', ['$timeout', function($timeout) {
+module.directive('autoFillSync', ['$timeout', 
+                                  function($timeout) 
+{
   return {
     require: 'ngModel',
     link: function(scope, elem, attrs, ngModel) {
@@ -27,8 +28,8 @@ module.directive('explorerLink', function() {
     link: function  (scope, element, attrs)
     {
       scope.type = attrs.type || 'address';
-
       var currency = attrs.currency || 'frc';
+
       if (currency == 'frc') {
         scope.explorer = 'http://cryptocoinexplorer.com:4750'
       } else if (currency == 'btc') {

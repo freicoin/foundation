@@ -1,4 +1,4 @@
-var module = angular.module('validationDirectives', []);
+var module = angular.module('validationDirs', []);
 
 module.directive('btcAddress', function() {
   return {
