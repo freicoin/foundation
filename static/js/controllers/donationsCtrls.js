@@ -1,10 +1,9 @@
 
-angular.module('donationsCtrls', ['django_constants', 'donationsSrvs', 
+angular.module('donationsCtrls', ['donationsSrvs', 
                                   'validationDirectives', 'commonDirectives'])
-  .controller('OrgCategoriesCtrl', ['$scope', '$routeParams', 'django', 'DonationsSrv', 
-                                 function($scope, $routeParams, django, DonationsSrv){
+  .controller('OrgCategoriesCtrl', ['$scope', '$routeParams', 'DonationsSrv', 
+                                 function($scope, $routeParams, DonationsSrv){
 
-    $scope.django = django;
     $scope.type = $routeParams.orgType ? $routeParams.orgType : 'validated';
     $scope.orderProp = 'id';
 
@@ -13,10 +12,8 @@ angular.module('donationsCtrls', ['django_constants', 'donationsSrvs',
       $scope.org_count = org_count;
     });
   }])
-  .controller('OrgDetailCtrl', ['$scope', '$routeParams', 'django', 'MessageSrv', 'DonationsSrv', 
-                                 function($scope, $routeParams, django, MessageSrv, DonationsSrv){
-
-    $scope.django = django;
+  .controller('OrgDetailCtrl', ['$scope', '$routeParams', 'MessageSrv', 'DonationsSrv', 
+                                 function($scope, $routeParams, MessageSrv, DonationsSrv){
 
     DonationsSrv.getOrganization($routeParams.orgId, function(org) {
       $scope.org = org;
@@ -39,10 +36,8 @@ angular.module('donationsCtrls', ['django_constants', 'donationsSrvs',
     };
 
   }])
-  .controller('OrgEditCtrl', ['$scope', '$routeParams', 'django', 'MessageSrv', 'DonationsSrv', 
-                                   function($scope, $routeParams, django, MessageSrv, DonationsSrv){
-
-    $scope.django = django;
+  .controller('OrgEditCtrl', ['$scope', '$routeParams', 'MessageSrv', 'DonationsSrv', 
+                                   function($scope, $routeParams, MessageSrv, DonationsSrv){
 
     if ($routeParams.orgId) {
     

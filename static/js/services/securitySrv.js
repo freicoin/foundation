@@ -1,5 +1,5 @@
-angular.module('securitySrv', ['django_constants', 'commonSrvs'])
-  .service('SecuritySrv', function ($rootScope, $http, django, MessageSrv){
+angular.module('securitySrv', ['commonSrvs'])
+  .service('SecuritySrv', function ($rootScope, $http, MessageSrv){
 
     var currentUser = null;
 
@@ -8,7 +8,7 @@ angular.module('securitySrv', ['django_constants', 'commonSrvs'])
     srv.getUser = function(force){
       
       if (!currentUser || force) {
-        $http.get(django.urls.current_user)
+        $http.get("/api/current_user")
           .success(function(data){
             currentUser = data;
             // set the CSRF token here
@@ -39,7 +39,7 @@ angular.module('securitySrv', ['django_constants', 'commonSrvs'])
 
     srv.login = function(username, password){
       var loginData = {"username": username, "password": password};
-      $http.post(django.urls.login, loginData)
+      $http.post("api/login/", loginData)
         .success(function(data){
           srv.getUser(true);
         })
@@ -49,7 +49,7 @@ angular.module('securitySrv', ['django_constants', 'commonSrvs'])
     };
 
     srv.logout = function(){
-      $http.post(django.urls.logout, {})
+      $http.post("api/logout/", {})
         .success(function(data){
           srv.getUser(true);
         })
@@ -62,7 +62,7 @@ angular.module('securitySrv', ['django_constants', 'commonSrvs'])
       // var registerData = {"register": register,
       //                     "recaptcha": vcRecaptchaService.data()};
 
-      $http.post(django.urls.register, register)
+      $http.post("api/register/", register)
         .success(function(data){
           MessageSrv.setMessages("You've registered as " + register.username 
                                  + ". Please, login.", "success");

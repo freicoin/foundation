@@ -1,5 +1,5 @@
-angular.module('tradeSrvs', ['django_constants', 'commonSrvs'])
-  .service('TradeSrv', function ($http, django, MessageSrv){
+angular.module('tradeSrvs', ['commonSrvs'])
+  .service('TradeSrv', function ($http, MessageSrv){
 
     var categories_short = [];
 
@@ -23,7 +23,7 @@ angular.module('tradeSrvs', ['django_constants', 'commonSrvs'])
             callback(categories_short);
         } else {
 
-          $http.get(django.urls.trade_categories)
+          $http.get("api/trade/categories")
             .success(function(data) {
               categories_short = data;
               callback(categories_short);
@@ -36,7 +36,7 @@ angular.module('tradeSrvs', ['django_constants', 'commonSrvs'])
             callback(categories[merchant_type], merchantCount[merchant_type]);
         } else {
 
-          $http.get(django.urls.trade_category_tree + merchant_type)
+          $http.get("api/trade/categories/tree/" + merchant_type)
             .success(function(data) {
 
               categories[merchant_type] = data;
@@ -50,7 +50,7 @@ angular.module('tradeSrvs', ['django_constants', 'commonSrvs'])
         }
       },
       getMerchant: function(merchantId, callback){
-          $http.get(django.urls.trade_merchant_detail + merchantId).success(callback);
+          $http.get("api/trade/merchant/" + merchantId).success(callback);
       },
       createMerchant: function(merchant, callback){
 
@@ -66,7 +66,7 @@ angular.module('tradeSrvs', ['django_constants', 'commonSrvs'])
         if (merchant == null) {
           errorCallback("The merchant cannot be empty!")
         } else {
-          $http.post(django.urls.trade_merchant_edit, merchant)
+          $http.post("api/trade/merchant/create/", merchant)
             .success(successCallback)
             .error(errorCallback);
         }
@@ -85,7 +85,7 @@ angular.module('tradeSrvs', ['django_constants', 'commonSrvs'])
         if (merchant == null) {
           errorCallback("The merchant cannot be empty!")
         } else {
-          $http.put(django.urls.trade_merchant_edit + merchantId + '/', merchant)
+          $http.put("api/trade/merchant/edit/" + merchantId, merchant)
             .success(successCallback)
             .error(errorCallback);
         }
@@ -98,7 +98,7 @@ angular.module('tradeSrvs', ['django_constants', 'commonSrvs'])
           MessageSrv.setMessages(messages, "error");
         }
 
-        $http.put(django.urls.trade_merchant_validate + merchantId + '/', {})
+        $http.put("api/trade/merchant/validate/" + merchantId, {})
           .success(callback)
           .error(errorCallback);
       }

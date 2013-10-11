@@ -93,30 +93,6 @@
 
 {% block app-scripts %}
 
-<script type="text/javascript">
-
-angular.module('django_constants', [])
-  .constant('django', {
-    "urls": {
-      "login": "{% url 'login' %}",
-      "logout": "{% url 'logout' %}",
-      "register": "{% url 'register' %}",
-      "current_user": "{% url 'current_user' %}",
-      "trade_categories": "{% url 'trade_categories' %}",
-      "trade_category_tree": "{% url 'trade_category_tree' %}",
-      "trade_merchant_detail": "{% url 'trade_merchant_detail' %}",
-      "trade_merchant_edit": "{% url 'trade_merchant_edit' %}",
-      "trade_merchant_validate": "{% url 'trade_merchant_validate' %}",
-      "donations_categories": "{% url 'donations_categories' %}",
-      "donations_category_tree": "{% url 'donations_category_tree' %}",
-      "donations_organization_detail": "{% url 'donations_organization_detail' %}",
-      "donations_organization_edit": "{% url 'donations_organization_edit' %}",
-      "donations_organization_validate": "{% url 'donations_organization_validate' %}"
-    }
-  });
-
-</script>
-
 <script src="{% static 'js/app.js' %}"></script>
 <script src="{% static 'js/directives/commonDirs.js' %}"></script>
 <script src="{% static 'js/directives/validatorDirs.js' %}"></script>

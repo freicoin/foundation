@@ -1,7 +1,7 @@
 
-angular.module('accountsCtrls', ['django_constants', 'commonSrvs', 'securitySrv', 'commonDirectives'])
-  .controller('LoginCtrl', ['$scope', '$http', 'django', 'MessageSrv', 'SecuritySrv',
-                                 function($scope, $http, django, MessageSrv, SecuritySrv){
+angular.module('accountsCtrls', ['commonSrvs', 'securitySrv', 'commonDirectives'])
+  .controller('LoginCtrl', ['$scope', '$http', 'MessageSrv', 'SecuritySrv',
+                                 function($scope, $http, MessageSrv, SecuritySrv){
 
     $scope.login = function() {
       SecuritySrv.login($scope.username, $scope.password);
@@ -11,8 +11,8 @@ angular.module('accountsCtrls', ['django_constants', 'commonSrvs', 'securitySrv'
       SecuritySrv.logout();
     };
   }])
-  .controller('RegisterCtrl', ['$scope', '$http', 'django', 'MessageSrv', 'SecuritySrv', 
-                                 function($scope, $http, django, MessageSrv, SecuritySrv){
+  .controller('RegisterCtrl', ['$scope', '$http', 'MessageSrv', 'SecuritySrv', 
+                                 function($scope, $http, MessageSrv, SecuritySrv){
 
     $scope.submit = function() {
       SecuritySrv.register($scope.register);

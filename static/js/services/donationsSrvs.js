@@ -1,5 +1,5 @@
-angular.module('donationsSrvs', ['django_constants', 'commonSrvs'])
-  .service('DonationsSrv', function ($http, django, MessageSrv){
+angular.module('donationsSrvs', ['commonSrvs'])
+  .service('DonationsSrv', function ($http, MessageSrv){
 
     var categories_short = [];
 
@@ -23,7 +23,7 @@ angular.module('donationsSrvs', ['django_constants', 'commonSrvs'])
             callback(categories_short);
         } else {
 
-          $http.get(django.urls.trade_categories)
+          $http.get("api/donations/categories")
             .success(function(data) {
               categories_short = data;
               callback(categories_short);
@@ -36,7 +36,7 @@ angular.module('donationsSrvs', ['django_constants', 'commonSrvs'])
             callback(categories[org_type], orgCount[org_type]);
         } else {
 
-          $http.get(django.urls.donations_category_tree + org_type)
+          $http.get("api/donations/categories/tree/" + org_type)
             .success(function(data) {
 
               categories[org_type] = data;
@@ -50,7 +50,7 @@ angular.module('donationsSrvs', ['django_constants', 'commonSrvs'])
         }
       },
       getOrganization: function(orgId, callback){
-          $http.get(django.urls.donations_organization_detail + orgId).success(callback);
+          $http.get("api/donations/organization/" + orgId).success(callback);
       },
       createOrganization: function(org, callback){
 
@@ -66,7 +66,7 @@ angular.module('donationsSrvs', ['django_constants', 'commonSrvs'])
         if (org == null) {
           errorCallback("The organization cannot be empty!")
         } else {
-          $http.post(django.urls.donations_organization_edit, org)
+          $http.post("api/donations/organization/create/", org)
             .success(successCallback)
             .error(errorCallback);
         }
@@ -85,7 +85,7 @@ angular.module('donationsSrvs', ['django_constants', 'commonSrvs'])
         if (org == null) {
           errorCallback("The organization cannot be empty!")
         } else {
-          $http.put(django.urls.donations_organization_edit + orgId + '/', org)
+          $http.put("api/donations/organization/edit/" + orgId, org)
             .success(successCallback)
             .error(errorCallback);
         }
@@ -98,7 +98,7 @@ angular.module('donationsSrvs', ['django_constants', 'commonSrvs'])
           MessageSrv.setMessages(messages, "error");
         }
 
-        $http.put(django.urls.donations_organization_validate + orgId + '/', {})
+        $http.put("api/donations/organization/validate/" + orgId, {})
           .success(callback)
           .error(errorCallback);
       }

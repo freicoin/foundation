@@ -1,8 +1,8 @@
-var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls',
+var tradeApp = angular.module('foundationApp', ['navCtrls',
                                                 'accountsCtrls', 'securitySrv',
                                                 'tradeCtrls', 'tradeSrvs',
                                                 'donationsCtrls', 'donationsSrvs']).
-  config(function($routeProvider, django) {
+  config(function($routeProvider) {
     $routeProvider.
       when('/', {templateUrl: 'static/html/home.html'}).
       when('/about', {templateUrl: 'static/html/about.html'}).
@@ -35,6 +35,6 @@ var tradeApp = angular.module('foundationApp', ['django_constants', 'navCtrls',
       otherwise({redirectTo: '/'});
   });
 
-tradeApp.run(function($rootScope, $http, django, SecuritySrv){
+tradeApp.run(function($rootScope, SecuritySrv){
   $rootScope.security = SecuritySrv;
 });

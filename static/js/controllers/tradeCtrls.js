@@ -1,9 +1,8 @@
 
-angular.module('tradeCtrls', ['django_constants', 'commonSrvs', 'tradeSrvs'])
-  .controller('MerCategoriesCtrl', ['$scope', '$routeParams', 'django', 'TradeSrv', 
-                                 function($scope, $routeParams, django, TradeSrv){
+angular.module('tradeCtrls', ['commonSrvs', 'tradeSrvs'])
+  .controller('MerCategoriesCtrl', ['$scope', '$routeParams', 'TradeSrv', 
+                                 function($scope, $routeParams, TradeSrv){
 
-    $scope.django = django;
     $scope.type = $routeParams.merchantType ? $routeParams.merchantType : 'validated';
     $scope.orderProp = 'id';
 
@@ -12,10 +11,8 @@ angular.module('tradeCtrls', ['django_constants', 'commonSrvs', 'tradeSrvs'])
       $scope.merchant_count = merchant_count;
     });
   }])
-  .controller('MerchantDetailCtrl', ['$scope', '$routeParams', 'django', 'MessageSrv', 'TradeSrv', 
-                                 function($scope, $routeParams, django, MessageSrv, TradeSrv){
-
-    $scope.django = django;
+  .controller('MerchantDetailCtrl', ['$scope', '$routeParams', 'MessageSrv', 'TradeSrv', 
+                                 function($scope, $routeParams, MessageSrv, TradeSrv){
 
     TradeSrv.getMerchant($routeParams.merchantId, function(merchant) {
       $scope.merchant = merchant;
@@ -38,10 +35,8 @@ angular.module('tradeCtrls', ['django_constants', 'commonSrvs', 'tradeSrvs'])
     };
 
   }])
-  .controller('MerchantEditCtrl', ['$scope', '$routeParams', 'django', 'TradeSrv',
-                                   function($scope, $routeParams, django, TradeSrv){
-
-    $scope.django = django;
+  .controller('MerchantEditCtrl', ['$scope', '$routeParams', 'TradeSrv',
+                                   function($scope, $routeParams, TradeSrv){
 
     if ($routeParams.merchantId) {
     
