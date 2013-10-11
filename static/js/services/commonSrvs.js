@@ -31,10 +31,11 @@ module.service('MessageSrv', ['$rootScope', '$timeout',
     }
     else if (type == "warning") {
       $rootScope.message_style = "warning";
-      $timeout(function(){ srv.clearMessages(); }, 4000);
+      $timeout(function(){ srv.clearMessages(); }, 6000);
     }
     else if (type == "error") {
       $rootScope.message_style = "danger";
+      $timeout(function(){ srv.clearMessages(); }, 10000);
     }
 
   };
