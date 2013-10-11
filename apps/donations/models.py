@@ -100,6 +100,15 @@ class Organization(models.Model):
     def bitcoin_address_value(self, value):
         pass
 
+    @property
+    def validation_state(self):
+        if self.validated_by:
+            return 'validated'
+        elif self.validated:
+            return 'blocked'
+        else:
+            return 'candidate'
+
     def __unicode__(self):
         return self.name
 

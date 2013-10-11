@@ -5,13 +5,12 @@ from .models import *
 class MerchantSerializer(serializers.ModelSerializer):
     category_name = serializers.Field(source='category.name')
     owner = serializers.Field(source='user.username')
-    validated_by = serializers.Field(source='validated_by.username')
-    validated = serializers.Field(source='validated')
+    validation_state = serializers.Field(source='validation_state')
 
     class Meta:
         model = Merchant
         fields = ('id', 'name', 'website', 'category', 'category_name', 'user', 'owner',
-                  'short_description', 'long_description', 'validated', 'validated_by')
+                  'short_description', 'long_description', 'validation_state')
 
 class MerchantShortSerializer(serializers.ModelSerializer):
     category_name = serializers.Field(source='category.name')

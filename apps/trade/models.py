@@ -63,5 +63,14 @@ class Merchant(models.Model):
     validated_by = models.ForeignKey(User, null=True, related_name="merchants_validated")
     user = models.ForeignKey(User)
 
+    @property
+    def validation_state(self):
+        if self.validated_by:
+            return 'validated'
+        elif self.validated:
+            return 'blocked'
+        else:
+            return 'candidate'
+
     def __unicode__(self):
         return self.name

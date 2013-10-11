@@ -5,27 +5,26 @@
 <div ng-show="merchant">
 
   <!-- TITTLES AND CONTENTS -->
-  <div ng-show="merchant.validated_by">
+  <div ng-show="merchant.validation_state == 'validated'">
     <h2>Validated merchant: {{ merchant.name }}</h2>
   </div>
 
-  <div ng-show="!merchant.validated_by">
-    <div ng-show="!merchant.validated">
-      <h2>Candidate merchant: {{ merchant.name }}</h2>
+  <div ng-show="merchant.validation_state == 'candidate'">
+    <h2>Candidate merchant: {{ merchant.name }}</h2>
 
-      <p>
-        This merchant has its validation pending and doesn't appear in the
-        main merchant list yet.
-      </p>
-    </div>
-
-    <div ng-show="merchant.validated">
-      <h2>Blocked merchant: {{ merchant.name }}</h2>
-      <p>
-        This merchant has been blocked.
-      </p>
-    </div>
+    <p>
+      This merchant has its validation pending and doesn't appear in the
+      main merchant list yet.
+    </p>
   </div>
+
+  <div ng-show="merchant.validation_state == 'blocked'">
+    <h2>Blocked merchant: {{ merchant.name }}</h2>
+    <p>
+      This merchant has been blocked.
+    </p>
+  </div>
+</div>
 
   <!-- BUTTONS -->
   <a ng-show="security.getUser().admin || security.getUser().id == merchant.user"
@@ -33,12 +32,12 @@
     Edit
   </a>
 
-  <a ng-show="security.inGroup('trade_mod') && !merchant.validated_by"
+  <a ng-show="security.inGroup('trade_mod') && merchant.validation_state != 'validated'"
      ng-click="validate()" class="btn btn-success">
     Validate
   </a>
 
-  <a ng-show="security.inGroup('trade_mod') && merchant.validated_by"
+  <a ng-show="security.inGroup('trade_mod') && merchant.validation_state == 'validated'"
      ng-click="validate()" class="btn btn-danger">
     Invalidate
   </a>

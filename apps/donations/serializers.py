@@ -6,8 +6,7 @@ from .models import *
 class OrganizationSerializer(serializers.ModelSerializer):
     category_name = serializers.Field(source='category.name')
     owner = serializers.Field(source='user.username')
-    validated_by = serializers.Field(source='validated_by.username')
-    validated = serializers.Field(source='validated')
+    validation_state = serializers.Field(source='validation_state')
     foundation_address = serializers.Field(source='foundation_address_value')
     freicoin_address = BtcAddressField(source='freicoin_address_value', max_length=34)
     bitcoin_address = BtcAddressField(source='bitcoin_address_value', required=False, max_length=34)
@@ -15,7 +14,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = ('id', 'name', 'website', 'email', 'category', 'category_name', 'user', 'owner',
-                  'short_description', 'long_description', 'validated', 'validated_by',
+                  'short_description', 'long_description', 'validation_state',
                   'foundation_address', 'freicoin_address', 'bitcoin_address')
 
 class OrganizationShortSerializer(serializers.ModelSerializer):

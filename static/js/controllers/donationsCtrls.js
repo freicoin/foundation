@@ -22,12 +22,15 @@ module.controller('OrgDetailCtrl', ['$scope', '$routeParams', 'MessageSrv', 'Don
 
   $scope.validate = function() {
     var msg = null;
-    if ($scope.org.validated_by){
-      msg = "The organization has been blocked."
-    } else if ($scope.org.validated) {
-      msg = "The organization is valid again."
+    if ($scope.org.validation_state == "validated"){
+      msg = "The organization has been blocked.";
+    } else if ($scope.org.validation_state == "blocked") {
+      msg = "The organization is valid again.";
+    } else if ($scope.org.validation_state == "candidate") {
+      msg = "The organization has been validated.";
     } else {
-      msg = "The organization has been validated."
+      MessageSrv.setMessage("Unkown validation state " + $scope.org.validation_state, "error");
+      return;
     }
     
     DonationsSrv.validateOrganization($routeParams.orgId, function(org) {

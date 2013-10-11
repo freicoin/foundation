@@ -21,12 +21,15 @@ module.controller('MerchantDetailCtrl', ['$scope', '$routeParams', 'MessageSrv',
 
   $scope.validate = function() {
     var msg = null;
-    if ($scope.merchant.validated_by){
-      msg = "The merchant has been blocked."
-    } else if ($scope.merchant.validated) {
-      msg = "The merchant is valid again."
+    if ($scope.merchant.validation_state == "validated"){
+      msg = "The merchant has been blocked.";
+    } else if ($scope.merchant.validation_state == "blocked") {
+      msg = "The merchant is valid again.";
+    } else if ($scope.merchant.validation_state == "candidate") {
+      msg = "The merchant has been validated.";
     } else {
-      msg = "The merchant has been validated."
+      MessageSrv.setMessage("Unkown validation state " + $scope.merchant.validation_state, "error");
+      return;
     }
     
     TradeSrv.validateMerchant($routeParams.merchantId, function(merchant) {

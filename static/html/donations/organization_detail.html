@@ -5,25 +5,23 @@ Go back to <a href="#/donations">non-profit list</a>.
 <div ng-show="org">
 
   <!-- TITTLES AND CONTENTS -->
-  <div ng-show="org.validated_by">
+  <div ng-show="org.validation_state == 'validated'">
     <h2>Validated organization: {{ org.name }}</h2>
   </div>
 
-  <div ng-show="!org.validated_by">
-    <div ng-show="!org.validated">
-      <h2>Candidate organization: {{ org.name }}</h2>
-      <p>
-        This organization has its validation pending and doesn't have a
-        donation adress with the foundation yet.
-      </p>
-    </div>
+  <div ng-show="!org.validation_state == 'candidate'">
+    <h2>Candidate organization: {{ org.name }}</h2>
+    <p>
+      This organization has its validation pending and doesn't have a
+      donation adress with the foundation yet.
+    </p>
+  </div>
 
-    <div ng-show="org.validated">
-      <h2>Blocked organization: {{ org.name }}</h2>
-      <p>
-        This organization has been blocked.
-      </p>
-    </div>
+  <div ng-show="org.validation_state == 'blocked'">
+    <h2>Blocked organization: {{ org.name }}</h2>
+    <p>
+      This organization has been blocked.
+    </p>
   </div>
 
   <!-- BUTTONS -->
@@ -32,12 +30,12 @@ Go back to <a href="#/donations">non-profit list</a>.
     Edit
   </a>
 
-  <a ng-show="security.inGroup('donations_mod') && !org.validated_by"
+  <a ng-show="security.inGroup('donations_mod') && org.validation_state != 'validated'"
      ng-click="validate()" class="btn btn-success">
     Validate
   </a>
 
-  <a ng-show="security.inGroup('donations_mod') && org.validated_by"
+  <a ng-show="security.inGroup('donations_mod') && org.validation_state == 'validated'"
      ng-click="validate()" class="btn btn-danger">
     Invalidate
   </a>
