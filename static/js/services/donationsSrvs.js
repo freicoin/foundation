@@ -60,55 +60,31 @@ module.service('DonationsSrv', ['$http', 'MessageSrv',
 
   srv.createOrganization = function(org, callback){
 
-    var successCallback = function(messages) {
-      MessageSrv.setMessages(messages, "success");
-      callback();
-    }
-    var errorCallback = function(messages, status) {
-      MessageSrv.setMessages(messages, "error");
-      callback();
-    }
-
     if (org == null) {
-      errorCallback("The organization cannot be empty!")
+      MessageSrv.setMessages("The organization cannot be empty!", "error");
     } else {
       $http.post("api/donations/organization/create/", org)
-        .success(successCallback)
-        .error(errorCallback);
+        .success(MessageSrv.successCallback(callback))
+        .error(MessageSrv.errorCallback(callback));
     }
   };
 
   srv.updateOrganization = function(org, orgId, callback){
     
-    var successCallback = function(messages) {
-      MessageSrv.setMessages(messages, "success");
-      callback();
-    }
-    var errorCallback = function(messages, status) {
-      MessageSrv.setMessages(messages, "error");
-      callback();
-    }
-
     if (org == null) {
-      errorCallback("The organization cannot be empty!")
+      MessageSrv.setMessages("The organization cannot be empty!", "error");
     } else {
       $http.put("api/donations/organization/edit/" + orgId, org)
-        .success(successCallback)
-        .error(errorCallback);
+        .success(MessageSrv.successCallback(callback))
+        .error(MessageSrv.errorCallback(callback));
     }
-
-    
   };
 
   srv.validateOrganization = function(orgId, callback){
 
-    var errorCallback = function(messages, status) {
-      MessageSrv.setMessages(messages, "error");
-    }
-
     $http.put("api/donations/organization/validate/" + orgId, {})
       .success(callback)
-      .error(errorCallback);
+      .error(MessageSrv.errorCallbackSimple);
   };
 
   return srv;

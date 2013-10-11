@@ -60,53 +60,31 @@ module.service('TradeSrv', ['$http', 'MessageSrv',
 
   srv.createMerchant = function(merchant, callback){
 
-    var successCallback = function(messages) {
-      MessageSrv.setMessages(messages, "success");
-      callback();
-    }
-    var errorCallback = function(messages, status) {
-      MessageSrv.setMessages(messages, "error");
-      callback();
-    }
-
     if (merchant == null) {
-      errorCallback("The merchant cannot be empty!")
+      MessageSrv.setMessages("The merchant cannot be empty!", "error");
     } else {
       $http.post("api/trade/merchant/create/", merchant)
-        .success(successCallback)
-        .error(errorCallback);
+        .success(MessageSrv.successCallback(callback))
+        .error(MessageSrv.errorCallback(callback));
     }
   };
 
   srv.updateMerchant = function(merchant, merchantId, callback){
     
-    var successCallback = function(messages) {
-      MessageSrv.setMessages(messages, "success");
-      callback();
-    }
-    var errorCallback = function(messages, status) {
-      MessageSrv.setMessages(messages, "error");
-      callback();
-    }
-
     if (merchant == null) {
-      errorCallback("The merchant cannot be empty!")
+      MessageSrv.setMessages("The merchant cannot be empty!", "error");
     } else {
       $http.put("api/trade/merchant/edit/" + merchantId, merchant)
-        .success(successCallback)
-        .error(errorCallback);
+        .success(MessageSrv.successCallback(callback))
+        .error(MessageSrv.errorCallback(callback));
     }
   };
 
   srv.validateMerchant = function(merchantId, callback){
 
-    var errorCallback = function(messages, status) {
-      MessageSrv.setMessages(messages, "error");
-    }
-
     $http.put("api/trade/merchant/validate/" + merchantId, {})
       .success(callback)
-      .error(errorCallback);
+      .error(MessageSrv.errorCallbackSimple);
   };
 
   return srv;
