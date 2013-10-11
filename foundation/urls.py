@@ -18,8 +18,8 @@ def forum_hack(request, anystring):
 
 urlpatterns = patterns('',
 
-    # Angular App                 
-    url(r'^$', 'foundation.views.ng_app', name='home'),
+    # Angular App
+    url(r'^$', TemplateView.as_view(template_name='ng-app.html'), name='home'),
 
     # Included apps and their root
     url(r'api/', include('apps.accounts.urls')),

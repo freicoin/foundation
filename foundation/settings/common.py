@@ -180,9 +180,6 @@ LOGGING = {
     }
 }
 
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
-
 # reCaptcha
 
 RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY')
@@ -230,12 +227,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 # End Mail settings
-
-# External URLs
-FRC_EXPLORER = 'http://cryptocoinexplorer.com:4750'
-BTC_EXPLORER = 'http://blockexplorer.com'
-
-# End external URLs
 
 # Donations public HD wallet (BIP 32) key
 DONATIONS_WALLET_KEY = os.environ.get('DONATIONS_WALLET_KEY',
