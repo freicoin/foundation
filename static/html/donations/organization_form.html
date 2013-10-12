@@ -23,117 +23,49 @@
   foundation's issuance funds, increasing the amount by 10%.
 </p>
 
-<form name="form" class="form-horizontal" novalidate>
+<form name="orgForm" novalidate>
 
-  <div class="control-group error required">
-    <label class="control-label" for="id_name">Name</label>
+  <input form-input-id="name" model="org" required 
+         label="Name" maxlength="40" rows="5"
+         hint="Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.">
+
+  <div class="form-group">
+    <label class="control-label" for="id_category">Category</label>
+    <span class="asteriskField">*</span>
     <div class="controls">
-      <input id="id_name" maxlength="40" name="name" ng-model="org.name" type="text" required/>
-      <p ng-show="form.name.$dirty && form.name.$error.required" 
-         class="help-block" style="color:red">This field is required.
-      </p>
+      <select name="category" ng-model="org.category" required
+              ng-options="c.id as c.name for c in categories"
+              class="textinput textInput form-control">
+      </select>
+      <p ng-show="orgForm.category.$dirty && orgForm.category.$error.required" 
+         class="help-block" style="color:red"> 
+        This field is required.
+      </p> 
     </div>
   </div>
 
-    <div class="control-group required">
-      <label class="control-label" for="id_category">Category</label>
-      <div class="controls">
-        <select name="category" ng-model="org.category" required 
-                ng-options="c.id as c.name for c in categories">
-        </select>
-        <p ng-show="form.category.$dirty && form.category.$error.required" 
-           class="help-block" style="color:red">
-          This field is required.
-        </p>
-      </div>
-    </div>
+  <input form-input-id="website" model="org" type="url" required 
+         label="Website" maxlength="200">
 
-  <div class="control-group error required">
-    <label class="control-label" for="id_website">Website</label>
-    <div class="controls">
-      <input id="id_website" maxlength="200" name="website" required ng-model="org.website" type="url"/>
-        <p ng-show="form.website.$dirty && form.website.$error.required" 
-           class="help-block" style="color:red">
-          This field is required.
-        </p>
-        <p ng-show="form.website.$dirty && form.website.$error.url" 
-           class="help-block" style="color:red">
-          Enter a valid URL.
-        </p>
-    </div>
-  </div>
+  <input form-input-id="email" model="org" type="email" required 
+         label="E-mail" maxlength="75">
 
-  <div class="control-group error required">
-    <label class="control-label" for="id_email">Email</label>
-    <div class="controls">
-      <input id="id_email" maxlength="75" name="email" required ng-model="org.email" type="email"/>
-        <p ng-show="form.email.$dirty && form.email.$error.required" 
-           class="help-block" style="color:red">
-          This field is required.
-        </p>
-        <p ng-show="form.email.$dirty && form.email.$error.email" 
-           class="help-block" style="color:red">
-          Enter a valid email address.
-        </p>
-    </div>
-  </div>
+  <input form-input-id="short_description" model="org" type="textarea" required 
+         label="Short description" maxlength="350" rows="5">
 
-  <div class="control-group error required">
-    <label class="control-label" for="id_short_description">Short description</label>
-    <div class="controls">
-      <textarea cols="50" id="id_short_description"
-                name="short_description" rows="5" required ng-model="org.short_description">
-      </textarea>
-        <p ng-show="form.short_description.$dirty && form.short_description.$error.required" 
-           class="help-block" style="color:red">
-          This field is required.
-        </p>
-    </div>
-  </div>
+  <input form-input-id="long_description" model="org" type="textarea" required 
+         label="Long description" rows="10">
 
-  <div class="control-group error required">
-    <label class="control-label" for="id_long_description">Long description</label>
-    <div class="controls">
-      <textarea cols="50" id="id_long_description"
-                name="long_description" rows="10" required ng-model="org.long_description">
-      </textarea>
-        <p ng-show="form.long_description.$dirty && form.long_description.$error.required" 
-           class="help-block" style="color:red">
-          This field is required.
-        </p>
-    </div>
-  </div>
+  <input form-input-id="freicoin_address" model="org" type="btcAddress" required 
+         label="Freicoin address">
 
-  <div class="control-group error required">
-    <label class="control-label" for="id_freicoin_address">Freicoin address</label>
-    <div class="controls">
-      <input id="id_freicoin_address" maxlength="34" name="freicoin_address" required ng-model="org.freicoin_address" type="text" btc-address/>
-        <p ng-show="form.freicoin_address.$dirty && form.freicoin_address.$error.required" 
-           class="help-block" style="color:red">
-          This field is required.
-        </p>
-        <p ng-show="form.freicoin_address.$dirty && form.freicoin_address.$error.btcAddress" 
-           class="help-block" style="color:red">
-          Enter a valid address.
-        </p>
-    </div>
-  </div>
-
-  <div class="control-group error">
-    <label class="control-label" for="id_bitcoin_address">Bitcoin address</label>
-    <div class="controls">
-      <input id="id_bitcoin_address" maxlength="34" name="bitcoin_address" ng-model="org.bitcoin_address" type="text" btc-address/>
-        <p ng-show="form.bitcoin_address.$dirty && form.bitcoin_address.$error.btcAddress"
-           class="help-block" style="color:red">
-          Enter a valid address.
-        </p>
-    </div>
-  </div>
+  <input form-input-id="bitcoin_address" model="org" type="btcAddress"
+         label="Bitcoin address">
 
   <br>
   <div class="form-actions">
     <button class="btn btn-primary" ng-click="submit()"
-            ng-disabled="form.$invalid || disableSubmit">Submit Request</button>
+            ng-disabled="orgForm.$invalid || disableSubmit">Submit Request</button>
     <span ng-show="disableSubmit">Sending message, please wait... </span>
   </div>
 

@@ -16,79 +16,43 @@
   receive through this section.
 </p>
 
-<form name="form" class="form-horizontal" novalidate>
-  
-  <div class="control-group required">
-    <label class="control-label" for="id_name">Name</label>
-    <div class="controls">
-      <input id="id_name" maxlength="40" name="name" ng-model="merchant.name" type="text" required/>
-      <p ng-show="form.name.$dirty && form.name.$error.required" 
-         class="help-block" style="color:red">This field is required.
-      </p>
-    </div>
-  </div>
+<form name="merchantForm" novalidate>
 
-  <div class="control-group required">
+  <input form-input-id="name" model="merchant" required 
+         label="Name" maxlength="40" rows="5"
+         hint="Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.">
+  
+  <!-- <input form-input-id="category" model="merchant" type="select" required  -->
+  <!--        ng-options="c.id as c.name for c in categories" label="Category" > -->
+
+  <div class="form-group">
     <label class="control-label" for="id_category">Category</label>
+    <span class="asteriskField">*</span>
     <div class="controls">
       <select name="category" ng-model="merchant.category" required 
-              ng-options="c.id as c.name for c in categories">
+              ng-options="c.id as c.name for c in categories"
+              class="textinput textInput form-control">
       </select>
-      <p ng-show="form.category.$dirty && form.category.$error.required" 
+      <p ng-show="merchantForm.category.$dirty && merchantForm.category.$error.required" 
          class="help-block" style="color:red">
         This field is required.
       </p>
     </div>
   </div>
 
-  <div class="control-group required">
-    <label class="control-label" for="id_website">Website</label>
-    <div class="controls">
-      <input id="id_website" maxlength="200" name="website" 
-             ng-model="merchant.website" type="url" required/>
-      <p ng-show="form.website.$dirty && form.website.$error.required" 
-         class="help-block" style="color:red">
-        This field is required.
-      </p>
-      <p ng-show="form.website.$dirty && form.website.$error.url" 
-         class="help-block" style="color:red">
-        Enter a valid URL.
-      </p>
-    </div>
-  </div>
+  <input form-input-id="website" model="merchant" type="url" required 
+         label="Website" maxlength="200">
 
-  <div class="control-group required">
-    <label class="control-label" for="id_short_description">Short description</label>
-    <div class="controls">
-      <textarea cols="50" id="id_short_description"
-                name="short_description"
-                ng-model="merchant.short_description" rows="5" required>
-      </textarea>
-        <p ng-show="form.short_description.$dirty && form.short_description.$error.required" 
-           class="help-block" style="color:red">
-          This field is required.
-        </p>
-    </div>
-  </div>
+  <input form-input-id="short_description" model="merchant" type="textarea" required 
+         label="Short description" maxlength="350" rows="5">
 
-  <div class="control-group required">
-    <label class="control-label" for="id_long_description">Long description</label>
-    <div class="controls">
-      <textarea cols="50" id="id_long_description"
-                name="long_description"
-                ng-model="merchant.long_description" rows="10" required>
-      </textarea>
-        <p ng-show="form.long_description.$dirty && form.long_description.$error.required" 
-           class="help-block" style="color:red">
-          This field is required.
-        </p>
-    </div>
-  </div>
+  <input form-input-id="long_description" model="merchant" type="textarea" required 
+         label="Long description" rows="10">
 
   <br>
   <div class="form-actions">
     <button class="btn btn-primary" ng-click="submit()"
-            ng-disabled="form.$invalid || disableSubmit">Submit Request</button>
+            ng-disabled="merchantForm.$invalid || disableSubmit">Submit Request</button>
     <span ng-show="disableSubmit">Sending message, please wait... </span>
   </div>
   
