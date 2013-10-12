@@ -71,7 +71,7 @@ module.controller('OrgEditCtrl', ['$scope', '$routeParams', '$location', 'Messag
         MessageSrv.success({"Success: ": ["Organization created with id " + org.id]});
       }        
       $location.path( "/donations/detail/" + org.id );
-    }
+    };
 
     if ($routeParams.orgId) {
       DonationsSrv.updateOrganization($scope.org, $routeParams.orgId, callback);
