@@ -42,8 +42,8 @@ module.controller('MerchantDetailCtrl', ['$scope', '$routeParams', 'MessageSrv',
 
 }]);
 
-module.controller('MerchantEditCtrl', ['$scope', '$routeParams', 'MessageSrv', 'TradeSrv',
-                                       function($scope, $routeParams, MessageSrv, TradeSrv)
+module.controller('MerchantEditCtrl', ['$scope', '$routeParams', '$location', 'MessageSrv', 'TradeSrv',
+                                       function($scope, $routeParams, $location, MessageSrv, TradeSrv)
 {
   if ($routeParams.merchantId) {
     
@@ -61,15 +61,15 @@ module.controller('MerchantEditCtrl', ['$scope', '$routeParams', 'MessageSrv', '
 
     var callback = function(mer) {
       $scope.merchant = mer;
-      var msg;
-      if ($routeParams.merchantId) {
-        msg = {"Success: ": ["The merchant has been updated."]};
-      } else {
-        msg = {"Success: ": ["Merchant created with id " + mer.id]};
-      }        
-      MessageSrv.success(msg);
       $scope.disableSubmit = false;
-    }
+
+      if ($routeParams.merchantId) {
+        MessageSrv.success({"Success: ": ["The merchant has been updated."]});
+      } else {
+        MessageSrv.success({"Success: ": ["Merchant created with id " + mer.id]});
+      }        
+      $location.path( "/trade/detail/" + mer.id );
+    };
 
     if ($routeParams.merchantId) {
       TradeSrv.updateMerchant($scope.merchant, $routeParams.merchantId, callback);
