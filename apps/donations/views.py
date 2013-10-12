@@ -104,9 +104,8 @@ class EditOrganization(APIView):
             # org.email = request.user.email
             # send_new_org_mails(org)
 
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
-            msg = "Thank you for submitting your request. It will be validated by a human soon."
-            return Response({"Success: ": [msg]}, status=status.HTTP_202_ACCEPTED)
+            serializer = serializers.OrganizationSerializer(org)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -136,13 +135,11 @@ class EditOrganization(APIView):
                 org.bitcoin_address = btc_addr
 
             org.save()
-
             # org.email = request.user.email
             # send_new_org_mails(org)
 
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
-            msg = "Organization saved with id %s" % org.id
-            return Response({"Success: ": [msg]}, status=status.HTTP_201_CREATED)
+            serializer = serializers.OrganizationSerializer(org)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -170,4 +167,4 @@ class ValidateOrganization(APIView):
                 org.save()
 
         serializer = serializers.OrganizationSerializer(org)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

@@ -61,8 +61,15 @@ module.controller('OrgEditCtrl', ['$scope', '$routeParams', 'MessageSrv', 'Donat
     
     $scope.disableSubmit = true;
 
-    var callback = function(messages) {
-      MessageSrv.success(messages);
+    var callback = function(org) {
+      $scope.org = org;
+      var msg;
+      if ($routeParams.orgId) {
+        msg = {"Success: ": ["The organization has been updated."]};
+      } else {
+        msg = {"Success: ": ["Organization created with id " + org.id]};
+      }        
+      MessageSrv.success(msg);
       $scope.disableSubmit = false;
     }
 

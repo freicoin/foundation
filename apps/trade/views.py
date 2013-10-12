@@ -89,9 +89,8 @@ class EditMerchant(APIView):
             # mer.email = request.user.email
             # send_new_mer_mails(mer)
 
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
-            msg = "Thank you for submitting your request. It will be validated by a human soon."
-            return Response({"Success: ": [msg]}, status=status.HTTP_202_ACCEPTED)
+            serializer = serializers.MerchantSerializer(mer)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -102,13 +101,13 @@ class EditMerchant(APIView):
         serializer = serializers.MerchantSerializer(data=data)
         if serializer.is_valid():
             
-            serializer.save()
+            mer = serializer.save()
+            mer.save()
             # mer.email = request.user.email
             # send_new_mer_mails(mer)
 
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
-            msg = "Thank you for submitting your request. It will be validated by a human soon."
-            return Response({"Success: ": [msg]}, status=status.HTTP_201_CREATED)
+            serializer = serializers.MerchantSerializer(mer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -136,4 +135,4 @@ class ValidateMerchant(APIView):
                 mer.save()
 
         serializer = serializers.MerchantSerializer(mer)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

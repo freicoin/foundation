@@ -59,8 +59,15 @@ module.controller('MerchantEditCtrl', ['$scope', '$routeParams', 'MessageSrv', '
   $scope.submit = function() {
     $scope.disableSubmit = true;
 
-    var callback = function(messages) {
-      MessageSrv.success(messages);
+    var callback = function(mer) {
+      $scope.merchant = mer;
+      var msg;
+      if ($routeParams.merchantId) {
+        msg = {"Success: ": ["The merchant has been updated."]};
+      } else {
+        msg = {"Success: ": ["Merchant created with id " + mer.id]};
+      }        
+      MessageSrv.success(msg);
       $scope.disableSubmit = false;
     }
 
