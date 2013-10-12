@@ -13,11 +13,12 @@ module.controller('OrgCategoriesCtrl', ['$scope', '$routeParams', 'DonationsSrv'
   });
 }]);
 
-module.controller('OrgDetailCtrl', ['$scope', '$routeParams', 'MessageSrv', 'DonationsSrv', 
-                                    function($scope, $routeParams, MessageSrv, DonationsSrv)
+module.controller('OrgDetailCtrl', ['$rootScope', '$scope', '$routeParams', 'MessageSrv', 'DonationsSrv', 
+                                    function($rootScope, $scope, $routeParams, MessageSrv, DonationsSrv)
 {
   DonationsSrv.getOrganization($routeParams.orgId, function(org) {
     $scope.org = org;
+    $rootScope.org = null;
   });
 
    $scope.validate = function() {

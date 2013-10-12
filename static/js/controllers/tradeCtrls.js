@@ -12,11 +12,14 @@ module.controller('MerCategoriesCtrl', ['$scope', '$routeParams', 'TradeSrv',
   });
 }]);
 
-module.controller('MerchantDetailCtrl', ['$scope', '$routeParams', 'MessageSrv', 'TradeSrv', 
-                                         function($scope, $routeParams, MessageSrv, TradeSrv)
+module.controller('MerchantDetailCtrl', ['$rootScope', '$scope', '$routeParams', 'MessageSrv',
+                                         'TradeSrv', 
+                                         function($rootScope, $scope, $routeParams, MessageSrv,
+                                           TradeSrv)
 {
   TradeSrv.getMerchant($routeParams.merchantId, function(merchant) {
     $scope.merchant = merchant;
+    $rootScope.merchant = null;
   });
 
   $scope.validate = function() {
