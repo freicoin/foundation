@@ -33,10 +33,10 @@ module.controller('OrgDetailCtrl', ['$scope', '$routeParams', 'MessageSrv', 'Don
       } else if (org.validation_state == "candidate") {
         msg = "The organization has been validated.";
       } else {
-        MessageSrv.setMessage("Unkown validation state " + org.validation_state, "error");
+        MessageSrv.error("Unkown validation state " + org.validation_state);
         return;
       }
-      MessageSrv.setMessage(msg, "success");
+      MessageSrv.success(msg);
     };
     DonationsSrv.validateOrganization(org, callback);
   };
@@ -62,7 +62,7 @@ module.controller('OrgEditCtrl', ['$scope', '$routeParams', 'MessageSrv', 'Donat
     $scope.disableSubmit = true;
 
     var callback = function(messages) {
-      MessageSrv.setMessages(messages, "success");
+      MessageSrv.success(messages);
       $scope.disableSubmit = false;
     }
 

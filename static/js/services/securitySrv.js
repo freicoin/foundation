@@ -21,9 +21,7 @@ module.service('SecuritySrv', ['$rootScope', '$http', 'MessageSrv',
             currentUser.admin = true;
           }
         })
-        .error(function(messages){
-          MessageSrv.setMessages(messages, "error");
-        });
+      .error(MessageSrv.errorCallbackSimple);
     }
     return currentUser;
   };
@@ -45,9 +43,7 @@ module.service('SecuritySrv', ['$rootScope', '$http', 'MessageSrv',
       .success(function(data){
         srv.getUser(true);
       })
-      .error(function(messages){
-        MessageSrv.setMessages(messages, "error");
-      });
+      .error(MessageSrv.errorCallbackSimple);
   };
 
   srv.logout = function(){
@@ -55,9 +51,7 @@ module.service('SecuritySrv', ['$rootScope', '$http', 'MessageSrv',
       .success(function(data){
         srv.getUser(true);
       })
-      .error(function(messages){
-        MessageSrv.setMessages(messages, "error");
-      });
+      .error(MessageSrv.errorCallbackSimple);
   };
 
   srv.register = function(register){
@@ -66,15 +60,16 @@ module.service('SecuritySrv', ['$rootScope', '$http', 'MessageSrv',
 
     $http.post("api/register/", register)
       .success(function(data){
-        MessageSrv.setMessages("You've registered as " + register.username 
-                               + ". Please, login.", "success");
+        MessageSrv.success("You've registered as " + register.username 
+                           + ". Please, login.");
       })
-      .error(function(messages){
-        MessageSrv.setMessages(messages, "error");
-        // In case of a failed validation you need to reload the
-        // captcha because each challenge can be checked just once
-        // vcRecaptchaService.reload();
-      });
+      .error(MessageSrv.errorCallbackSimple);
+      // .error(function(messages){
+      //   MessageSrv.error(messages);
+      //   // In case of a failed validation you need to reload the
+      //   // captcha because each challenge can be checked just once
+      //   // vcRecaptchaService.reload();
+      // });
   };
     
   srv.getUser(true);

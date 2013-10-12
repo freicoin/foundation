@@ -40,26 +40,32 @@ module.service('MessageSrv', ['$rootScope', '$timeout',
 
   };
 
+  srv.info = function(messages){
+    srv.setMessages(messages, "info");
+  };
+  srv.success = function(messages){
+    srv.setMessages(messages, "success");
+  };
+  srv.warning = function(messages){
+    srv.setMessages(messages, "warning");
+  };
+  srv.error = function(messages){
+    srv.setMessages(messages, "error");
+  };
+
   srv.setMessage = function (message, type){        
     srv.setMessages(message, type);
   };
 
-  srv.successCallback =  function(callback) {
-    return function(messages) {
-      srv.setMessages(messages, "success");
-      callback();
-    }
-  };
-
   srv.errorCallback = function(callback) {
     return function(messages, status) {
-      srv.setMessages(messages, "error");
+      srv.error(messages);
       callback();
     }
   };
 
   srv.errorCallbackSimple = function(messages, status) {
-    srv.setMessages(messages, "error");
+    srv.error(messages);
   };
 
   return srv;

@@ -68,7 +68,7 @@ module.service('TradeSrv', ['$http', 'MessageSrv',
   srv.createMerchant = function(merchant, callback){
 
     if (merchant == null) {
-      MessageSrv.setMessages("The merchant cannot be empty!", "error");
+      MessageSrv.error("The merchant cannot be empty!");
     } else {
       $http.post("api/trade/merchant/create/", merchant)
         .success(successReloadCallback("candidate", callback))
@@ -79,7 +79,7 @@ module.service('TradeSrv', ['$http', 'MessageSrv',
   srv.updateMerchant = function(merchant, merchantId, callback){
     
     if (merchant == null) {
-      MessageSrv.setMessages("The merchant cannot be empty!", "error");
+      MessageSrv.error("The merchant cannot be empty!");
     } else {
       $http.put("api/trade/merchant/edit/" + merchantId, merchant)
         .success(successReloadCallback(merchant.validation_state, callback))

@@ -68,7 +68,7 @@ module.service('DonationsSrv', ['$http', 'MessageSrv',
   srv.createOrganization = function(org, callback){
 
     if (org == null) {
-      MessageSrv.setMessages("The organization cannot be empty!", "error");
+      MessageSrv.error("The organization cannot be empty!");
     } else {
       $http.post("api/donations/organization/create/", org)
         .success(successReloadCallback("candidate", callback))
@@ -79,7 +79,7 @@ module.service('DonationsSrv', ['$http', 'MessageSrv',
   srv.updateOrganization = function(org, orgId, callback){
     
     if (org == null) {
-      MessageSrv.setMessages("The organization cannot be empty!", "error");
+      MessageSrv.error("The organization cannot be empty!");
     } else {
       $http.put("api/donations/organization/edit/" + orgId, org)
         .success(successReloadCallback(org.validation_state, callback))

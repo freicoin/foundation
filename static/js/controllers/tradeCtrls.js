@@ -32,10 +32,10 @@ module.controller('MerchantDetailCtrl', ['$scope', '$routeParams', 'MessageSrv',
       } else if (mer.validation_state == "candidate") {
         msg = "The merchant has been validated.";
       } else {
-        MessageSrv.setMessage("Unkown validation state " + mer.validation_state, "error");
+        MessageSrv.error("Unkown validation state " + mer.validation_state);
         return;
       }
-      MessageSrv.setMessage(msg, "success");
+      MessageSrv.success(msg);
     };
     TradeSrv.validateMerchant(mer, callback);
   };
@@ -60,7 +60,7 @@ module.controller('MerchantEditCtrl', ['$scope', '$routeParams', 'MessageSrv', '
     $scope.disableSubmit = true;
 
     var callback = function(messages) {
-      MessageSrv.setMessages(messages, "success");
+      MessageSrv.success(messages);
       $scope.disableSubmit = false;
     }
 
