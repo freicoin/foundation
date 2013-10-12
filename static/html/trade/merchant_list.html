@@ -1,5 +1,18 @@
 
-  <!-- TITTLES AND NAVIGATION -->
+  <!-- NAVIGATION -->
+<p ng-show="type != 'validated'">
+  Go to <a href="#/trade">merchant list</a>.
+</p>
+
+<p ng-show="type != 'candidate'">
+  Go to <a href="#/trade/candidate">candidates list</a>.
+</p>
+
+<p ng-show="security.inGroup('trade_mod') && type != 'blocked'">
+  Go to <a href="#/trade/blocked">blocked merchants list</a>.
+</p>
+
+  <!-- TITTLES -->
 <div ng-show="type == 'validated'">
   <h3>List of merchant accepting Freicoin:</h3>
 
@@ -7,26 +20,14 @@
     There are currently {{merchant_count}} merchants that accept
     Freicoin as payment registered and validated.
   </p>
-
-  <p>
-    See <a href="#/trade/candidates">candidates list</a>.
-  </p>
-
-  <p ng-show="security.inGroup('trade_mod')">
-    See <a href="#/trade/blocked">blocked merchants list</a>.
-  </p>
 </div>
 
-<div ng-show="type == 'candidates'">
+<div ng-show="type == 'candidate'">
   <h3>List of candidate merchants:</h3>
 
   <p>
     There are currently {{merchant_count}} candidate merchants
     requesting free advertisement on this web.
-  </p>
-
-  <p>
-    Go back to <a href="#/trade">merchant list</a>.
   </p>
 </div>
 
@@ -35,10 +36,6 @@
 
   <p> 
     There are currently {{merchant_count}} blocked merchants.
-  </p>
-
-  <p>
-    Go back to <a href="#/trade">merchant list</a>.
   </p>
 </div>
 

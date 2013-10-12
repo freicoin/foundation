@@ -32,7 +32,7 @@ class CategoryTree(APIView):
 
         if merchant_type == 'validated':
             serializer = serializers.CategoryValidatedSerializer(categories)
-        elif merchant_type == 'candidates':
+        elif merchant_type == 'candidate':
             serializer = serializers.CategoryCandidatesSerializer(categories)
         elif merchant_type == 'blocked':
             serializer = serializers.CategoryBlockedSerializer(categories)

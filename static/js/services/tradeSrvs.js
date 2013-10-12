@@ -8,13 +8,13 @@ module.service('TradeSrv', ['$http', 'MessageSrv',
   var categories = {
     all: [],
     validated: [],
-    candidates: [],
+    candidate: [],
     blocked: []
   };
   var merchantCount = {
     all: 0,
     validated: 0,
-    candidates: 0,
+    candidate: 0,
     blocked: 0
   };
 

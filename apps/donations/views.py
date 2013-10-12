@@ -30,7 +30,7 @@ class CategoryTree(APIView):
 
         if organization_type == 'validated':
             serializer = serializers.CategoryValidatedSerializer(categories, many=True)
-        elif organization_type == 'candidates':
+        elif organization_type == 'candidate':
             serializer = serializers.CategoryCandidatesSerializer(categories, many=True)
         elif organization_type == 'blocked':
             serializer = serializers.CategoryBlockedSerializer(categories, many=True)

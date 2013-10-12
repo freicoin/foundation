@@ -1,5 +1,18 @@
 
-  <!-- TITTLES AND NAVIGATION -->
+  <!-- NAVIGATION -->
+<p ng-show="type != 'validated'">
+  Go to <a href="#/donations">organizations list</a>.
+</p>
+
+<p ng-show="type != 'candidate'">
+  Go to <a href="#/donations/candidate">candidate organizations list</a>.
+</p>
+
+<p ng-show="security.inGroup('donations_mod') && type != 'blocked'">
+  Go to <a href="#/donations/blocked">blocked organizations list</a>.
+</p>
+
+  <!-- TITTLES -->
 <div ng-show="type == 'validated'">
   <h3>List of non-profit organizations:</h3>
 
@@ -7,26 +20,14 @@
     There are currently {{org_count}} organizations
     validated for this Freicoin issuance program.
   </p>
-
-  <p>
-    See <a href="#/donations/candidates">candidates list</a>.
-  </p>
-
-  <p ng-show="security.inGroup('donations_mod')">
-    See <a href="#/donations/blocked">blocked organizations list</a>.
-  </p>
 </div>
 
-<div ng-show="type == 'candidates'">
+<div ng-show="type == 'candidate'">
   <h3>List of candidate organizations:</h3>
 
   <p> 
     There are currently {{org_count}} candidate
     organizations registered for this Freicoin issuance program.
-  </p>
-
-  <p>
-    Go back to <a href="#/donations">non-profit list</a>.
   </p>
 </div>
 
@@ -36,10 +37,6 @@
   <p> 
     There are currently {{org_count}} blocked
     organizations.
-  </p>
-
-  <p>
-    Go back to <a href="#/donations/">non-profit list</a>.
   </p>
 </div>
   <!-- TEXT -->
