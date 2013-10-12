@@ -43,10 +43,10 @@ class OrganizationDetail(generics.RetrieveAPIView):
     queryset = Organization.objects.all()
     serializer_class = serializers.OrganizationSerializer
 
-def send_new_org_mails(org):
+def send_new_org_mails(org, email):
     context = {'org': org}
 
-    admins = User.objects.filter(groups__name='donations_admin')
+    admins = User.objects.filter(groups__name='donations_mod')
     if (admins.count() <= 0):
         admins = User.objects.filter(is_superuser=True)
     admin_mails = ""
@@ -62,7 +62,7 @@ def send_new_org_mails(org):
 
     utils.send_html_mail('mail/org_mail.html', context, 
                          "Thanks for registering your organization !", 
-                         'noreply@freicoin.org', org.email)
+                         'noreply@freicoin.org', '%s, %s' % (org.email, email))
 
 class EditOrganization(APIView):
 
@@ -101,8 +101,6 @@ class EditOrganization(APIView):
                 org.bitcoin_address = btc_addr
 
             org.save()
-            # org.email = request.user.email
-            # send_new_org_mails(org)
 
             serializer = serializers.OrganizationSerializer(org)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -135,8 +133,7 @@ class EditOrganization(APIView):
                 org.bitcoin_address = btc_addr
 
             org.save()
-            # org.email = request.user.email
-            # send_new_org_mails(org)
+            send_new_org_mails(org, request.user.email)
 
             serializer = serializers.OrganizationSerializer(org)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

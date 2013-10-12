@@ -45,10 +45,10 @@ class MerchantDetail(generics.RetrieveAPIView):
     queryset = Merchant.objects.all()
     serializer_class = serializers.MerchantSerializer
 
-def send_new_mer_mails(mer):
+def send_new_mer_mails(mer, email):
     context = {'merchant': mer}
 
-    admins = User.objects.filter(groups__name='trade_admin')
+    admins = User.objects.filter(groups__name='trade_mod')
     if (admins.count() <= 0):
         admins = User.objects.filter(is_superuser=True)
     admin_mails = ""
@@ -59,12 +59,12 @@ def send_new_mer_mails(mer):
 
     utils.send_html_mail('mail/admin_mail.html', context, 
                          "New merchant registration: %s" % mer.name, 
-                         mer.email,
+                         email,
                          admin_mails)
 
     utils.send_html_mail('mail/merchant_mail.html', context, 
                          "Thanks for registering your business !", 
-                         'noreply@freicoin.org', mer.email)
+                         'noreply@freicoin.org', email)
 
 class EditMerchant(APIView):
 
@@ -86,8 +86,6 @@ class EditMerchant(APIView):
             
             mer = serializer.save()
             mer.save()
-            # mer.email = request.user.email
-            # send_new_mer_mails(mer)
 
             serializer = serializers.MerchantSerializer(mer)
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -103,8 +101,7 @@ class EditMerchant(APIView):
             
             mer = serializer.save()
             mer.save()
-            # mer.email = request.user.email
-            # send_new_mer_mails(mer)
+            send_new_mer_mails(mer, request.user.email)
 
             serializer = serializers.MerchantSerializer(mer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
