@@ -65,25 +65,25 @@ module.service('DonationsSrv', ['$http', 'MessageSrv',
     }
   };
 
-  srv.createOrganization = function(org, callback){
+  srv.createOrganization = function(org, callback, errorCallback){
 
     if (org == null) {
       MessageSrv.error("The organization cannot be empty!");
     } else {
       $http.post("api/donations/organization/create/", org)
         .success(successReloadCallback("candidate", callback))
-        .error(MessageSrv.errorCallback(callback));
+        .error(MessageSrv.errorCallback(errorCallback));
     }
   };
 
-  srv.updateOrganization = function(org, orgId, callback){
+  srv.updateOrganization = function(org, orgId, callback, errorCallback){
     
     if (org == null) {
       MessageSrv.error("The organization cannot be empty!");
     } else {
       $http.put("api/donations/organization/edit/" + orgId, org)
         .success(successReloadCallback(org.validation_state, callback))
-        .error(MessageSrv.errorCallback(callback));
+        .error(MessageSrv.errorCallback(errorCallback));
     }
   };
 

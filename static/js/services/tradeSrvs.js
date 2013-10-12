@@ -65,25 +65,25 @@ module.service('TradeSrv', ['$http', 'MessageSrv',
     }
   };
 
-  srv.createMerchant = function(merchant, callback){
+  srv.createMerchant = function(merchant, callback, errorCallback){
 
     if (merchant == null) {
       MessageSrv.error("The merchant cannot be empty!");
     } else {
       $http.post("api/trade/merchant/create/", merchant)
         .success(successReloadCallback("candidate", callback))
-        .error(MessageSrv.errorCallback(callback));
+        .error(MessageSrv.errorCallback(errorCallback));
     }
   };
 
-  srv.updateMerchant = function(merchant, merchantId, callback){
+  srv.updateMerchant = function(merchant, merchantId, callback, errorCallback){
     
     if (merchant == null) {
       MessageSrv.error("The merchant cannot be empty!");
     } else {
       $http.put("api/trade/merchant/edit/" + merchantId, merchant)
         .success(successReloadCallback(merchant.validation_state, callback))
-        .error(MessageSrv.errorCallback(callback));
+        .error(MessageSrv.errorCallback(errorCallback));
     }
   };
 

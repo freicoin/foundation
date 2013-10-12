@@ -42,8 +42,10 @@ module.controller('MerchantDetailCtrl', ['$scope', '$routeParams', 'MessageSrv',
 
 }]);
 
-module.controller('MerchantEditCtrl', ['$scope', '$routeParams', '$location', 'MessageSrv', 'TradeSrv',
-                                       function($scope, $routeParams, $location, MessageSrv, TradeSrv)
+module.controller('MerchantEditCtrl', ['$rootScope', '$scope', '$routeParams', '$location', 
+                                       'MessageSrv', 'TradeSrv',
+                                       function($rootScope, $scope, $routeParams, $location, 
+                                         MessageSrv, TradeSrv)
 {
   if ($routeParams.merchantId) {
     
@@ -60,8 +62,7 @@ module.controller('MerchantEditCtrl', ['$scope', '$routeParams', '$location', 'M
     $scope.disableSubmit = true;
 
     var callback = function(mer) {
-      $scope.merchant = mer;
-      $scope.disableSubmit = false;
+      $rootScope.merchant = mer;
 
       if ($routeParams.merchantId) {
         MessageSrv.success({"Success: ": ["The merchant has been updated."]});
@@ -71,10 +72,14 @@ module.controller('MerchantEditCtrl', ['$scope', '$routeParams', '$location', 'M
       $location.path( "/trade/detail/" + mer.id );
     };
 
+    var errorCallback = function(org) {
+      $scope.disableSubmit = false;
+    };
+
     if ($routeParams.merchantId) {
-      TradeSrv.updateMerchant($scope.merchant, $routeParams.merchantId, callback);
+      TradeSrv.updateMerchant($scope.merchant, $routeParams.merchantId, callback, errorCallback);
     } else {
-      TradeSrv.createMerchant($scope.merchant, callback);
+      TradeSrv.createMerchant($scope.merchant, callback, errorCallback);
     }
   };
 }]);

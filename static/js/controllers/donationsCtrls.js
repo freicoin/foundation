@@ -43,8 +43,10 @@ module.controller('OrgDetailCtrl', ['$scope', '$routeParams', 'MessageSrv', 'Don
 
 }]);
 
-module.controller('OrgEditCtrl', ['$scope', '$routeParams', '$location', 'MessageSrv', 'DonationsSrv', 
-                                  function($scope, $routeParams, $location, MessageSrv, DonationsSrv)
+module.controller('OrgEditCtrl', ['$rootScope', '$scope', '$routeParams', '$location', 
+                                  'MessageSrv', 'DonationsSrv', 
+                                  function($rootScope, $scope, $routeParams, $location, 
+                                    MessageSrv, DonationsSrv)
 {
   if ($routeParams.orgId) {
     
@@ -62,8 +64,7 @@ module.controller('OrgEditCtrl', ['$scope', '$routeParams', '$location', 'Messag
     $scope.disableSubmit = true;
 
     var callback = function(org) {
-      $scope.org = org;
-      $scope.disableSubmit = false;
+      $rootScope.org = org;
 
       if ($routeParams.orgId) {
         MessageSrv.success({"Success: ": ["The organization has been updated."]});
@@ -73,10 +74,14 @@ module.controller('OrgEditCtrl', ['$scope', '$routeParams', '$location', 'Messag
       $location.path( "/donations/detail/" + org.id );
     };
 
+    var errorCallback = function(org) {
+      $scope.disableSubmit = false;
+    };
+
     if ($routeParams.orgId) {
-      DonationsSrv.updateOrganization($scope.org, $routeParams.orgId, callback);
+      DonationsSrv.updateOrganization($scope.org, $routeParams.orgId, callback, errorCallback);
     } else {
-      DonationsSrv.createOrganization($scope.org, callback);
+      DonationsSrv.createOrganization($scope.org, callback, errorCallback);
     }
   };
 }]);
