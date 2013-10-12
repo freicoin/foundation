@@ -58,13 +58,20 @@ module.service('DonationsSrv', ['$http', 'MessageSrv',
     $http.get("api/donations/organization/" + orgId).success(callback);
   };
 
+  var successReloadCallback = function(validation_state, callback) {
+    return function(data) {
+      srv.getCategoryTree(validation_state, function(){}, true);
+      callback(data);
+    }
+  };
+
   srv.createOrganization = function(org, callback){
 
     if (org == null) {
       MessageSrv.setMessages("The organization cannot be empty!", "error");
     } else {
       $http.post("api/donations/organization/create/", org)
-        .success(MessageSrv.successCallback(callback))
+        .success(successReloadCallback("candidate", callback))
         .error(MessageSrv.errorCallback(callback));
     }
   };
@@ -75,15 +82,20 @@ module.service('DonationsSrv', ['$http', 'MessageSrv',
       MessageSrv.setMessages("The organization cannot be empty!", "error");
     } else {
       $http.put("api/donations/organization/edit/" + orgId, org)
-        .success(MessageSrv.successCallback(callback))
+        .success(successReloadCallback(org.validation_state, callback))
         .error(MessageSrv.errorCallback(callback));
     }
   };
 
-  srv.validateOrganization = function(orgId, callback){
+  srv.validateOrganization = function(org, callback){
 
-    $http.put("api/donations/organization/validate/" + orgId, {})
-      .success(callback)
+    var validateReloadCallback = function(new_org){
+      srv.getCategoryTree(org.validation_state, function(){}, true);
+      srv.getCategoryTree(new_org.validation_state, function(){}, true);
+      callback(new_org);
+    }
+    $http.put("api/donations/organization/validate/" + org.id, {})
+      .success(validateReloadCallback)
       .error(MessageSrv.errorCallbackSimple);
   };
 

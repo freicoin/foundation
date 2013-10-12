@@ -20,27 +20,30 @@ module.controller('MerchantDetailCtrl', ['$scope', '$routeParams', 'MessageSrv',
   });
 
   $scope.validate = function() {
-    var msg = null;
-    if ($scope.merchant.validation_state == "validated"){
-      msg = "The merchant has been blocked.";
-    } else if ($scope.merchant.validation_state == "blocked") {
-      msg = "The merchant is valid again.";
-    } else if ($scope.merchant.validation_state == "candidate") {
-      msg = "The merchant has been validated.";
-    } else {
-      MessageSrv.setMessage("Unkown validation state " + $scope.merchant.validation_state, "error");
-      return;
-    }
-    
-    TradeSrv.validateMerchant($routeParams.merchantId, function(merchant) {
-      $scope.merchant = merchant;
+
+    var mer = $scope.merchant;
+    var callback = function(new_mer) {
+      $scope.merchant = new_mer;
+      var msg;
+      if (mer.validation_state == "validated"){
+        msg = "The merchant has been blocked.";
+      } else if (mer.validation_state == "blocked") {
+        msg = "The merchant is valid again.";
+      } else if (mer.validation_state == "candidate") {
+        msg = "The merchant has been validated.";
+      } else {
+        MessageSrv.setMessage("Unkown validation state " + mer.validation_state, "error");
+        return;
+      }
       MessageSrv.setMessage(msg, "success");
-    });
+    };
+    TradeSrv.validateMerchant(mer, callback);
   };
+
 }]);
 
-module.controller('MerchantEditCtrl', ['$scope', '$routeParams', 'TradeSrv',
-                                       function($scope, $routeParams, TradeSrv)
+module.controller('MerchantEditCtrl', ['$scope', '$routeParams', 'MessageSrv', 'TradeSrv',
+                                       function($scope, $routeParams, MessageSrv, TradeSrv)
 {
   if ($routeParams.merchantId) {
     
@@ -56,7 +59,8 @@ module.controller('MerchantEditCtrl', ['$scope', '$routeParams', 'TradeSrv',
   $scope.submit = function() {
     $scope.disableSubmit = true;
 
-    var callback = function() {
+    var callback = function(messages) {
+      MessageSrv.setMessages(messages, "success");
       $scope.disableSubmit = false;
     }
 

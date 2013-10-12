@@ -58,13 +58,20 @@ module.service('TradeSrv', ['$http', 'MessageSrv',
     $http.get("api/trade/merchant/" + merchantId).success(callback);
   };
 
+  var successReloadCallback = function(validation_state, callback) {
+    return function(data) {
+      srv.getCategoryTree(validation_state, function(){}, true);
+      callback(data);
+    }
+  };
+
   srv.createMerchant = function(merchant, callback){
 
     if (merchant == null) {
       MessageSrv.setMessages("The merchant cannot be empty!", "error");
     } else {
       $http.post("api/trade/merchant/create/", merchant)
-        .success(MessageSrv.successCallback(callback))
+        .success(successReloadCallback("candidate", callback))
         .error(MessageSrv.errorCallback(callback));
     }
   };
@@ -75,15 +82,20 @@ module.service('TradeSrv', ['$http', 'MessageSrv',
       MessageSrv.setMessages("The merchant cannot be empty!", "error");
     } else {
       $http.put("api/trade/merchant/edit/" + merchantId, merchant)
-        .success(MessageSrv.successCallback(callback))
+        .success(successReloadCallback(merchant.validation_state, callback))
         .error(MessageSrv.errorCallback(callback));
     }
   };
 
-  srv.validateMerchant = function(merchantId, callback){
+  srv.validateMerchant = function(merchant, callback){
 
-    $http.put("api/trade/merchant/validate/" + merchantId, {})
-      .success(callback)
+    var validateReloadCallback = function(new_mer){
+      srv.getCategoryTree(merchant.validation_state, function(){}, true);
+      srv.getCategoryTree(new_mer.validation_state, function(){}, true);
+      callback(new_mer);
+    }
+    $http.put("api/trade/merchant/validate/" + merchant.id, {})
+      .success(validateReloadCallback)
       .error(MessageSrv.errorCallbackSimple);
   };
 

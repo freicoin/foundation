@@ -20,24 +20,27 @@ module.controller('OrgDetailCtrl', ['$scope', '$routeParams', 'MessageSrv', 'Don
     $scope.org = org;
   });
 
-  $scope.validate = function() {
-    var msg = null;
-    if ($scope.org.validation_state == "validated"){
-      msg = "The organization has been blocked.";
-    } else if ($scope.org.validation_state == "blocked") {
-      msg = "The organization is valid again.";
-    } else if ($scope.org.validation_state == "candidate") {
-      msg = "The organization has been validated.";
-    } else {
-      MessageSrv.setMessage("Unkown validation state " + $scope.org.validation_state, "error");
-      return;
-    }
-    
-    DonationsSrv.validateOrganization($routeParams.orgId, function(org) {
-      $scope.org = org;
+   $scope.validate = function() {
+
+    var org = $scope.org;
+    var callback = function(new_org) {
+      $scope.org = new_org;
+      var msg;
+      if (org.validation_state == "validated"){
+        msg = "The organization has been blocked.";
+      } else if (org.validation_state == "blocked") {
+        msg = "The organization is valid again.";
+      } else if (org.validation_state == "candidate") {
+        msg = "The organization has been validated.";
+      } else {
+        MessageSrv.setMessage("Unkown validation state " + org.validation_state, "error");
+        return;
+      }
       MessageSrv.setMessage(msg, "success");
-    });
+    };
+    DonationsSrv.validateOrganization(org, callback);
   };
+
 }]);
 
 module.controller('OrgEditCtrl', ['$scope', '$routeParams', 'MessageSrv', 'DonationsSrv', 
@@ -58,7 +61,8 @@ module.controller('OrgEditCtrl', ['$scope', '$routeParams', 'MessageSrv', 'Donat
     
     $scope.disableSubmit = true;
 
-    var callback = function() {
+    var callback = function(messages) {
+      MessageSrv.setMessages(messages, "success");
       $scope.disableSubmit = false;
     }
 
