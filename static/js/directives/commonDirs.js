@@ -65,6 +65,8 @@ module.directive('formInputId', function() {
       var hint = attrs.hasOwnProperty('hint') ? 
         '<p id="hint_id_' + id + '" class="help-block">' + attrs.hint +'</p>'  : " ";
 
+      var autoFillSync = attrs.hasOwnProperty('autoFillSync') ? ' auto-fill-sync ' : ' ';
+
       var btcAddressValidation = (type == 'btcAddress') ? ' btc-address ' : ' ';
       if (type == 'btcAddress'){
         maxlength = ' maxlength="34" ';
@@ -91,7 +93,8 @@ module.directive('formInputId', function() {
       htmlText += ' id="id_' + model + '_' + id + '" name="' + id + '" ' +
         'ng-model="' + ngModel + '" ' +
         'class="textinput textInput form-control" ' +
-        required + maxlength + rows + ngOptions + btcAddressValidation  + '>' + hint;
+        required + maxlength + rows + ngOptions + 
+        autoFillSync + btcAddressValidation  + '>' + hint;
 
       // Close inputs
       if (type == "textarea"){
@@ -127,4 +130,4 @@ module.directive('formInputId', function() {
       element.replaceWith(htmlText);
     }
   }
-})
+});

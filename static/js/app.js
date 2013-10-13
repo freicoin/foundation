@@ -38,4 +38,11 @@ app.run(['$rootScope', 'SecuritySrv',
          function($rootScope, SecuritySrv)
 {
   $rootScope.security = SecuritySrv;
+
+  $rootScope.show_login_toggle = function () {
+    $rootScope.show_login = !$rootScope.show_login;
+  };
+  $rootScope.show_login = false;
+
+
 }]);
