@@ -124,12 +124,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     # From pip    
-    'bootstrap_toolkit',
     'captcha',
-    'crispy_forms',
     'django_patterns',
-    # jrief/django-angular, not appliedsec/djangular
-    'djangular',
 
     # South is the most excellent database migration/schema versioning tool
     # written by Andrew Godwin.

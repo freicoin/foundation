@@ -3,14 +3,11 @@ from datetime import datetime
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponseForbidden
-from django.views.generic import View
-from django.forms.models import model_to_dict
 from django.conf import settings
 
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-from djangular.views.mixins import JSONResponseMixin, HttpResponseBadRequest
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
@@ -18,7 +15,6 @@ from rest_framework import status, generics
 from django.conf import settings
 from apps.utils import utils
 from models import *
-import forms
 import serializers
 
 class CategoryList(generics.ListAPIView):
