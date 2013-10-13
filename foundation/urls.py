@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='ng-app.html'), name='home'),
 
     # Included apps and their root
-    url(r'api/', include('apps.accounts.urls')),
+    url(r'api/accounts/', include('apps.accounts.urls')),
     # url(r'^faucet/', include('apps.faucet.urls')),
     url(r'^api/donations/', include('apps.donations.urls')),
     url(r'^api/trade/', include('apps.trade.urls')),

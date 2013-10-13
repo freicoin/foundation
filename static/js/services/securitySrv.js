@@ -10,7 +10,7 @@ module.service('SecuritySrv', ['$rootScope', '$http', 'MessageSrv',
   srv.getUser = function(force){
       
     if (!currentUser || force) {
-      $http.get("/api/current_user")
+      $http.get("/api/accounts/current_user")
         .success(function(data){
           currentUser = data;
           // set the CSRF token here
@@ -39,7 +39,7 @@ module.service('SecuritySrv', ['$rootScope', '$http', 'MessageSrv',
 
   srv.login = function(username, password){
     var loginData = {"username": username, "password": password};
-    $http.post("api/login/", loginData)
+    $http.post("api/accounts/login/", loginData)
       .success(function(data){
         srv.getUser(true);
       })
@@ -47,7 +47,7 @@ module.service('SecuritySrv', ['$rootScope', '$http', 'MessageSrv',
   };
 
   srv.logout = function(){
-    $http.post("api/logout/", {})
+    $http.post("api/accounts/logout/", {})
       .success(function(data){
         srv.getUser(true);
       })
@@ -58,7 +58,7 @@ module.service('SecuritySrv', ['$rootScope', '$http', 'MessageSrv',
     // var registerData = {"register": register,
     //                     "recaptcha": vcRecaptchaService.data()};
 
-    $http.post("api/register/", register)
+    $http.post("api/accounts/register/", register)
       .success(function(data){
         MessageSrv.success("You've registered as " + register.username 
                            + ". Please, login.");
