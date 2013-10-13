@@ -1,0 +1,17 @@
+<h3>User Profile:</h3>
+
+<form name="changeForm" ng-controller="ChangePassCtrl" novalidate>
+
+  <input form-input-id="password" model="change" type="password" required 
+         label="Current Password" maxlength="200">
+
+  <input form-input-id="new_password" model="change" type="password" required 
+         label="New Password" maxlength="200">
+
+  <input form-input-id="new_password2" model="change" type="password" required
+         label="New Password Confirmation" maxlength="200"
+         hint="Enter the same password as above, for verification.">
+
+  <input type="submit" class="btn btn-primary" ng-disabled="changeForm.$invalid" 
+         ng-click="submit();" value="Change Password" />
+</form>

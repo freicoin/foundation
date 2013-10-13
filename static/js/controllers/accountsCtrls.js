@@ -19,3 +19,11 @@ module.controller('RegisterCtrl', ['$scope', '$http', 'SecuritySrv',
     SecuritySrv.register($scope.register);
   };
 }]);
+
+module.controller('ChangePassCtrl', ['$scope', '$http', 'SecuritySrv', 
+                                   function($scope, $http, SecuritySrv)
+{
+  $scope.submit = function() {
+    SecuritySrv.changePassword($scope.change);
+  };
+}]);

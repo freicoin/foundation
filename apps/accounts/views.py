@@ -87,3 +87,13 @@ class Register(APIView):
         # else:
         #     msg = "Invalid captcha."
         #     return Response({"Error: ": [msg]}, status=status.HTTP_400_BAD_REQUEST)
+
+class ChangePass(APIView):
+
+    def put(self, request):
+        serializer = serializers.ChangePassSerializer(data=request.DATA, user=request.user)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"You've succesfully changed your password."}, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

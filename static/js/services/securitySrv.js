@@ -72,6 +72,12 @@ module.service('SecuritySrv', ['$rootScope', '$http', 'MessageSrv',
       // });
   };
     
+  srv.changePassword = function(change){
+    $http.put("api/accounts/change_password/", change)
+      .success(MessageSrv.successCallbackSimple)
+      .error(MessageSrv.errorCallbackSimple);
+  };
+
   srv.getUser(true);
   return srv;
 }]);

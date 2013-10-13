@@ -68,5 +68,9 @@ module.service('MessageSrv', ['$rootScope', '$timeout',
     srv.error(messages);
   };
 
+  srv.successCallbackSimple = function(messages, status) {
+    srv.success(messages);
+  };
+
   return srv;
 }]);

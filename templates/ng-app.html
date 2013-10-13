@@ -27,6 +27,9 @@
         <li ng-class="navClass('about')"><a href="#/about">About</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li ng-class="navClass('profile')" ng-show="security.getUser().autenticated">
+          <a href="#/profile">{{security.getUser().username}}</a>
+        </li>
         <li>
           <form name="form" ng-controller="LoginCtrl" novalidate>
 

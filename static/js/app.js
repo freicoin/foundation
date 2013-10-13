@@ -8,8 +8,9 @@ app.config(['$routeProvider',
     when('/', {templateUrl: 'static/html/home.html'}).
     when('/about', {templateUrl: 'static/html/about.html'}).
     when('/copyright', {templateUrl: 'static/html/copyright.html'}).
-    when('/register', {templateUrl: 'static/html/register_form.html', 
+    when('/register', {templateUrl: 'static/html/accounts/register_form.html', 
                        controller: 'RegisterCtrl'}).
+    when('/profile', {templateUrl: 'static/html/accounts/profile_form.html'}).
     when('/trade', {templateUrl: 'static/html/trade/merchant_list.html', 
                     controller: 'MerCategoriesCtrl'}).
     when('/trade/join', {templateUrl: 'static/html/trade/merchant_form.html', 
