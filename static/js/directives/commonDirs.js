@@ -41,6 +41,8 @@ module.directive('explorerLink', function() {
 
 module.directive('formInputId', function() {
   return {
+    transclude: true,
+    priority: 1,
     compile: function(element, attrs)
     {
       var id = attrs.formInputId;

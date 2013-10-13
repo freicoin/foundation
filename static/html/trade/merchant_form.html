@@ -22,29 +22,14 @@
          label="Name" maxlength="40" rows="5"
          hint="Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.">
   
-  <!-- <input form-input-id="category" model="merchant" type="select" required  -->
-  <!--        ng-options="c.id as c.name for c in categories" label="Category" > -->
-
-  <div class="form-group">
-    <label class="control-label" for="id_category">Category</label>
-    <span class="asteriskField">*</span>
-    <div class="controls">
-      <select name="category" ng-model="merchant.category" required 
-              ng-options="c.id as c.name for c in categories"
-              class="textinput textInput form-control">
-      </select>
-      <p ng-show="merchantForm.category.$dirty && merchantForm.category.$error.required" 
-         class="help-block" style="color:red">
-        This field is required.
-      </p>
-    </div>
-  </div>
+  <input form-input-id="category" model="merchant" type="select" required
+         label="Category" ng-options="c.id as c.name for c in categories">
 
   <input form-input-id="website" model="merchant" type="url" required 
          label="Website" maxlength="200">
 
   <input form-input-id="short_description" model="merchant" type="textarea" required 
-         label="Short description" maxlength="350" rows="5">
+         label="Short description" maxlength="350" rows="3">
 
   <input form-input-id="long_description" model="merchant" type="textarea" required 
          label="Long description" rows="10">

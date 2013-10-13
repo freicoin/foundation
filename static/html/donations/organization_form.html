@@ -29,20 +29,8 @@
          label="Name" maxlength="40" rows="5"
          hint="Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.">
 
-  <div class="form-group">
-    <label class="control-label" for="id_category">Category</label>
-    <span class="asteriskField">*</span>
-    <div class="controls">
-      <select name="category" ng-model="org.category" required
-              ng-options="c.id as c.name for c in categories"
-              class="textinput textInput form-control">
-      </select>
-      <p ng-show="orgForm.category.$dirty && orgForm.category.$error.required" 
-         class="help-block" style="color:red"> 
-        This field is required.
-      </p> 
-    </div>
-  </div>
+  <input form-input-id="category" model="org" type="select" required
+         label="Category" ng-options="c.id as c.name for c in categories">
 
   <input form-input-id="website" model="org" type="url" required 
          label="Website" maxlength="200">
@@ -51,7 +39,7 @@
          label="E-mail" maxlength="75">
 
   <input form-input-id="short_description" model="org" type="textarea" required 
-         label="Short description" maxlength="350" rows="5">
+         label="Short description" maxlength="350" rows="3">
 
   <input form-input-id="long_description" model="org" type="textarea" required 
          label="Long description" rows="10">
