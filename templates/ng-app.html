@@ -26,27 +26,25 @@
         <li ng-class="navClass('trade')"><a href="#/trade">Trade</a></li>
         <li ng-class="navClass('about')"><a href="#/about">About</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li ng-class="navClass('profile')" ng-show="security.getUser().autenticated">
-          <a href="#/profile">{{security.getUser().username}}</a>
+      <ul class="nav navbar-nav navbar-right" ng-controller="LoginCtrl" ng-cloak>
+        <li ng-show="security.getUser().autenticated" ng-class="navClass('profile')" >
+          <a href="#/profile" ng-bind="security.getUser().username"></a>
+        </li>
+        <li ng-show="security.getUser().autenticated">
+          <a ng-click="logout();" href=""/>Logout</a>
         </li>
         <li>
-          <form name="form" ng-controller="LoginCtrl" novalidate>
-
-              <div ng-show="security.getUser().autenticated">
-                <input class="btn btn-xs btn-default" type="button" value="Logout" 
-                       ng-click="logout();" />
-              </div>
-              <div ng-show="!security.getUser().autenticated">
-                <input type="text" name="login" id="username" ng-model="username" 
-                       size="10" auto-fill-sync required/>
-                <input type="password" name="password" id="password" ng-model="password" 
-                       size="10" auto-fill-sync required/>
-                <input class="btn btn-xs btn-default" type="submit" value="Login" 
-                       ng-disabled="form.$invalid" ng-click="login();" />
-                <a class="btn btn-xs btn-default" href="#/register"/>Register</a>
-             </div>
-         </form>
+          <div ng-show="!security.getUser().autenticated">
+            <form name="form" novalidate>
+              <input type="text" name="login" id="username" ng-model="username" 
+                     size="10" auto-fill-sync required/>
+              <input type="password" name="password" id="password" ng-model="password" 
+                     size="10" auto-fill-sync required/>
+              <input class="btn btn-xs btn-default" type="submit" value="Login" 
+                     ng-disabled="form.$invalid" ng-click="login();">
+            <a class="btn-xs" href="#/register"/>Register</a>
+            </form>
+         </div>
         </li>
       </ul>
 
