@@ -2,43 +2,47 @@
   Go back to <a href="/#/trade">merchant list</a>.
 </p>
 
-<h3>Merchant edit form:</h3>
+<div ng-show="!is_edit">
+  <p>
+    If you're a merchant that accepts Freicoin as payment you should
+    advertise yourself for free here.
+  </p>
 
-<p>
-  If you're a merchant that accepts Freicoin as payment you should
-  advertise yourself for free here.
-</p>
+  <p>
+    If you accept donations but your organization doesn't qualify as
+    non-profit you can also advertise yourself to receive Freicoin
+    donations here. The foundation won't increase the donations you
+    receive through this section.
+  </p>
+</div>
 
-<p>
-  If you accept donations but your organization doesn't qualify as
-  non-profit you can also advertise yourself to receive Freicoin
-  donations here. The foundation won't increase the donations you
-  receive through this section.
-</p>
+<div panel-tittle="{{panel_tittle}}" width="9" bootstrap-class="panel_class">
 
-<form name="merchantForm" novalidate>
 
-  <input form-input-id="name" model="merchant" required 
-         label="Name" maxlength="40"
-         hint="Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.">
-  
-  <input form-input-id="category" model="merchant" type="select" required
-         label="Category" ng-options="c.id as c.name for c in categories">
+  <form name="merchantForm" novalidate>
 
-  <input form-input-id="website" model="merchant" type="url" required 
-         label="Website" maxlength="200">
+    <input form-input-id="name" model="merchant" required 
+           label="Name" maxlength="40"
+           hint="Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.">
+    
+    <input form-input-id="category" model="merchant" type="select" required
+           label="Category" ng-options="c.id as c.name for c in categories">
 
-  <input form-input-id="short_description" model="merchant" type="textarea" required 
-         label="Short description" maxlength="350" rows="3">
+    <input form-input-id="website" model="merchant" type="url" required 
+           label="Website" maxlength="200">
 
-  <input form-input-id="long_description" model="merchant" type="textarea" required 
-         label="Long description" rows="10">
+    <input form-input-id="short_description" model="merchant" type="textarea" required 
+           label="Short description" maxlength="350" rows="3">
 
-  <br>
-  <div class="form-actions">
-    <button class="btn btn-primary" ng-click="submit()"
-            ng-disabled="merchantForm.$invalid || disableSubmit">Submit Request</button>
-    <span ng-show="disableSubmit">Sending message, please wait... </span>
-  </div>
-  
-</form>
+    <input form-input-id="long_description" model="merchant" type="textarea" required 
+           label="Long description" rows="10">
+
+    <br>
+    <div class="form-actions">
+      <button class="btn btn-primary" ng-click="submit()"
+              ng-disabled="merchantForm.$invalid || disableSubmit">Submit Request</button>
+      <span ng-show="disableSubmit">Sending message, please wait... </span>
+    </div>
+    
+  </form>
+</div>

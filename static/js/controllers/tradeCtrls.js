@@ -51,10 +51,19 @@ module.controller('MerchantEditCtrl', ['$rootScope', '$scope', '$routeParams', '
                                          MessageSrv, TradeSrv)
 {
   if ($routeParams.merchantId) {
-    
+    // If there's an id we're editing
+    $scope.is_edit = true;
+    $scope.panel_tittle = "Edit Merchant";
+    $scope.panel_class = "warning";
     TradeSrv.getMerchant($routeParams.merchantId, function(merchant) {
       $scope.merchant = merchant;
     });
+  } else {
+    // Otherwise we're creating
+    $scope.panel_tittle = "Register Merchant";
+    $scope.is_edit = false;
+    $scope.panel_class = "success";
+    $scope.merchant = {};
   }
 
   TradeSrv.getCategories(function(categories) {

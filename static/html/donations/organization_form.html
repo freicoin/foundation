@@ -2,59 +2,65 @@
   Go back to <a href="/#/donations">non-profit list</a>.
 </p>
 
-<h3>Non-profit registration form:</h3>
+<div ng-show="!is_edit">
+  <p>
+    Any non-profit organization can be listed to receive donations. If
+    your organization or project is not legally a non-profit but fits
+    the goals of the Freicoin Foundation (stated on the home page) you
+    can still submit a request to receive funds issued by the Freicoin
+    Foundation in proportion to the donations you receive through this web.
+  </p>
 
-<p>
-  Any non-profit organization can be listed to receive donations. If
-  your organization or project is not legally a non-profit but fits
-  the goals of the Freicoin Foundat3ion (stated on the home page) you
-  can still submit a request to receive funds issued by the Freicoin
-  Foundation according to the donations you receive through this web.
-</p>
+  <p>
+    Although the foundation will only match Freicoin donations, please,
+    provide a Bitcoin donation address just in case your donors donate
+    Bitcoins by accident.
+  </p>
 
-<p>
-  Although the foundation will only match Freicoin donations, please,
-  provide a Bitcoin donation address just in case your donors donate
-  Bitcoins by accident.
-</p>
+  <p>
+    The foundation will complement Freicoin donations with the
+    foundation's issuance funds, increasing the amount by 10%.
+  </p>
+</div>
 
-<p>
-  The foundation will complement Freicoin donations with the
-  foundation's issuance funds, increasing the amount by 10%.
-</p>
+<div panel-tittle="{{panel_tittle}}" width="9" bootstrap-class="panel_class">
 
-<form name="orgForm" novalidate>
+  <form name="orgForm" novalidate>
 
-  <input form-input-id="name" model="org" required 
-         label="Name" maxlength="40" rows="5"
-         hint="Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.">
+    <input form-input-id="name" model="org" required
+           label="Name" maxlength="40" rows="5"
+           hint="Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.">
 
-  <input form-input-id="category" model="org" type="select" required
-         label="Category" ng-options="c.id as c.name for c in categories">
+    <input form-input-id="category" model="org" type="select" required
+           label="Category" ng-options="c.id as c.name for c in categories">
 
-  <input form-input-id="website" model="org" type="url" required 
-         label="Website" maxlength="200">
+    <input form-input-id="website" model="org" type="url" required
+           label="Website" maxlength="200">
 
-  <input form-input-id="email" model="org" type="email" required 
-         label="E-mail" maxlength="75">
+    <input form-input-id="email" model="org" type="email" required
+           label="E-mail" maxlength="75">
 
-  <input form-input-id="short_description" model="org" type="textarea" required 
-         label="Short description" maxlength="350" rows="3">
+    <input form-input-id="short_description" model="org" type="textarea" required
+           label="Short description" maxlength="350" rows="3">
 
-  <input form-input-id="long_description" model="org" type="textarea" required 
-         label="Long description" rows="10">
+    <input form-input-id="long_description" model="org" type="textarea" required
+           label="Long description" rows="10">
 
-  <input form-input-id="freicoin_address" model="org" type="btcAddress" required 
-         label="Freicoin address">
+    <input form-input-id="freicoin_address" model="org" type="btcAddress" required
+           label="Freicoin address">
 
-  <input form-input-id="bitcoin_address" model="org" type="btcAddress"
-         label="Bitcoin address">
+    <input form-input-id="bitcoin_address" model="org" type="btcAddress"
+           label="Bitcoin address" 
+           hint="You can receive both BTC and FRC in the
+           same address by importing the same key in both wallets. In
+           case of doubt, just provide different addresses for each currency.">
 
-  <br>
-  <div class="form-actions">
-    <button class="btn btn-primary" ng-click="submit()"
-            ng-disabled="orgForm.$invalid || disableSubmit">Submit Request</button>
-    <span ng-show="disableSubmit">Sending message, please wait... </span>
-  </div>
+    <br>
+    <div class="form-actions">
+      <button class="btn btn-primary" ng-click="submit()"
+              ng-disabled="orgForm.$invalid || disableSubmit">Submit Request</button>
+      <span ng-show="disableSubmit">Sending message, please wait... </span>
+    </div>
+  </form>
 
-</form>
+</div>

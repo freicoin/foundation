@@ -79,23 +79,25 @@
 </div>
 
 <div ng-show="show_login" ng-controller="LoginCtrl" ng-cloak>
-  <form name="form" novalidate>
+  <div panel-tittle="Login">
+    <form name="form" novalidate>
 
-    <input form-input-id="username" auto-fill-sync required 
-         label="Username" maxlength="40">
+      <input form-input-id="username" model="login" auto-fill-sync required 
+             label="Username" maxlength="40">
 
-    <input form-input-id="password" type="password" auto-fill-sync required 
-           label="Password" maxlength="200">
+      <input form-input-id="password" model="login" type="password" auto-fill-sync required 
+             label="Password" maxlength="200">
 
-    <div class="form-actions">
-      <input type="submit" ng-disabled="form.$invalid" ng-click="login()"
-             value="Login" class="btn btn-primary ">
+      <div class="form-actions">
+        <input type="submit" ng-disabled="form.$invalid" ng-click="login()"
+               value="Login" class="btn btn-primary ">
 
-      <input type="button" ng-click="show_login_toggle()"
-             value="Cancel" class="btn btn-danger">
-    </div>
+        <input type="button" ng-click="show_login_toggle()"
+               value="Cancel" class="btn btn-danger">
+      </div>
 
-  </form>
+    </form>
+  </div>
 </div>
 
   <div ng-view ng-show="!show_login"></div>

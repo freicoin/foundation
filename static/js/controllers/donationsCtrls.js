@@ -50,10 +50,19 @@ module.controller('OrgEditCtrl', ['$rootScope', '$scope', '$routeParams', '$loca
                                     MessageSrv, DonationsSrv)
 {
   if ($routeParams.orgId) {
-    
+    // If there's an id we're editing
+    $scope.is_edit = true;
+    $scope.panel_tittle = "Edit Organization";
+    $scope.panel_class = "warning";
     DonationsSrv.getOrganization($routeParams.orgId, function(org) {
       $scope.org = org;
     });
+  } else {
+    // Otherwise we're creating
+    $scope.panel_tittle = "Register Organization";
+    $scope.is_edit = false;
+    $scope.panel_class = "success";
+    $scope.org = {};
   }
 
   DonationsSrv.getCategories(function(categories) {

@@ -1,30 +1,33 @@
-<h3>User registration form:</h3>
 <p>
   You have to create a user to register non-profit organizations or merchants.
 </p>
 
-<form name="registerForm" novalidate>
+<div panel-tittle="User Registration">
 
-  <input form-input-id="username" model="register" required 
-         label="Username" maxlength="40"
-         hint="Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.">
+  <form name="registerForm" novalidate>
 
-  <input form-input-id="email" model="register" type="email" required 
-         label="E-mail" maxlength="75">
+    <input form-input-id="username" model="register" required 
+           label="Username" maxlength="40"
+           hint="Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.">
 
-  <input form-input-id="password" model="register" type="password" required 
-         label="Password" maxlength="200">
+    <input form-input-id="email" model="register" type="email" required 
+           label="E-mail" maxlength="75">
 
-  <input form-input-id="password2" model="register" type="password" required
-         label="Password Confirmation" maxlength="200"
-         hint="Enter the same password as above, for verification.">
+    <input form-input-id="password" model="register" type="password" required 
+           label="Password" maxlength="200">
 
-  <!-- <div -->
-  <!--    vc-recaptcha -->
-  <!--    key="6Lc0geUSAAAAALWQZpRq9Eo-2CQzb-s3A6AU7RcG" -->
-  <!--    theme="clean"> -->
-  <!-- </div> -->
+    <input form-input-id="password2" model="register" type="password" required
+           label="Password Confirmation" maxlength="200"
+           hint="Enter the same password as above, for verification.">
 
-  <input type="submit" class="btn btn-primary" ng-disabled="registerForm.$invalid" ng-click="submit();" 
-         value="Complete registration" />
-</form>
+    <!-- <div -->
+    <!--    vc-recaptcha -->
+    <!--    key="6Lc0geUSAAAAALWQZpRq9Eo-2CQzb-s3A6AU7RcG" -->
+    <!--    theme="clean"> -->
+    <!-- </div> -->
+
+    <input type="submit" class="btn btn-primary" ng-disabled="registerForm.$invalid" ng-click="submit();" 
+           value="Complete registration" />
+  </form>
+
+</div>

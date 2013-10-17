@@ -4,7 +4,7 @@ module.controller('LoginCtrl', ['$rootScope', '$scope', '$http', 'SecuritySrv',
                                 function($rootScope, $scope, $http, SecuritySrv)
 {
   $scope.login = function() {
-    SecuritySrv.login($scope.username, $scope.password);
+    SecuritySrv.login($scope.login.username, $scope.login.password);
     $rootScope.show_login = false;
   };
 
@@ -16,6 +16,7 @@ module.controller('LoginCtrl', ['$rootScope', '$scope', '$http', 'SecuritySrv',
 module.controller('RegisterCtrl', ['$scope', '$http', 'SecuritySrv', 
                                    function($scope, $http, SecuritySrv)
 {
+  $scope.register = {}
   $scope.submit = function() {
     SecuritySrv.register($scope.register);
   };

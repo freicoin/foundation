@@ -39,6 +39,28 @@ module.directive('explorerLink', function() {
   }
 });
 
+module.directive('panelTittle', function($parse) {
+
+  return {
+    transclude: true,
+    replace: true,
+    scope:{
+      width: "@",
+      bootstrapClass: "=bootstrapClass",
+      tittleLabel: "@panelTittle"
+    },
+    template: 
+    '<div class="col-sm-{{width || 9}}">' +
+      '<div class="panel panel-{{bootstrapClass || \'default\'}}">' +
+      '<div class="panel-heading">' +
+      '  <h3 class="panel-title">{{tittleLabel}}</h3>' + 
+      '</div>' +
+      '<div class="panel-body" ng-transclude></div>' +
+      '</div>' +
+      '</div>',
+  }
+});
+
 module.directive('formInputId', function() {
   return {
     transclude: true,
