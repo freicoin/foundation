@@ -55,19 +55,20 @@ class Register(APIView):
 
     def post(self, request):
 
-        serialized = serializers.RegisterSerializer(data=request.DATA)
-        if serialized.is_valid():
+        serializer = serializers.RegisterSerializer(data=request.DATA)
+        if serializer.is_valid():
             try:
                 auth.models.User.objects.create_user(
-                    serialized.init_data['username'],
-                    serialized.init_data['email'],
-                    serialized.init_data['password']
+                    serializer.object['username'],
+                    serializer.object['email'],
+                    serializer.object['password']
                     )
-                return Response(serialized.data, status=status.HTTP_201_CREATED)
+                return Response({"You've registered as %s. Please, login." % 
+                                 serializer.object['username']}, status=status.HTTP_201_CREATED)
             except Exception as e:
                 return Response({str(e)}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
 
       # You need to implement your server side validation here.
       # Send the model.captcha object to the server and use some of the server side APIs to validate it

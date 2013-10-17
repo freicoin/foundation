@@ -9,12 +9,12 @@ class RegisterSerializer(serializers.Serializer):
     password2 = serializers.CharField()
 
     def validate_username(self, attrs, source):
-        if User.objects.filter(username_iexact=attrs[source]).count():
+        if User.objects.filter(username__exact=attrs[source]).count():
             raise serializers.ValidationError("A user with that username already exists.")
         return attrs
 
     def validate_email(self, attrs, source):
-        if User.objects.filter(email_iexact=attrs[source]).count():
+        if User.objects.filter(email__exact=attrs[source]).count():
             raise serializers.ValidationError("This email address is already in use. Please supply a different email address.")
         return attrs
 
