@@ -20,10 +20,15 @@ urlpatterns = patterns('',
 
     # Angular App
     url(r'^$', TemplateView.as_view(template_name='ng-app.html'), name='home'),
+    # (r'^$', 'django.views.static.serve',
+    #     {'document_root': settings.STATIC_ROOT, 'path': 'html/index.html'}),
 
     # Included apps and their root
-    url(r'api/accounts/', include('apps.accounts.urls')),
+    url(r'^accounts/', include('apps.accounts.dynamic_urls')),
     # url(r'^faucet/', include('apps.faucet.urls')),
+
+    # apps APIs                       
+    url(r'^api/accounts/', include('apps.accounts.urls')),
     url(r'^api/donations/', include('apps.donations.urls')),
     url(r'^api/trade/', include('apps.trade.urls')),
 

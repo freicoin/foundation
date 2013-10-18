@@ -78,6 +78,12 @@ module.service('SecuritySrv', ['$rootScope', '$http', 'MessageSrv',
       .error(MessageSrv.errorCallbackSimple);
   };
 
+  srv.passwordReset = function(reset){
+    $http.put("api/accounts/password_reset/", reset)
+      .success(MessageSrv.successCallbackSimple)
+      .error(MessageSrv.errorCallbackSimple);
+  };
+
   srv.getUser(true);
   return srv;
 }]);

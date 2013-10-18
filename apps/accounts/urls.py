@@ -9,5 +9,6 @@ urlpatterns = patterns('',
     url(r'^logout/$', views.Logout.as_view()),
     url(r'^register/$', views.Register.as_view()),
     url(r'^change_password/$', views.ChangePass.as_view()),
+    url(r'^password_reset/$', views.PasswordReset.as_view()),
 )
 

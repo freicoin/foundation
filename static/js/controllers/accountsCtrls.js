@@ -22,6 +22,15 @@ module.controller('RegisterCtrl', ['$scope', '$http', 'SecuritySrv',
   };
 }]);
 
+module.controller('PasswordResetCtrl', ['$scope', '$http', 'SecuritySrv', 
+                                        function($scope, $http, SecuritySrv)
+{
+  $scope.reset = {}
+  $scope.submit = function() {
+    SecuritySrv.passwordReset($scope.reset);
+  };
+}]);
+
 module.controller('ChangePassCtrl', ['$scope', '$http', 'SecuritySrv', 
                                    function($scope, $http, SecuritySrv)
 {

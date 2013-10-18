@@ -23,6 +23,20 @@ class RegisterSerializer(serializers.Serializer):
             raise serializers.ValidationError("The two password fields didn't match.")
         return attrs
 
+class PasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, attrs, source):
+        # Make sure that no email is sent to a user that actually has
+        # a password marked as unusable
+        try:
+            user = User.objects.get(email=attrs[source])
+        except User.DoesNotExist:
+            raise serializers.ValidationError("There's no usable password for that email address.")
+        if not user.has_usable_password():
+            raise serializers.ValidationError("There's no usable password for that email address.")
+        return attrs
+
 class ChangePassSerializer(serializers.Serializer):
     password = serializers.CharField()
     new_password = serializers.CharField()

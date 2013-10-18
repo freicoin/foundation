@@ -3,14 +3,16 @@ from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.contrib import auth
 from django.db import IntegrityError
+from django.utils.http import int_to_base36
+from django.contrib.auth.tokens import default_token_generator
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
 
-# from apps.utils import captcha
-
 from django.conf import settings
+
+from apps.utils import utils
 
 import serializers
 
@@ -43,6 +45,28 @@ class Login(APIView):
         else:
             msg = "Please enter a correct username and password. Note that both fields may be case-sensitive."
         return Response({"Error: ": [msg]}, status=status.HTTP_400_BAD_REQUEST)
+
+class PasswordReset(APIView):
+
+    def put(self, request):
+        serializer = serializers.PasswordResetSerializer(data=request.DATA)
+        if serializer.is_valid():
+            email = serializer.object['email']
+            user = auth.models.User.objects.get(email=email)
+            context = {
+                'email': email,
+                'uid': int_to_base36(user.id),
+                'user': user,
+                'token': default_token_generator.make_token(user),
+                }
+
+            utils.send_html_mail('reset_password_mail.html', context, 
+                             "Change password request", 
+                             'noreply@freicoin.org', email)
+            msg = "We've emailed you instructions for setting your password. You should be receiving them shortly. If you don't receive an email, please make sure you've entered the address you registered with, and check your spam folder."
+            return Response({msg}, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class Logout(APIView):
 

@@ -176,6 +176,8 @@ LOGGING = {
     }
 }
 
+LOGIN_URL = '/#/login' 
+
 # reCaptcha
 
 RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY')

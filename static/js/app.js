@@ -10,6 +10,8 @@ app.config(['$routeProvider',
     when('/copyright', {templateUrl: 'static/html/copyright.html'}).
     when('/register', {templateUrl: 'static/html/accounts/register_form.html', 
                        controller: 'RegisterCtrl'}).
+    when('/password_reset', {templateUrl: 'static/html/accounts/password_reset_form.html',
+                            controller: 'PasswordResetCtrl'}).
     when('/profile', {templateUrl: 'static/html/accounts/profile_form.html'}).
     when('/trade', {templateUrl: 'static/html/trade/merchant_list.html', 
                     controller: 'MerCategoriesCtrl'}).

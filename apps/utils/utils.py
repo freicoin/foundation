@@ -6,6 +6,7 @@ from django.contrib.sites.models import Site
 
 def send_html_mail(template, context, subject, from_mail, to_mails):
     
+    context.update({'SITE_NAME': Site.objects.get_current().name})
     context.update({'SITE_URL': "http://%s" % Site.objects.get_current().domain})
     mail_template = get_template(template)
     mail_content = mail_template.render(Context(context))
