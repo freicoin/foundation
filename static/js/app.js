@@ -8,6 +8,8 @@ app.config(['$routeProvider',
     when('/', {templateUrl: 'static/html/home.html'}).
     when('/about', {templateUrl: 'static/html/about.html'}).
     when('/copyright', {templateUrl: 'static/html/copyright.html'}).
+    when('/login', {templateUrl: 'static/html/home.html', 
+                    controller: 'ShowLoginCtrl'}).
     when('/register', {templateUrl: 'static/html/accounts/register_form.html', 
                        controller: 'RegisterCtrl'}).
     when('/password_reset', {templateUrl: 'static/html/accounts/password_reset_form.html',
@@ -40,11 +42,4 @@ app.run(['$rootScope', 'SecuritySrv',
          function($rootScope, SecuritySrv)
 {
   $rootScope.security = SecuritySrv;
-
-  $rootScope.show_login_toggle = function () {
-    $rootScope.show_login = !$rootScope.show_login;
-  };
-  $rootScope.show_login = false;
-
-
 }]);

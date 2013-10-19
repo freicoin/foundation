@@ -30,11 +30,11 @@
         <li ng-show="security.getUser().autenticated" ng-class="navClass('profile')" >
           <a href="#/profile" ng-bind="security.getUser().username"></a>
         </li>
-        <li ng-show="security.getUser().autenticated" ng-controller="LoginCtrl">
+        <li ng-show="security.getUser().autenticated" ng-controller="LogoutCtrl">
           <a ng-click="logout();" href=""/>Logout</a>
         </li>
         <li ng-show="!security.getUser().autenticated">
-          <a ng-click="show_login_toggle()" href=""/>Login</a>
+          <a data-toggle="modal" href="#loginModal"/>Login</a>
         </li>
         <li ng-show="!security.getUser().autenticated" ng-class="navClass('register')">
           <a href="#/register"/>Register</a>
@@ -43,6 +43,56 @@
     </div>
   </div>
 </footer>
+
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" 
+     aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog" ng-controller="LoginCtrl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Log in</h4>
+      </div>
+      <form name="form" novalidate>
+        <div class="modal-body">
+
+          <input form-input-id="username" model="login" auto-fill-sync required 
+                 label="Username" maxlength="40">
+
+          <input form-input-id="password" model="login" type="password" auto-fill-sync required 
+                 label="Password" maxlength="200">
+
+          <div class="alert alert-danger" ng-repeat="(key, values) in errorMessages">
+            <div ng-switch="values.length > 1">
+              <div ng-switch-when="true">
+                
+                <ul ng-repeat="value in values">
+                  <li>{{ value }}</li>
+                </ul>
+              </div>
+              <div ng-switch-when="false">
+                {{ values[0] }}
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <div class="form-actions">
+            <input type="submit" ng-disabled="form.$invalid || disableLoginSubmit" ng-click="login()"
+                   value="Authenticate" class="btn btn-primary ">
+
+            <input type="button" data-dismiss="modal"
+                   value="Cancel" class="btn btn-danger">
+          </div>
+          <br>
+          <a href="#/password_reset" data-dismiss="modal">Forgot Password?</a>
+        </div>
+      </form>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <div ng-switch="messages.length != null" ng-cloak>
   <div ng-switch-when="true">
@@ -78,32 +128,7 @@
   </div>
 </div>
 
-<div ng-show="show_login" ng-controller="LoginCtrl" ng-cloak>
-  <div panel-tittle="Login">
-    <form name="form" novalidate>
-
-      <input form-input-id="username" model="login" auto-fill-sync required 
-             label="Username" maxlength="40">
-
-      <input form-input-id="password" model="login" type="password" auto-fill-sync required 
-             label="Password" maxlength="200">
-
-      <div class="form-actions">
-        <input type="submit" ng-disabled="form.$invalid" ng-click="login()"
-               value="Login" class="btn btn-primary ">
-
-        <input type="button" ng-click="show_login_toggle()"
-               value="Cancel" class="btn btn-danger">
-      </div>
-      
-      <br>
-      <a href="#/password_reset" ng-click="show_login_toggle()">Forgot Password?</a>
-
-    </form>
-  </div>
-</div>
-
-  <div ng-view ng-show="!show_login"></div>
+  <div ng-view></div>
 </div>
 
 {% endverbatim %}

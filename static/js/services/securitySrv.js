@@ -37,20 +37,23 @@ module.service('SecuritySrv', ['$rootScope', '$http', 'MessageSrv',
       || $.inArray( 'curious', currentUser.groups) >= 0;
   };
 
-  srv.login = function(username, password){
+  var successReloadUserCallback = function(callback) {
+    return function(data) {
+      srv.getUser(true);
+      callback(data);
+    }
+  };
+
+  srv.login = function(username, password, successCallback, errorCallback){
     var loginData = {"username": username, "password": password};
     $http.post("api/accounts/login/", loginData)
-      .success(function(data){
-        srv.getUser(true);
-      })
-      .error(MessageSrv.errorCallbackSimple);
+      .success(successReloadUserCallback(MessageSrv.successCallback(successCallback)))
+      .error(errorCallback);
   };
 
   srv.logout = function(){
     $http.post("api/accounts/logout/", {})
-      .success(function(data){
-        srv.getUser(true);
-      })
+      .success(successReloadUserCallback(MessageSrv.successCallbackSimple))
       .error(MessageSrv.errorCallbackSimple);
   };
 

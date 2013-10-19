@@ -1,20 +1,41 @@
 var module = angular.module('accountsCtrls', ['commonDirs', 'securitySrv']);
 
-module.controller('LoginCtrl', ['$rootScope', '$scope', '$http', 'SecuritySrv',
-                                function($rootScope, $scope, $http, SecuritySrv)
+module.controller('ShowLoginCtrl', function()
 {
-  $scope.login = function() {
-    SecuritySrv.login($scope.login.username, $scope.login.password);
-    $rootScope.show_login = false;
-  };
+  // TODO FIXME this is failing when you godirectly to #/login
+  jQuery('#loginModal').modal('show');
+});
 
+module.controller('LoginCtrl', ['$scope', 'SecuritySrv',
+                                function($scope, SecuritySrv)
+{
+  var errorCallback = function(data){
+    $scope.disableLoginSubmit = false;
+    $scope.errorMessages = data;
+  }
+
+  var successCallback = function(data){
+    $scope.disableLoginSubmit = false;
+    jQuery('#loginModal').modal('hide');
+  }
+
+  $scope.login = function() {
+    $scope.disableLoginSubmit = true;
+    SecuritySrv.login($scope.login.username, $scope.login.password, 
+                      successCallback, errorCallback);
+  };
+}]);
+
+module.controller('LogoutCtrl', ['$scope', 'SecuritySrv',
+                                function($scope, SecuritySrv)
+{
   $scope.logout = function() {
     SecuritySrv.logout();
   };
 }]);
 
-module.controller('RegisterCtrl', ['$scope', '$http', 'SecuritySrv', 
-                                   function($scope, $http, SecuritySrv)
+module.controller('RegisterCtrl', ['$scope', 'SecuritySrv', 
+                                   function($scope, SecuritySrv)
 {
   $scope.register = {}
   $scope.submit = function() {
@@ -22,8 +43,8 @@ module.controller('RegisterCtrl', ['$scope', '$http', 'SecuritySrv',
   };
 }]);
 
-module.controller('PasswordResetCtrl', ['$scope', '$http', 'SecuritySrv', 
-                                        function($scope, $http, SecuritySrv)
+module.controller('PasswordResetCtrl', ['$scope', 'SecuritySrv', 
+                                        function($scope, SecuritySrv)
 {
   $scope.reset = {}
   $scope.submit = function() {
@@ -31,8 +52,8 @@ module.controller('PasswordResetCtrl', ['$scope', '$http', 'SecuritySrv',
   };
 }]);
 
-module.controller('ChangePassCtrl', ['$scope', '$http', 'SecuritySrv', 
-                                   function($scope, $http, SecuritySrv)
+module.controller('ChangePassCtrl', ['$scope', 'SecuritySrv', 
+                                   function($scope, SecuritySrv)
 {
   $scope.submit = function() {
     SecuritySrv.changePassword($scope.change);

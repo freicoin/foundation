@@ -33,18 +33,13 @@ class CurrentUser(APIView):
 class Login(APIView):
 
     def post(self, request):
-        data = request.DATA
-        user = auth.authenticate(username=data['username'], password=data['password'])
-        if user is not None:
-            if user.is_active:
-                auth.login(request, user)
-                msg = "You are logged in."
-                return Response({"Success: ": [msg]}, status=status.HTTP_202_ACCEPTED)
-            else:
-                msg = "Disabled account."
+        serializer = serializers.LoginSerializer(data=request.DATA)
+        if serializer.is_valid():
+            auth.login(request, serializer.user)
+            msg = "You have succesfuly logged in."
+            return Response({msg}, status=status.HTTP_202_ACCEPTED)
         else:
-            msg = "Please enter a correct username and password. Note that both fields may be case-sensitive."
-        return Response({"Error: ": [msg]}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PasswordReset(APIView):
 
@@ -72,8 +67,8 @@ class Logout(APIView):
 
     def post(self, request):
         auth.logout(request)
-        msg = "You have logged out."
-        return Response({"Success: ": [msg]}, status=status.HTTP_202_ACCEPTED)
+        msg = "You have succesfuly logged out."
+        return Response({msg}, status=status.HTTP_202_ACCEPTED)
 
 class Register(APIView):
 

@@ -1,6 +1,25 @@
 from rest_framework import serializers
 
+from django.contrib import auth
 from django.contrib.auth.models import User
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate_username(self, attrs, source):
+        if User.objects.filter(username__exact=attrs[source]).count() == 0:
+            raise serializers.ValidationError("There's no user %s." % attrs[source])
+        return attrs
+
+    def validate(self, attrs):
+        self.user = auth.authenticate(username=attrs['username'], password=attrs['password'])
+        if self.user is None:
+            msg = "Please enter a correct username and password. Note that both fields may be case-sensitive."            
+            raise serializers.ValidationError(msg)
+        elif not self.user.is_active:
+            msg = "Disabled account."
+            raise serializers.ValidationError("Disabled account.")
 
 class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField()

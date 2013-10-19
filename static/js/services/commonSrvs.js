@@ -60,7 +60,14 @@ module.service('MessageSrv', ['$rootScope', '$timeout',
   srv.errorCallback = function(callback) {
     return function(messages, status) {
       srv.error(messages);
-      callback();
+      callback(messages);
+    }
+  };
+
+  srv.successCallback = function(callback) {
+    return function(messages) {
+      srv.success(messages);
+      callback(messages);
     }
   };
 
