@@ -2,13 +2,18 @@ from django.core.context_processors import csrf
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.contrib import auth
+from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.utils.http import int_to_base36
 from django.contrib.auth.tokens import default_token_generator
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
+
+# TODO change from base36 to base64 on later django versions
+from django.utils.http import int_to_base36, base36_to_int
+# from django.utils.encoding import force_bytes
+# from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from django.conf import settings
 
@@ -47,10 +52,11 @@ class PasswordReset(APIView):
         serializer = serializers.PasswordResetSerializer(data=request.DATA)
         if serializer.is_valid():
             email = serializer.object['email']
-            user = auth.models.User.objects.get(email=email)
+            user = User.objects.get(email=email)
             context = {
                 'email': email,
                 'uid': int_to_base36(user.id),
+                # 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'user': user,
                 'token': default_token_generator.make_token(user),
                 }
@@ -77,36 +83,31 @@ class Register(APIView):
         serializer = serializers.RegisterSerializer(data=request.DATA)
         if serializer.is_valid():
             try:
-                auth.models.User.objects.create_user(
+                user = User.objects.create_user(
                     serializer.object['username'],
                     serializer.object['email'],
                     serializer.object['password']
                     )
-                return Response({"You've registered as %s. Please, login." % 
-                                 serializer.object['username']}, status=status.HTTP_201_CREATED)
+                user.is_active = False
+                user.save()
+
+                email = user.email
+                context = {
+                    'email': email,
+                    'uid': int_to_base36(user.id),
+                    'user': user,
+                    'token': default_token_generator.make_token(user),
+                    }
+                utils.send_html_mail('confirmation_mail.html', context, 
+                                     "Freicoin Foundation email confirmation", 
+                                     'noreply@freicoin.org', email)
+
+                msg = "You've registered as %s. You should receive a confirmation email shortly." % serializer.object['username']
+                return Response({msg}, status=status.HTTP_201_CREATED)
             except Exception as e:
                 return Response({str(e)}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
-
-      # You need to implement your server side validation here.
-      # Send the model.captcha object to the server and use some of the server side APIs to validate it
-      # See https://developers.google.com/recaptcha/docs/
-
-
-        # data = request.DATA['register']
-        # recaptcha = request.DATA['recaptcha']
-        # challenge = recaptcha['challenge']
-        # response = recaptcha['response']
-        # client = "85.53.142.15" #request.META['REMOTE_ADDR']
-        # check_captcha = captcha.submit(challenge, response,  
-        #                                settings.RECAPTCHA_PRIVATE_KEY, client)  
-        # if check_captcha.is_valid:
-        #     msg = "Valid captcha."
-        #     return Response({"Success: ": [msg]}, status=status.HTTP_202_ACCEPTED)
-        # else:
-        #     msg = "Invalid captcha."
-        #     return Response({"Error: ": [msg]}, status=status.HTTP_400_BAD_REQUEST)
 
 class ChangePass(APIView):
 
@@ -117,3 +118,38 @@ class ChangePass(APIView):
             return Response({"You've succesfully changed your password."}, status=status.HTTP_202_ACCEPTED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.decorators.cache import never_cache
+from django.template.response import TemplateResponse
+from django.shortcuts import resolve_url
+
+# Doesn't need csrf_protect since no-one can guess the URL
+@sensitive_post_parameters()
+@never_cache
+def registration_confirm(request, uidb36=None, token=None,
+                           template_name='registration_complete.html'):
+
+    assert uidb36 is not None and token is not None # checked by URLconf
+    try:
+        uid = base36_to_int(uidb36)
+        # uid = urlsafe_base64_decode(uidb64)
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        title = 'Email confirmation complete'
+        message = 'The registration is complete. You may go ahead and log in now.'
+    else:
+        title = 'Email confirmation unsuccessful'
+        message = "The email confirmation link was invalid, possibly because it has already been used. Please check that you haven't been validated already by trying to log in."
+
+    login_url = resolve_url(settings.LOGIN_URL)
+    context = {
+        'title': title,
+        'message': message,
+        'login_url': login_url}
+    return TemplateResponse(request, template_name, context)

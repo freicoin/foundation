@@ -1,0 +1,16 @@
+{% extends "base_mail.html" %}
+
+{% block content %}
+<p>
+  You're receiving this email because you have registered at
+  {{ SITE_NAME }} as {{ user.get_username }}.
+</p>
+
+<p>
+  Please go to the following page to confirm your user:
+</p>
+
+<p>
+  {{ SITE_URL }}{% url 'registration_confirm' uidb36=uid token=token %}
+</p>
+{% endblock %}

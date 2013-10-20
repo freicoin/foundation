@@ -18,8 +18,8 @@ class LoginSerializer(serializers.Serializer):
             msg = "Please enter a correct username and password. Note that both fields may be case-sensitive."            
             raise serializers.ValidationError(msg)
         elif not self.user.is_active:
-            msg = "Disabled account."
-            raise serializers.ValidationError("Disabled account.")
+            msg = "Disabled account. Did you receive the confirmation email? Check your spam folder."
+            raise serializers.ValidationError(msg)
 
 class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField()
