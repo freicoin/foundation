@@ -13,6 +13,14 @@ to receive donations.
 </p>
 
 <p>
+You can review and change the data submitted here:
+</p>
+
+<p>
+{{ SITE_URL }}/#/donations/detail/{{ org.pk }}
+</p>
+
+<p>
 This is the data you submitted:
 </p>
 
@@ -35,12 +43,12 @@ This is the data you submitted:
 
   <tr>
     <td>Freicoin address:</td>
-    <td>{{ org.freicoin_address|frc_address|safe }}</td>
+    <td>{{ org.freicoin_address_value|frc_address|safe }}</td>
   </tr>
 
   <tr>
     <td>Bitcoin address:</td>
-    <td>{{ org.bitcoin_address|btc_address|safe }}</td>
+    <td>{{ org.bitcoin_address_value|btc_address|safe }}</td>
   </tr>
 
   <tr>
@@ -52,5 +60,4 @@ This is the data you submitted:
     <td>Long Description:</td>
     <td>{{ org.long_description }}</td>
   </tr>
-
 </table>

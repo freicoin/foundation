@@ -52,7 +52,7 @@ def send_new_org_mails(org, email):
     # Remove the last ', '
     admin_mails = admin_mails[:-2]
 
-    utils.send_html_mail('mail/admin_mail.html', context, 
+    utils.send_html_mail('mail/donations_mod_mail.html', context, 
                          "New organization registration: %s" % org.name, 
                          org.email,
                          admin_mails)

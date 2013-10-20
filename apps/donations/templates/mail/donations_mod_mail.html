@@ -7,11 +7,11 @@ at:
 </p>
 
 <p>
-{{ SITE_URL }}/admin/donations/organization/{{ org.pk }}
+{{ SITE_URL }}/#/donations/detail/{{ org.pk }}
 </p>
 
 <p>
-If the request is valid, provide a foundation address and save.
+If the request is valid, validate the organization.
 </p>
 
 <p>
@@ -37,12 +37,12 @@ This is the data submitted:
 
   <tr>
     <td>Freicoin address:</td>
-    <td>{{ org.freicoin_address|frc_address|safe }}</td>
+    <td>{{ org.freicoin_address_value|frc_address|safe }}</td>
   </tr>
 
   <tr>
     <td>Bitcoin address:</td>
-    <td>{{ org.bitcoin_address|btc_address|safe }}</td>
+    <td>{{ org.bitcoin_address_value|btc_address|safe }}</td>
   </tr>
 
   <tr>

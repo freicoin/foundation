@@ -53,7 +53,7 @@ def send_new_mer_mails(mer, email):
     # Remove the last ', '
     admin_mails = admin_mails[:-2]
 
-    utils.send_html_mail('mail/admin_mail.html', context, 
+    utils.send_html_mail('mail/trade_mod_mail.html', context, 
                          "New merchant registration: %s" % mer.name, 
                          email,
                          admin_mails)
