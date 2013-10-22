@@ -64,9 +64,6 @@ def send_new_mer_mails(mer, email):
 
 class EditMerchant(APIView):
 
-    def commonSave(self, request, serializer):
-        serializer.save()
-
     def put(self, request, pk):
 
         mer = get_object_or_404(Merchant, pk=pk)
