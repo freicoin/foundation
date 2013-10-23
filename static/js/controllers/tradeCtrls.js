@@ -4,7 +4,7 @@ module.controller('MerCategoriesCtrl', ['$scope', '$routeParams', 'TradeSrv',
                                         function($scope, $routeParams, TradeSrv)
 {
   $scope.type = $routeParams.merchantType ? $routeParams.merchantType : 'validated';
-  $scope.orderProp = 'id';
+  $scope.orderProp = 'name';
 
   TradeSrv.getCategoryTree($scope.type, function(categories, merchant_count){
     $scope.categories_tree = categories;

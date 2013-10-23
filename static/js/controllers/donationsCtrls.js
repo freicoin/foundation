@@ -5,7 +5,7 @@ module.controller('OrgCategoriesCtrl', ['$scope', '$routeParams', 'DonationsSrv'
                                         function($scope, $routeParams, DonationsSrv)
 {
   $scope.type = $routeParams.orgType ? $routeParams.orgType : 'validated';
-  $scope.orderProp = 'id';
+  $scope.orderProp = 'name';
 
   DonationsSrv.getCategoryTree($scope.type, function(categories, org_count){
     $scope.categories_tree = categories;
