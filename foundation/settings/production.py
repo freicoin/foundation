@@ -11,6 +11,9 @@ from .common import *
 # control, but rather provided by the production environment configuration.
 SECRET_KEY = os.environ['SECRET_KEY']
 
+DEBUG = False
+TEMPLATE_DEBUG = False
+
 #
 # End of File
 #
