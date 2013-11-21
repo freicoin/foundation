@@ -19,7 +19,3 @@ sudo -u postgres psql -c "CREATE USER django_login WITH PASSWORD 'password';"
 sudo -u postgres psql -c "ALTER ROLE django_login WITH CREATEDB"
 sudo -u postgres psql -c "CREATE DATABASE django_db;"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE django_db TO django_login;"
-
-#
-# End of File
-#
