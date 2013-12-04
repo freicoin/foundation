@@ -30,15 +30,13 @@ def faucet(request):
                 Q(frc_address=send.frc_address) 
                 | Q(ip_address=send.ip_address))
 
-            if ( conflict_sends.count() > 0 ):
-                return render(request, 'sorry.html', 
-                              {'send_list': conflict_sends.order_by('-timestamp')})
+            # if ( conflict_sends.count() > 0 ):
+            #     return render(request, 'sorry.html', 
+            #                   {'send_list': conflict_sends.order_by('-timestamp')})
 
             # TODO actually send freicoins and take the real tx id
             send.tx_id = "0dc2d74db5fddd4f2100f4d99090a2a317f94ed6de17066d366d72ede8336ca4"
             send.save()
-
-            return HttpResponseRedirect('/faucet/recent/')
     else:
         form = forms.FaucetForm()
 

@@ -1,15 +1,10 @@
-{% extends "base.html" %}
 
 {% load bitcoin_tags %}
-
-{% block nav-faucet %}<strong class="nav-active">Faucet</strong>{% endblock %}
-
-{% block content %}
 
 <h3>Recent Freicoin faucet sends:</h3>
 
 <p>
-  Return to <a href="{% url 'faucet' %}">faucet</a>.
+  Return to <a href="#/faucet">faucet</a>.
 </p>
 
 <table border="1">
@@ -28,5 +23,3 @@
   </tr>
   {% endfor %}
 </table>
-
-{% endblock %}

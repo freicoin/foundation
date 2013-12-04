@@ -1,8 +1,3 @@
-{% extends "base.html" %}
-
-{% block nav-faucet-class %} active{% endblock %}
-
-{% block content %}
 
 <h3>Freicoin faucet:</h3>
 
@@ -11,25 +6,53 @@
 </p>
 
 <p>
-  See <a href="{% url 'recent_sends' %}">recent sends</a>.
+  See <a href="#/faucet/recent">recent sends</a>.
 </p>
 
 <p>
   WARNING: the faucet is not active yet: it won't give you any freicoins!!
 </p>
 
+<script src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+  /*<![CDATA[*/
+ jQuery(function() {
+     var form = jQuery("#faucet_form");
+     form.submit(function(e) {
+         jQuery("#submit_button").attr('disabled', true)
+         jQuery("#submit_wrapper").append('<span>Sending message, please wait... </span>')
+         jQuery("#ajax_wrapper").load(
+             form.attr('action') + ' #ajax_wrapper',
+             form.serializeArray(),
+             function(responseText, responseStatus) {
+                 jQuery("#submit_button").attr('disabled', false)
+             }
+         );
+         e.preventDefault(); 
+     });
+ });
+ /*]]>*/
+</script>
+
+<form action="{% url 'faucet' %}" method="post"
+      class="form-horizontal" id="faucet_form">
+  <div id="ajax_wrapper">
     {% if form.errors %}
         <p style="color: red;">
             Please correct the error{{ form.errors|pluralize }} below.
         </p>
     {% endif %}
-
-<form action="" method="post" class="form-horizontal">
+    {% if msg %}
+    <p style="color: Green;">
+      {{ msg }}
+    </p>        
+    {% else %}
     {% csrf_token %}
+    {{ form.non_field_errors }}
     {{ form }}
-    <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Get free Freicoins">
+    <div class="form-actions" id="submit_wrapper">
+      <input type="submit" class="btn btn-success" value="Get free Freicoins" id="submit_button">
     </div>
-</form>
-
-{% endblock %}
+    {% endif %}
+  </div>
+</form> 
