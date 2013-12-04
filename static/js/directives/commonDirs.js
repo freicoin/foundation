@@ -31,7 +31,7 @@ module.directive('explorerLink', function() {
       var currency = attrs.currency || 'frc';
 
       if (currency == 'frc') {
-        scope.explorer = 'http://cryptocoinexplorer.com:4750'
+        scope.explorer = 'http://frc.cryptocoinexplorer.com'
       } else if (currency == 'btc') {
         scope.explorer = 'http://blockexplorer.com';
       }
