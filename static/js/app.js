@@ -1,5 +1,5 @@
-var app = angular.module('foundationApp', ['navCtrls', 'accountsCtrls', 'tradeCtrls', 
-                                           'donationsCtrls']);
+var app = angular.module('foundationApp', 
+                         ['navCtrls', 'accountsCtrls', 'tradeCtrls', 'donationsCtrls']);
 
 app.config(['$routeProvider', 
             function($routeProvider) 
