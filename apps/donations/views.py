@@ -32,7 +32,7 @@ class CategoryTree(APIView):
         elif organization_type == 'blocked':
             serializer = serializers.CategoryBlockedSerializer(categories, many=True)
         else:
-            serializer = serializers.CategorySerializer(categories)
+            serializer = serializers.CategorySerializer(categories, many=True)
             
         return Response(serializer.data)
 
