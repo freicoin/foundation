@@ -227,7 +227,4 @@ EMAIL_USE_TLS = True
 # End Mail settings
 
 # Donations public HD wallet (BIP 32) key
-DONATIONS_WALLET_KEY = os.environ.get('DONATIONS_WALLET_KEY',
-    'xpub661MyMwAqRbcF1Wdgn9SqfrVSp2zvAKkgLDGH3xpwEusFvBupwWT'
-    '43ZhGmf9yba9xxJ3iZrSiisv3Fjq6tKEudmgm61nMNSTAqWRvrtL6MG')
-DONATIONS_LAUNCH_MONTH = 10 + (2013 * 12)
+DONATIONS_WALLET_KEY = 'xpub661MyMwAqRbcF1Wdgn9SqfrVSp2zvAKkgLDGH3xpwEusFvBupwWT43ZhGmf9yba9xxJ3iZrSiisv3Fjq6tKEudmgm61nMNSTAqWRvrtL6MG'
