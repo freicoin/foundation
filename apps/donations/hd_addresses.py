@@ -9,7 +9,7 @@ from pycoin.wallet import Wallet
 SUBKEY_ALL_MONTHS = Wallet.from_wallet_key(settings.DONATIONS_WALLET_KEY).subkey_for_path('0')
 
 def donationsOrgSubKey(org_id):
-    return SUBKEY_ALL_MONTHS.subkey_for_path('%s' % org_id)
+    return SUBKEY_ALL_MONTHS.subkey_for_path('%d' % org_id)
 
 def donationsOrgAddress(org_id):
-    return SUBKEY_ALL_MONTHS.subkey_for_path('%s' % org_id).bitcoin_address()
+    return SUBKEY_ALL_MONTHS.subkey_for_path('%d' % org_id).bitcoin_address()
