@@ -59,7 +59,7 @@ def send_new_org_mails(org, email):
 
     utils.send_html_mail('mail/org_mail.html', context, 
                          "Thanks for registering your organization !", 
-                         'noreply@freicoin.org', '%s, %s' % (org.email, email))
+                         'foundation@freicoin.org', '%s, %s' % (org.email, email))
 
 class EditOrganization(APIView):
 

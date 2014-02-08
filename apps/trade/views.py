@@ -60,7 +60,7 @@ def send_new_mer_mails(mer, email):
 
     utils.send_html_mail('mail/merchant_mail.html', context, 
                          "Thanks for registering your business !", 
-                         'noreply@freicoin.org', email)
+                         'foundation@freicoin.org', email)
 
 class EditMerchant(APIView):
 
