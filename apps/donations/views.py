@@ -43,19 +43,9 @@ class OrganizationDetail(generics.RetrieveAPIView):
 def send_new_org_mails(org, email):
     context = {'org': org}
 
-    admins = User.objects.filter(groups__name='donations_mod')
-    if (admins.count() <= 0):
-        admins = User.objects.filter(is_superuser=True)
-    admin_mails = ""
-    for user in admins:
-        admin_mails += user.email + ', '
-    # Remove the last ', '
-    admin_mails = admin_mails[:-2]
-
     utils.send_html_mail('mail/donations_mod_mail.html', context, 
                          "New organization registration: %s" % org.name, 
-                         org.email,
-                         admin_mails)
+                         org.email, 'foundation@freicoin.org')
 
     utils.send_html_mail('mail/org_mail.html', context, 
                          "Thanks for registering your organization !", 

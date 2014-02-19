@@ -12,7 +12,7 @@ def explorer_link(explorer, element, value):
 
 @register.filter
 def frc_address(value):
-    return explorer_link('http://cryptocoinexplorer.com:4750', "address", value)
+    return explorer_link('https://coinplorer.com/FRC', "Addresses", value)
 
 @register.filter
 def btc_address(value):
@@ -20,7 +20,7 @@ def btc_address(value):
 
 @register.filter
 def frc_tx(value):
-    return explorer_link('http://cryptocoinexplorer.com:4750', "tx", value)
+    return explorer_link('https://coinplorer.com/FRC', "Transactions", value)
 
 @register.filter
 def btc_tx(value):

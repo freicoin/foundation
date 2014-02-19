@@ -25,8 +25,8 @@
   <tr>
     <td>{{ send.timestamp | date:"H:i:s d/m/Y" }}</td>
     <td>{{ send.ip_address }}</td>
-    <td><a href="http://cryptocoinexplorer.com:4750/address/{{ send.frc_address }}">{{ send.frc_address }}</a></td>
-    <td><a href="http://cryptocoinexplorer.com:4750/tx/{{ send.tx_id }}">{{ send.tx_id }}</a></td>
+    <td><a href="https://coinplorer.com/FRC/Addresses/{{ send.frc_address }}">{{ send.frc_address }}</a></td>
+    <td><a href="https://coinplorer.com/FRC/Transactions/{{ send.tx_id }}">{{ send.tx_id }}</a></td>
   </tr>
   {% endfor %}
 </table>

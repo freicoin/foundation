@@ -44,19 +44,9 @@ class MerchantDetail(generics.RetrieveAPIView):
 def send_new_mer_mails(mer, email):
     context = {'merchant': mer}
 
-    admins = User.objects.filter(groups__name='trade_mod')
-    if (admins.count() <= 0):
-        admins = User.objects.filter(is_superuser=True)
-    admin_mails = ""
-    for user in admins:
-        admin_mails += user.email + ', '
-    # Remove the last ', '
-    admin_mails = admin_mails[:-2]
-
     utils.send_html_mail('mail/trade_mod_mail.html', context, 
                          "New merchant registration: %s" % mer.name, 
-                         email,
-                         admin_mails)
+                         email, 'foundation@freicoin.org')
 
     utils.send_html_mail('mail/merchant_mail.html', context, 
                          "Thanks for registering your business !", 
