@@ -31,7 +31,15 @@ module.directive('explorerLink', function() {
       var currency = attrs.currency || 'frc';
 
       if (currency == 'frc') {
-        scope.explorer = 'http://frc.cryptocoinexplorer.com'
+        scope.explorer = 'https://coinplorer.com/FRC'
+        // coinplorer doesn't follow the address/tx 'standard' from
+        // most explorers
+        if (scope.type == 'address') {
+          scope.type = 'addresses';
+        }
+        else if (scope.type == 'tx') {
+          scope.type = 'transactions';
+        }
       } else if (currency == 'btc') {
         scope.explorer = 'http://blockexplorer.com';
       }
